@@ -31,21 +31,21 @@ if [ $1 = "host" ]; then
   CC=/usr/bin/gcc
   AR=/usr/bin/ar
   INCLUDE_PATHS="-I $BI_CORE_DIR/include -I ${INSTALL_PATH}/include"
-  CFLAGS="-std=c11 -O3 -Wall $INCLUDE_PATHS $HOST_ADDITIONAL_CFLAGS"
+  CFLAGS="-std=c11 -O3 -Wall -Werror=implicit-function-declaration $INCLUDE_PATHS $HOST_ADDITIONAL_CFLAGS"
 
 elif [ $1 = "mingw" ]; then
 
   CC=x86_64-w64-mingw32-gcc
   AR=x86_64-w64-mingw32-ar
   INCLUDE_PATHS="-I $BI_CORE_DIR/include -I ${INSTALL_PATH}/include"
-  CFLAGS="-std=c11 -O3 -Wall $INCLUDE_PATHS `${INSTALL_PATH}/bin/sdl2-config --cflags`"
+  CFLAGS="-std=c11 -O3 -Wall -Werror=implicit-function-declaration $INCLUDE_PATHS `${INSTALL_PATH}/bin/sdl2-config --cflags`"
 
 elif [ $1 = "emscripten" ]; then
 
   CC=emcc
   AR=emar
   INCLUDE_PATHS="-I $BI_CORE_DIR/include -I ${INSTALL_PATH}/include"
-  CFLAGS="-std=c11 -Oz -Wall -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] $INCLUDE_PATHS"
+  CFLAGS="-std=c11 -Oz -Wall -Werror=implicit-function-declaration -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] $INCLUDE_PATHS"
 
 fi
 
