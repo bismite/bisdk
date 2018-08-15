@@ -3,6 +3,8 @@
 FRAMEWORKS_DIR=$HOME/Library/Frameworks
 mkdir -p $FRAMEWORKS_DIR
 
+mkdir -p build/host/
+
 # SDL2
 SDL2_FRAMEWORK=SDL2.framework
 SDL2_DMG=SDL2-2.0.8.dmg

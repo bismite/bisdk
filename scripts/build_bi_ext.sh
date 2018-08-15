@@ -57,7 +57,7 @@ for FILE in `find $BI_EXT_DIR/src/* -type f`
 do
   NAME=`basename $FILE`
   $CC -c $FILE -o $BUILD_DIR/$NAME.o $CFLAGS
-  if [ $? != 0 ]; then exit; fi
+  if [ $? != 0 ]; then exit $?; fi
 done
 $AR -r $BUILD_DIR/libbiext.a $BUILD_DIR/*.o
 

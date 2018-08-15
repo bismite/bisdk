@@ -11,5 +11,6 @@ matrix:
           packages:
             - libsdl2-dev
             - libglew-dev
+            - mingw-w64
 script:
   - "sh setup.sh"
