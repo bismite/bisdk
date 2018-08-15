@@ -5,13 +5,5 @@ matrix:
       osx_image: xcode9.2
       env:
         - CC="gcc-7"
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - libsdl2-dev
-            - libsdl2-image-dev
-            - libglew-dev
-            - mingw-w64
 script:
   - "sh setup.sh"
