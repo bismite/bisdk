@@ -41,8 +41,8 @@ if [ $HOST = "Darwin" ] || [ $HOST = "Linux" ]; then
     ./scripts/darwin/install_glew.sh
   fi
 
-  ./scripts/build_bi_core.sh host; if [ $? != 0 ]; then exit $?; fi
-  ./scripts/build_bi_ext.sh host; if [ $? != 0 ]; then exit $?; fi
+  ./scripts/build_bi_core.sh host; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
+  ./scripts/build_bi_ext.sh host; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 
 fi
 
@@ -53,8 +53,8 @@ if [ $MINGW_AVAILABLE ]; then
 
   ./scripts/mingw/install_sdl.sh
   ./scripts/mingw/install_glew.sh
-  ./scripts/build_bi_core.sh mingw; if [ $? != 0 ]; then exit $?; fi
-  ./scripts/build_bi_ext.sh mingw; if [ $? != 0 ]; then exit $?; fi
+  ./scripts/build_bi_core.sh mingw; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
+  ./scripts/build_bi_ext.sh mingw; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 
 fi
 
@@ -62,8 +62,8 @@ fi
 # emscripten build
 #
 if [ $EMSCRIPTEN_AVAILABLE ]; then
-  ./scripts/build_bi_core.sh emscripten; if [ $? != 0 ]; then exit $?; fi
-  ./scripts/build_bi_ext.sh emscripten; if [ $? != 0 ]; then exit $?; fi
+  ./scripts/build_bi_core.sh emscripten; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
+  ./scripts/build_bi_ext.sh emscripten; ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 fi
 
 #
@@ -71,7 +71,7 @@ fi
 #
 if [ ! -e build/mruby ]; then git clone -b 1.4.1 https://github.com/mruby/mruby.git build/mruby; fi
 ( cd build/mruby; rake -v )
-if [ $? != 0 ]; then exit $?; fi
+ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 
 #
 # copy bin, lib, include
