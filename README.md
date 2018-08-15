@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bismite/bisdk.svg?branch=master)](https://travis-ci.org/bismite/bisdk)
+
 # bisdk
 
 # License
