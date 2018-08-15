@@ -1,0 +1,15 @@
+sudo: false
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.2
+      env:
+        - CC="gcc-7"
+    - os: linux
+      addons:
+        apt:
+          packages:
+            - libsdl2-dev
+            - libglew-dev
+script:
+  - "sh setup.sh"
