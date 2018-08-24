@@ -19,8 +19,7 @@ MRuby::Build.new do |conf|
   conf.gem github: 'kabies/mruby-cellular-automaton'
   conf.gem github: 'bismite/mruby-bi-core'
   conf.gem github: 'bismite/mruby-bi-ext'
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-core"
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-ext"
+  conf.gem github: 'bismite/mruby-bi-sound'
 
   conf.cc do |cc|
     cc.command = '/usr/bin/gcc'
@@ -43,10 +42,10 @@ MRuby::Build.new do |conf|
 
     if FRAMEWORKS_DIR
       linker.flags << "-F #{FRAMEWORKS_DIR}"
-      linker.flags << "-framework SDL2 -framework SDL2_image -framework OpenGL"
+      linker.flags << "-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
     else
       linker.libraries << "GL"
-      linker.flags_after_libraries << "`sdl2-config --libs` -lSDL2_image"
+      linker.flags_after_libraries << "`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
     end
   end
 
@@ -64,8 +63,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
   conf.gem github: 'kabies/mruby-cellular-automaton'
   conf.gem github: 'bismite/mruby-bi-core'
   conf.gem github: 'bismite/mruby-bi-ext'
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-core"
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-ext"
+  conf.gem github: 'bismite/mruby-bi-sound'
 
   conf.cc do |cc|
     cc.command = 'x86_64-w64-mingw32-gcc'
@@ -80,7 +78,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
     linker.command = 'x86_64-w64-mingw32-gcc'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
     linker.libraries += %w(biext bi glew32 opengl32)
-    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image"
+    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
   end
 
   conf.archiver.command = 'x86_64-w64-mingw32-ar'
@@ -97,8 +95,7 @@ MRuby::CrossBuild.new('emscripten') do |conf|
   conf.gem github: 'kabies/mruby-cellular-automaton'
   conf.gem github: 'bismite/mruby-bi-core'
   conf.gem github: 'bismite/mruby-bi-ext'
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-core"
-  # conf.gem "#{ENV['HOME']}/git/bismite/mruby-bi-ext"
+  conf.gem github: 'bismite/mruby-bi-sound'
 
   conf.cc do |cc|
     cc.command = 'emcc'

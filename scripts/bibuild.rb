@@ -10,6 +10,13 @@ TMP_DIR = "build/tmp/#{PLATFORM}/#{PROJECT_NAME}"
 TARGET_DIR = "build/#{PLATFORM}/#{PROJECT_NAME}"
 FileUtils.mkdir_p [TARGET_DIR, TMP_DIR]
 
+MRB_FLAGS="-DMRB_32BIT -DMRB_UTF8_STRING"
+if File.exist? "src/shell.html"
+  EM_SHELL_FLAG="--shell-file src/shell.html"
+else
+  EM_SHELL_FLAG=""
+end
+
 case PLATFORM
 when 'host'
 
@@ -27,13 +34,13 @@ when 'host'
   if HOST_OS == :macos
     LIBS="-lmruby -lbiext -lbi -lGLEW"
     FRAMEWORKS_DIR = "-F #{Dir.home}/Library/Frameworks"
-    FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework OpenGL"
-    CFLAGS="-std=c11 -O3 -Wall #{FRAMEWORKS_DIR}"
+    FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
+    CFLAGS="-std=gnu11 -O3 -Wall #{FRAMEWORKS_DIR}"
     LDFLAGS="#{FRAMEWORKS_DIR} #{FRAMEWORKS}"
   else
     LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
     CFLAGS="-std=c11 -O3 -Wall `sdl2-config --cflags`"
-    LDFLAGS="`sdl2-config --libs` -lSDL2_image"
+    LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
   end
 
 when 'mingw'
@@ -49,8 +56,8 @@ when 'mingw'
   INCLUDE_PATHS="-I #{BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/include"
   LIB_PATHS="-L #{BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/lib"
   LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32"
-  CFLAGS="-std=c11 -O3 -Wall `#{SDL2_CONFIG} --cflags`"
-  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image"
+  CFLAGS="-std=gnu11 -O3 -Wall `#{SDL2_CONFIG} --cflags`"
+  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
 
 when 'emscripten'
 
@@ -64,9 +71,9 @@ when 'emscripten'
   INCLUDE_PATHS="-I #{BI_BUILDER_ROOT}/build/emscripten/include"
   LIB_PATHS="-L #{BI_BUILDER_ROOT}/build/emscripten/lib"
   LIBS="-lmruby -lbiext -lbi"
-  FLAGS="-Oz -Wall -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
-  CFLAGS="-std=c11 #{FLAGS}"
-  LDFLAGS="#{FLAGS} --preload-file build/assets@assets -s ALLOW_MEMORY_GROWTH=1"
+  FLAGS="-Oz -Wall -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -s ASSERTIONS=2"
+  CFLAGS="-std=gnu11 #{FLAGS}"
+  LDFLAGS="#{FLAGS} --preload-file build/assets@assets #{EM_SHELL_FLAG} -s ALLOW_MEMORY_GROWTH=1"
 
 end
 
@@ -79,23 +86,30 @@ ARGV.each{|src|
   NAME = File.basename src
   obj_name = "#{TMP_DIR}/#{NAME}.o"
   objects << obj_name
-  cmd = "#{CC} -c #{src} -o #{obj_name} #{CFLAGS} #{INCLUDE_PATHS}"
+  cmd = "#{CC} -c #{src} -o #{obj_name} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS}"
   puts cmd
   `#{cmd}`
   exit($?.exitstatus) unless $?.success?
 }
 objects = objects.join(" ")
 
+#
+# link
+#
 case PLATFORM
 when 'host'
-  `#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.exe #{LIB_PATHS} #{LIBS} #{LDFLAGS}`
-
+  cmd = "#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.exe #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
 when 'mingw'
-  `cp #{BI_BUILDER_ROOT}/build/mingw/bin/*.dll #{TARGET_DIR}/`
-  `#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.exe #{LIB_PATHS} #{LIBS} #{LDFLAGS}`
-
+  cmd = "#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.exe #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
 when 'emscripten'
-  `#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.html #{LIB_PATHS} #{LIBS} #{LDFLAGS}`
-
+  cmd = "#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.html #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
 end
+puts cmd
+`#{cmd}`
 exit($?.exitstatus) unless $?.success?
+
+# after link
+case PLATFORM
+when 'mingw'
+  `cp #{BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/bin/*.dll #{TARGET_DIR}/`
+end
