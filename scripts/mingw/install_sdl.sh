@@ -15,7 +15,7 @@ mkdir -p ${BI_BUILDER_ROOT}/build/x86_64-w64-mingw32
 if [ ! -e ${BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/lib/libSDL2.a ]; then
   if [ ! -e build/mingw/SDL2-2.0.8 ]; then
     if [ ! -e build/mingw/${SDL2_TGZ} ]; then
-      curl -L -o build/mingw/${SDL2_TGZ} ${SDL2_URL}
+      curl -sS -L -o build/mingw/${SDL2_TGZ} ${SDL2_URL}
     fi
 
     tar -xzf build/mingw/${SDL2_TGZ} -C build/mingw
@@ -27,7 +27,7 @@ fi
 if [ ! -e ${BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/lib/libSDL2_image.a ]; then
   if [ ! -e build/mingw/SDL2_image-2.0.3 ]; then
     if [ ! -e build/mingw/${SDL2_IMAGE_TGZ} ]; then
-      curl -L -o build/mingw/${SDL2_IMAGE_TGZ} ${SDL2_IMAGE_URL}
+      curl -sS -L -o build/mingw/${SDL2_IMAGE_TGZ} ${SDL2_IMAGE_URL}
     fi
 
     tar -xzf build/mingw/${SDL2_IMAGE_TGZ} -C build/mingw
@@ -40,7 +40,7 @@ fi
 if [ ! -e ${BI_BUILDER_ROOT}/build/x86_64-w64-mingw32/lib/libSDL2_mixer.a ]; then
   if [ ! -e build/mingw/SDL2_mixer-2.0.2 ]; then
     if [ ! -e build/mingw/${SDL2_MIXER_TGZ} ]; then
-      curl -L -o build/mingw/${SDL2_MIXER_TGZ} ${SDL2_MIXER_URL}
+      curl -sS -L -o build/mingw/${SDL2_MIXER_TGZ} ${SDL2_MIXER_URL}
     fi
 
     tar -xzf build/mingw/${SDL2_MIXER_TGZ} -C build/mingw

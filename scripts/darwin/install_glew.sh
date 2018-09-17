@@ -6,7 +6,7 @@ mkdir -p build/host/include
 if [ ! -e build/host/glew-2.1.0/lib/libGLEW.a ]; then
   if [ ! -e build/host/glew-2.1.0 ]; then
     if [ ! -e build/host/glew-2.1.0.tgz ]; then
-      curl -L -o build/host/glew-2.1.0.tgz https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz
+      curl -sS -L -o build/host/glew-2.1.0.tgz https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz
     fi
     tar zxf build/host/glew-2.1.0.tgz -C build/host/
   fi
