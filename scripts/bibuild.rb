@@ -11,6 +11,7 @@ TARGET_DIR = "build/#{PLATFORM}/#{PROJECT_NAME}"
 FileUtils.mkdir_p [TARGET_DIR, TMP_DIR]
 
 MRB_FLAGS="-DMRB_32BIT -DMRB_UTF8_STRING"
+
 if File.exist? "src/shell.html"
   EM_SHELL_FLAG="--shell-file src/shell.html"
 else
@@ -71,10 +72,14 @@ when 'emscripten'
   INCLUDE_PATHS="-I #{BI_BUILDER_ROOT}/build/emscripten/include"
   LIB_PATHS="-L #{BI_BUILDER_ROOT}/build/emscripten/lib"
   LIBS="-lmruby -lbiext -lbi"
-  FLAGS="-Oz -Wall -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -s ASSERTIONS=2"
-  CFLAGS="-std=gnu11 #{FLAGS}"
-  LDFLAGS="#{FLAGS} --preload-file build/assets@assets #{EM_SHELL_FLAG} -s ALLOW_MEMORY_GROWTH=1"
 
+  EM_LIB_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
+  EM_MEMORY_FLAGS="-s ALLOW_MEMORY_GROWTH=1 -s TOTAL_MEMORY=512Mb -s WASM_MEM_MAX=1024Mb"
+  EM_EXCEPTION_FLAGS="-s DISABLE_EXCEPTION_CATCHING=0"
+  EM_FLAGS="-s WASM=1 -s ASSERTIONS=2 #{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} #{EM_EXCEPTION_FLAGS}"
+
+  CFLAGS="-std=gnu11 -g -Oz -Wall #{EM_FLAGS}"
+  LDFLAGS="#{EM_FLAGS} --preload-file build/assets@assets #{EM_SHELL_FLAG}"
 end
 
 #
@@ -88,7 +93,7 @@ ARGV.each{|src|
   objects << obj_name
   cmd = "#{CC} -c #{src} -o #{obj_name} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS}"
   puts cmd
-  `#{cmd}`
+  system cmd
   exit($?.exitstatus) unless $?.success?
 }
 objects = objects.join(" ")
@@ -105,7 +110,7 @@ when 'emscripten'
   cmd = "#{CC} #{objects} -o #{TARGET_DIR}/#{PROJECT_NAME}.html #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
 end
 puts cmd
-`#{cmd}`
+system cmd
 exit($?.exitstatus) unless $?.success?
 
 # after link

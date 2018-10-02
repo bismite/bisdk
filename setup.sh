@@ -67,7 +67,7 @@ if [ $EMSCRIPTEN_AVAILABLE ]; then
 fi
 
 #
-# build mruby
+# build mruby 1.4.1
 #
 if [ ! -e build/mruby ]; then git clone -b 1.4.1 https://github.com/mruby/mruby.git build/mruby; fi
 ( cd build/mruby; rake -v )
