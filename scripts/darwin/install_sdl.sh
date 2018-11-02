@@ -7,7 +7,7 @@ mkdir -p build/host/
 
 # SDL2
 SDL2_FRAMEWORK=SDL2.framework
-SDL2_DMG=SDL2-2.0.8.dmg
+SDL2_DMG=SDL2-2.0.9.dmg
 if [ ! -e $FRAMEWORKS_DIR/$SDL2_FRAMEWORK ]; then
   if [ ! -e build/host/$SDL2_DMG ]; then
     curl -sS -L -o build/host/$SDL2_DMG https://www.libsdl.org/release/$SDL2_DMG
