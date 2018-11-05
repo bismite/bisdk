@@ -16,6 +16,33 @@ CXX_STD="-std=gnu++11"
 COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wdeclaration-after-statement -Wwrite-strings)
 COMMON_DEFINES = %w(MRB_32BIT MRB_UTF8_STRING)
 
+def include_gems(conf)
+  # conf.gembox 'default'
+  conf.gembox 'full-core'
+  conf.gem github: 'ksss/mruby-singleton'
+  conf.gem github: 'iij/mruby-dir'
+  conf.gem github: 'suzukaze/mruby-msgpack'
+  conf.gem github: 'hfm/mruby-fileutils'
+  conf.gem github: 'kabies/mruby-stable-sort'
+  conf.gem github: 'kabies/mruby-cellular-automaton'
+
+  if ENV['MRUBY_BI_CORE_DIR']
+    conf.gem ENV['MRUBY_BI_CORE_DIR']
+  else
+    conf.gem github: 'bismite/mruby-bi-core'
+  end
+  if ENV['MRUBY_BI_EXT_DIR']
+    conf.gem ENV['MRUBY_BI_EXT_DIR']
+  else
+    conf.gem github: 'bismite/mruby-bi-ext'
+  end
+  if ENV['MRUBY_BI_SOUND_DIR']
+    conf.gem ENV['MRUBY_BI_SOUND_DIR']
+  else
+    conf.gem github: 'bismite/mruby-bi-sound'
+  end
+end
+
 MRuby::Build.new do |conf|
   toolchain :gcc
 
@@ -23,13 +50,7 @@ MRuby::Build.new do |conf|
   conf.enable_bintest = false
   conf.enable_test = false
 
-  conf.gembox 'default'
-  conf.gem mgem: 'mruby-singleton'
-  conf.gem github: 'kabies/mruby-stable-sort'
-  conf.gem github: 'kabies/mruby-cellular-automaton'
-  conf.gem github: 'bismite/mruby-bi-core'
-  conf.gem github: 'bismite/mruby-bi-ext'
-  conf.gem github: 'bismite/mruby-bi-sound'
+  include_gems conf
 
   conf.cc do |cc|
     cc.command = '/usr/bin/gcc'
@@ -78,13 +99,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
   conf.enable_bintest = false
   conf.enable_test = false
 
-  conf.gembox 'default'
-  conf.gem :mgem => 'mruby-singleton'
-  conf.gem github: 'kabies/mruby-stable-sort'
-  conf.gem github: 'kabies/mruby-cellular-automaton'
-  conf.gem github: 'bismite/mruby-bi-core'
-  conf.gem github: 'bismite/mruby-bi-ext'
-  conf.gem github: 'bismite/mruby-bi-sound'
+  include_gems(conf)
 
   conf.cc do |cc|
     cc.command = 'x86_64-w64-mingw32-gcc'
@@ -120,13 +135,7 @@ MRuby::CrossBuild.new('emscripten') do |conf|
   conf.enable_bintest = false
   conf.enable_test = false
 
-  conf.gembox 'default'
-  conf.gem :mgem => 'mruby-singleton'
-  conf.gem github: 'kabies/mruby-stable-sort'
-  conf.gem github: 'kabies/mruby-cellular-automaton'
-  conf.gem github: 'bismite/mruby-bi-core'
-  conf.gem github: 'bismite/mruby-bi-ext'
-  conf.gem github: 'bismite/mruby-bi-sound'
+  include_gems(conf)
 
   conf.cc do |cc|
     cc.command = 'emcc'
