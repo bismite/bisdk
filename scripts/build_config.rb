@@ -13,7 +13,8 @@ EMSCRIPTEN_AVAILABLE = ENV['EMSCRIPTEN_AVAILABLE']
 OPTIMIZE = "-O3"
 C_STD="-std=gnu11"
 CXX_STD="-std=gnu++11"
-COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wdeclaration-after-statement -Wwrite-strings)
+# COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wdeclaration-after-statement -Wwrite-strings)
+COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wwrite-strings)
 COMMON_DEFINES = %w(MRB_32BIT MRB_UTF8_STRING)
 
 def include_gems(conf)
@@ -21,23 +22,23 @@ def include_gems(conf)
   conf.gembox 'full-core'
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
-  conf.gem github: 'suzukaze/mruby-msgpack'
-  conf.gem github: 'hfm/mruby-fileutils'
+  conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
+  # conf.gem github: 'hfm/mruby-fileutils' # error in mingw
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
 
-  if ENV['MRUBY_BI_CORE_DIR']
-    conf.gem ENV['MRUBY_BI_CORE_DIR']
+  if ENV['MRUBY_BI_CORE']
+    conf.gem ENV['MRUBY_BI_CORE']
   else
     conf.gem github: 'bismite/mruby-bi-core'
   end
-  if ENV['MRUBY_BI_EXT_DIR']
-    conf.gem ENV['MRUBY_BI_EXT_DIR']
+  if ENV['MRUBY_BI_EXT']
+    conf.gem ENV['MRUBY_BI_EXT']
   else
     conf.gem github: 'bismite/mruby-bi-ext'
   end
-  if ENV['MRUBY_BI_SOUND_DIR']
-    conf.gem ENV['MRUBY_BI_SOUND_DIR']
+  if ENV['MRUBY_BI_SOUND']
+    conf.gem ENV['MRUBY_BI_SOUND']
   else
     conf.gem github: 'bismite/mruby-bi-sound'
   end

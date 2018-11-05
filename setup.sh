@@ -24,12 +24,27 @@ export BI_EXT_DIR=build/bi-ext
 
 export MRUBY_CONFIG="${PWD}/scripts/build_config.rb"
 
+mkdir build
+
 #
 # download
 #
 
-if [ ! -e $BI_CORE_DIR ]; then git clone https://github.com/bismite/bi-core.git $BI_CORE_DIR; fi
-if [ ! -e $BI_EXT_DIR ]; then git clone https://github.com/bismite/bi-ext.git $BI_EXT_DIR; fi
+if [ ! -e $BI_CORE_DIR ]; then
+  if [ -z $BI_CORE ]; then
+    git clone https://github.com/bismite/bi-core.git $BI_CORE_DIR
+  else
+    cp -R $BI_CORE build/
+  fi
+fi
+
+if [ ! -e $BI_EXT_DIR ]; then
+  if [ -z $BI_EXT ]; then
+    git clone https://github.com/bismite/bi-ext.git $BI_EXT_DIR
+  else
+    cp -R $BI_EXT build/
+  fi
+fi
 
 #
 # host build
@@ -70,7 +85,8 @@ fi
 # build mruby 1.4.1
 #
 if [ ! -e build/mruby ]; then git clone -b 1.4.1 https://github.com/mruby/mruby.git build/mruby; fi
-( cd build/mruby; rake -v )
+# ( cd build/mruby; rake -v )
+( cd build/mruby; rake )
 ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 
 #
