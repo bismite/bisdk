@@ -33,7 +33,7 @@ when 'host'
   INCLUDE_PATHS="-I #{BI_BUILDER_ROOT}/build/host/include"
   LIB_PATHS="-L #{BI_BUILDER_ROOT}/build/host/lib"
   if HOST_OS == :macos
-    LIBS="-lmruby -lbiext -lbi -lGLEW"
+    LIBS="-lmruby -lbiext -lbi -lGLEW -lstdc++"
     FRAMEWORKS_DIR = "-F #{Dir.home}/Library/Frameworks"
     FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
     CFLAGS="-std=gnu11 -O3 -Wall #{FRAMEWORKS_DIR}"
