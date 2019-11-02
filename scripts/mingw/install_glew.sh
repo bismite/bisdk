@@ -1,7 +1,7 @@
 
 if [ ! -e build/mingw/glew-2.1.0 ]; then
   if [ ! -e build/mingw/glew-2.1.0-win32.zip ]; then
-    curl -sS -L -o build/mingw/glew-2.1.0-win32.zip https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip
+    curl --progress-bar -S -L -o build/mingw/glew-2.1.0-win32.zip https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip
   fi
   unzip build/mingw/glew-2.1.0-win32.zip -d build/mingw
 fi
