@@ -113,4 +113,6 @@ fi
 (
   cd build/host/bin/;
   ln -sf ../../../scripts/bibuild.rb bibuild;
+  ln -sf ../../../scripts/bipackager.rb bipackager;
+  ln -sf ../../../scripts/bicompile.rb bicompile;
 )

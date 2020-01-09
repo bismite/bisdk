@@ -75,11 +75,12 @@ when 'emscripten'
 
   EM_LIB_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
   EM_MEMORY_FLAGS="-s ALLOW_MEMORY_GROWTH=1 -s TOTAL_MEMORY=512Mb -s WASM_MEM_MAX=1024Mb"
-  EM_EXCEPTION_FLAGS="-s DISABLE_EXCEPTION_CATCHING=0"
-  EM_FLAGS="-s WASM=1 -s ASSERTIONS=2 #{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} #{EM_EXCEPTION_FLAGS}"
+  EM_FLAGS="-s WASM=1 #{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS}"
+  EM_CFLAGS=ENV['EM_CFLAGS']
+  EM_LDFLAGS=ENV['EM_LDFLAGS']
 
-  CFLAGS="-std=gnu11 -g -Oz -Wall #{EM_FLAGS}"
-  LDFLAGS="#{EM_FLAGS} --preload-file build/assets@assets #{EM_SHELL_FLAG}"
+  CFLAGS="-std=gnu11 -g -Oz -Wall #{EM_FLAGS} #{EM_CFLAGS}"
+  LDFLAGS="#{EM_FLAGS} #{EM_SHELL_FLAG} #{EM_LDFLAGS}"
 end
 
 #
@@ -88,8 +89,8 @@ end
 objects = []
 ARGV.each{|src|
   puts "compile #{src}"
-  NAME = File.basename src
-  obj_name = "#{TMP_DIR}/#{NAME}.o"
+  name = File.basename src
+  obj_name = "#{TMP_DIR}/#{name}.o"
   objects << obj_name
   cmd = "#{CC} -c #{src} -o #{obj_name} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS}"
   puts cmd

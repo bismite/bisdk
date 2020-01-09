@@ -15,14 +15,15 @@ C_STD="-std=gnu11"
 CXX_STD="-std=gnu++11"
 # COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wdeclaration-after-statement -Wwrite-strings)
 COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wwrite-strings)
-COMMON_DEFINES = %w(MRB_32BIT MRB_UTF8_STRING)
+COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
 
 def include_gems(conf)
   # conf.gembox 'default'
   conf.gembox 'full-core'
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
-  conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
+  # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
+  conf.gem github:"Asmod4n/mruby-simplemsgpack"
   # conf.gem github: 'hfm/mruby-fileutils' # error in mingw
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
@@ -41,6 +42,16 @@ def include_gems(conf)
     conf.gem ENV['MRUBY_BI_SOUND']
   else
     conf.gem github: 'bismite/mruby-bi-sound'
+  end
+  if ENV['MRUBY_BI_ARCHIVE']
+    conf.gem ENV['MRUBY_BI_ARCHIVE']
+  else
+    conf.gem github: 'bismite/mruby-bi-archive'
+  end
+  if ENV['MRUBY_BI_GEOMETRY']
+    conf.gem ENV['MRUBY_BI_GEOMETRY']
+  else
+    conf.gem github: 'bismite/mruby-bi-geometry'
   end
 end
 
@@ -138,27 +149,30 @@ MRuby::CrossBuild.new('emscripten') do |conf|
 
   include_gems(conf)
 
+  emscripten_cc_flag = %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' )
+  emscripten_optimize_level = "-Oz"
+
   conf.cc do |cc|
     cc.command = 'emcc'
     cc.defines += COMMON_DEFINES
     cc.include_paths << "#{BUILD_DIR}/emscripten/include"
+    cc.flags = COMMON_CFLAGS + [ emscripten_optimize_level, C_STD ]
+    cc.flags += emscripten_cc_flag
   end
-  conf.cc.flags = COMMON_CFLAGS + [ "-Oz", C_STD ]
-  conf.cc.flags += %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' )
 
   conf.cxx do |cxx|
     cxx.command = 'emcc'
     cxx.defines += COMMON_DEFINES
     cxx.include_paths << "#{BUILD_DIR}/emscripten/include"
+    cxx.flags = COMMON_CFLAGS + [emscripten_optimize_level, CXX_STD]
+    cxx.flags += emscripten_cc_flag
   end
-  conf.cxx.flags = COMMON_CFLAGS + ["-Oz", CXX_STD]
-  conf.cxx.flags += %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' )
 
   conf.linker do |linker|
     linker.command = 'emcc'
     linker.library_paths << "#{BUILD_DIR}/emscripten/lib"
     linker.libraries += %w(biext bi)
-    linker.flags += %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' )
+    linker.flags += emscripten_cc_flag
   end
 
   conf.archiver.command = 'emar'
