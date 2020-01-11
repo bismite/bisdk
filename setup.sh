@@ -84,7 +84,7 @@ fi
 #
 # build mruby 2.0.1
 #
-if [ ! -e build/mruby ]; then git clone -b 2.0.1 https://github.com/mruby/mruby.git build/mruby; fi
+if [ ! -e build/mruby ]; then git clone -b 2.1.0 https://github.com/mruby/mruby.git build/mruby; fi
 # ( cd build/mruby; rake -v )
 ( cd build/mruby; rake )
 ret=$?; if [ $ret != 0 ]; then exit $ret; fi
