@@ -17,9 +17,15 @@ CXX_STD="-std=gnu++11"
 COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wwrite-strings)
 COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
 
+
 def include_gems(conf)
-  # conf.gembox 'default'
-  conf.gembox 'full-core'
+
+  Dir.glob("#{root}/mrbgems/mruby-*/mrbgem.rake") do |x|
+    next if conf.name == "emscripten" and x.include? "mruby-bin-"
+    g = File.basename File.dirname x
+    conf.gem :core => g unless g =~ /^mruby-(bin-debugger|test)$/
+  end
+
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
   # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
@@ -55,10 +61,11 @@ def include_gems(conf)
   end
 end
 
+
 MRuby::Build.new do |conf|
   toolchain :gcc
 
-  conf.enable_cxx_exception
+  # conf.enable_cxx_exception
   conf.enable_bintest = false
   conf.enable_test = false
 
@@ -91,7 +98,8 @@ MRuby::Build.new do |conf|
   conf.linker do |linker|
     linker.command = '/usr/bin/gcc'
     linker.library_paths << "#{BUILD_DIR}/host/lib"
-    linker.libraries += %W(biext bi GLEW stdc++)
+    # linker.libraries += %W(biext bi GLEW stdc++)
+    linker.libraries += %W(bi biext GLEW)
     if FRAMEWORKS_DIR
       linker.flags << "-F #{FRAMEWORKS_DIR}"
       linker.flags << "-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
@@ -130,10 +138,10 @@ MRuby::CrossBuild.new('mingw') do |conf|
   conf.cxx.flags << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --cflags`"
 
   conf.linker do |linker|
-    linker.command = 'x86_64-w64-mingw32-gcc'
+    linker.command = 'x86_64-w64-mingw32-g++'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
-    linker.libraries += %w(biext bi glew32 opengl32 stdc++)
-    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
+    linker.libraries += %w(biext bi glew32 opengl32)
+    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libstdc++ -static-libgcc"
   end
 
   conf.archiver.command = 'x86_64-w64-mingw32-ar'
@@ -149,7 +157,7 @@ MRuby::CrossBuild.new('emscripten') do |conf|
 
   include_gems(conf)
 
-  emscripten_cc_flag = %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' )
+  emscripten_flags = %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s DISABLE_EXCEPTION_CATCHING=0 )
   emscripten_optimize_level = "-Oz"
 
   conf.cc do |cc|
@@ -157,22 +165,22 @@ MRuby::CrossBuild.new('emscripten') do |conf|
     cc.defines += COMMON_DEFINES
     cc.include_paths << "#{BUILD_DIR}/emscripten/include"
     cc.flags = COMMON_CFLAGS + [ emscripten_optimize_level, C_STD ]
-    cc.flags += emscripten_cc_flag
+    cc.flags += emscripten_flags
   end
 
   conf.cxx do |cxx|
-    cxx.command = 'emcc'
+    cxx.command = 'em++'
     cxx.defines += COMMON_DEFINES
     cxx.include_paths << "#{BUILD_DIR}/emscripten/include"
     cxx.flags = COMMON_CFLAGS + [emscripten_optimize_level, CXX_STD]
-    cxx.flags += emscripten_cc_flag
+    cxx.flags += emscripten_flags
   end
 
   conf.linker do |linker|
-    linker.command = 'emcc'
+    linker.command = 'em++'
     linker.library_paths << "#{BUILD_DIR}/emscripten/lib"
     linker.libraries += %w(biext bi)
-    linker.flags += emscripten_cc_flag
+    linker.flags += emscripten_flags
   end
 
   conf.archiver.command = 'emar'

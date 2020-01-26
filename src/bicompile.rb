@@ -29,6 +29,7 @@ rescue => e
   }
 
   puts "\#{e.class}: \#{e.message}"
+  puts e.backtrace.join("\n")
   e.backtrace.each{|b|
     m = b.chomp.split(":")
     if m.size < 2
@@ -68,14 +69,14 @@ EOS
       end
     }
 
-    puts "read #{filepath}"
+    STDERR.puts "read #{filepath}"
     unless filepath
-      puts "#{filepath} not found"
+      STDERR.puts "#{filepath} not found"
       return
     end
 
     unless memory filepath
-      puts "#{filepath} already included."
+      STDERR.puts "#{filepath} already included."
       return
     end
 
@@ -133,7 +134,6 @@ class Restorer
   def initialize
     tmp = []
 
-
     fileline = {}
     @index = tmp.each.with_index.map{|filename,i|
       fileline[filename] = fileline[filename].to_i + 1
@@ -173,20 +173,23 @@ if $0 == __FILE__
     new_dir
   }
 
-  tmpfile = File.join dir, "_" + File.basename(infile)
-  File.open(tmpfile,"w"){|f| f.write compile.code }
-
-  cmd = "mrbc -g -o #{outfile} #{tmpfile}"
-  puts cmd
-  compile_log = `#{cmd} 2>&1`
+  cmd = "mrbc -g -o #{outfile} -"
+  result = IO.pipe do |r, w|
+    IO.popen(cmd,"w",err:w){|pipe| pipe.puts(compile.code) }
+    w.close
+    r.read
+  end
 
   if $? != 0
     puts "compile failed..."
-    compile.handle_error_log compile_log
+    compile.handle_error_log result
     exit 1
   else
-    File.delete tmpfile
-    puts "delete #{tmpfile}"
+    if outfile == "-"
+      STDOUT.write result
+    else
+      puts "#{outfile} created."
+    end
   end
 
 end
