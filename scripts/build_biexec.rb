@@ -7,27 +7,34 @@ class Compiler
   MRB_FLAGS="-DMRB_INT64 -DMRB_UTF8_STRING"
 end
 
-class Host < Compiler
-  host_os = RbConfig::CONFIG['host_os']
-  HOST = case host_os
-    when /darwin/; "macos"
-    else; "linux"
-  end
-
+class MacOS < Compiler
+  HOST = "macos"
   CC = "clang"
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
-  if HOST == "macos"
-    LIBS="-lmruby -lbiext -lbi -lGLEW -lstdc++"
-    FRAMEWORKS_DIR = "-F #{Dir.home}/Library/Frameworks"
-    FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
-    CFLAGS="-std=gnu11 -O3 -Wall #{FRAMEWORKS_DIR}"
-    LDFLAGS="#{FRAMEWORKS_DIR} #{FRAMEWORKS}"
-  else
-    LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
-    CFLAGS="-std=c11 -O3 -Wall `sdl2-config --cflags`"
-    LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
+
+  LIBS="-lmruby -lbiext -lbi -lGLEW -lstdc++"
+  FRAMEWORKS_DIR = "-F #{Dir.home}/Library/Frameworks"
+  FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
+  CFLAGS="-std=gnu11 -O3 -Wall #{FRAMEWORKS_DIR}"
+  LDFLAGS="#{FRAMEWORKS_DIR} #{FRAMEWORKS}"
+
+  def self.compile(sources,outfile)
+    FileUtils.mkdir_p File.dirname(outfile)
+    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
+    puts cmd
+    system cmd
   end
+end
+
+class Linux < Compiler
+  HOST =  "linux"
+  CC = "clang"
+  INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
+  LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
+  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
+  CFLAGS="-std=c11 -O3 -Wall `sdl2-config --cflags`"
+  LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
@@ -97,8 +104,16 @@ DST_FILE=ARGV.pop
 IN_FILES=ARGV
 
 case PLATFORM
+when 'host'
+  if /darwin/ === RbConfig::CONFIG['host_os']
+    MacOS::compile(IN_FILES,DST_FILE)
+  else
+    Linux::compile(IN_FILES,DST_FILE)
+  end
 when 'macos'
-  Host::compile(IN_FILES,DST_FILE)
+  MacOS::compile(IN_FILES,DST_FILE)
+when 'linux'
+  Linux::compile(IN_FILES,DST_FILE)
 when 'mingw'
   Mingw::compile(IN_FILES,DST_FILE) if Mingw::available?
 when 'emscripten'
