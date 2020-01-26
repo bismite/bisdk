@@ -1,3 +1,4 @@
+#!/bin/bash
 
 echo "* * * install GLEW for mingw * * *"
 

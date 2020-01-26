@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "* * * install SDL2 for mingw * * *"
 
@@ -23,8 +23,7 @@ SDL2_MIXER_DIR="${MINGW_DIR}/SDL2_mixer-${SDL2_MIXER_VER}"
 
 mkdir -p ${BI_BUILDER_ROOT}/${MINGW_DIR}
 
-function _dl_and_make_()
-{
+_dl_and_make_ () {
   # if [ ! -e $1 ]; then
     if [ ! -e ${MINGW_DIR}/$2 ]; then
       echo "Download $3"

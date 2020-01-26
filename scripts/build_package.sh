@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 UNAME="$(uname -s)"
 case "$UNAME" in
@@ -20,7 +20,7 @@ fi
 #
 # install mruby
 #
-function install_mruby(){
+install_mruby () {
   mkdir -p build/$2/bin/ build/$2/include/ build/$2/lib/
   cp build/mruby/build/$1/bin/* build/$2/bin
   cp build/mruby/build/$1/lib/* build/$2/lib/
@@ -43,9 +43,8 @@ fi
 #
 # compile template main executable
 #
-function _update_link_()
-{
-  FRAMEWORK="$1.framework/Versions/A/$1"
+_update_link_ () {
+  local FRAMEWORK="$1.framework/Versions/A/$1"
   install_name_tool -change "@rpath/$FRAMEWORK" "@executable_path/../Frameworks/$FRAMEWORK" "$2"
 }
 
@@ -93,8 +92,8 @@ fi
 #
 # copy template
 #
-function copy_template(){
-  DIR=$1
+copy_template () {
+  local DIR=$1
   mkdir -p $DIR/share/bisdk/template
   if [ $HOST = "macos" ]; then
     cp -R build/macos/template/ $DIR/share/bisdk/template/macos

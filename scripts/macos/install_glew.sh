@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "* * * install GLEW for macos * * *"
 

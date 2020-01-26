@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 FRAMEWORKS_DIR=$HOME/Library/Frameworks
 mkdir -p $FRAMEWORKS_DIR

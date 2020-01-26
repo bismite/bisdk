@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export BI_BUILDER_ROOT=${PWD}
 echo "$BI_BUILDER_ROOT"
@@ -65,15 +65,13 @@ fi
 #
 echo "* * * build bi-core and bi-ext * * *"
 
-function _copy_headers_()
-{
+_copy_headers_ () {
   mkdir -p $1/include
   cp -R $BI_CORE_DIR/include/* $1/include
   cp -R $BI_EXT_DIR/include/* $1/include
 }
 
-function _copy_lib_()
-{
+_copy_lib_ () {
   mkdir -p $2/lib
   cp $BI_CORE_DIR/build/$1/libbi.a $2/lib
   cp $BI_EXT_DIR/build/$1/libbiext.a $2/lib

@@ -6,10 +6,13 @@ matrix:
       addons:
         apt:
           packages:
+            - build-essential
             - libsdl2-dev
             - libsdl2-image-dev
             - libsdl2-mixer-dev
             - libglew-dev
+            - ruby2.5
+            - bison
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
 script:
