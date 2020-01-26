@@ -49,12 +49,12 @@ if [ $MINGW_AVAILABLE ]; then
   install_mruby "mingw" "x86_64-w64-mingw32";
   # copy dll
   if [ $HOST = "macos" ]; then
-    cp /opt/local/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
-  else
     # macports
-    cp /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
+    cp /opt/local/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
     # homebrew
     cp /usr/local/Cellar/mingw-w64/7.0.0_1/toolchain-x86_64/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
+  else
+    cp /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
   fi
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
