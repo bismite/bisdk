@@ -31,6 +31,7 @@ if [ $HOST = "macos" ]; then
   rsync -a --delete src/template.app build/macos/template/
   ./scripts/build_biexec.rb $HOST src/main.c $APP_MAIN_EXE
   # copy frameworks
+  mkdir -p build/macos/template/template.app/Contents/Frameworks
   rsync -a --delete $HOME/Library/Frameworks/SDL2* "build/macos/template/template.app/Contents/Frameworks/."
   # update library search path
   _update_link_ "SDL2" $APP_MAIN_EXE
