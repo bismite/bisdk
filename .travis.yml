@@ -16,4 +16,4 @@ matrix:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
 script:
-  - "sh setup.sh"
+  - "sh scripts/setup.sh"
