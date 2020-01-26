@@ -84,6 +84,8 @@ fi
 mkdir -p build/bisdk
 if [ $HOST = "macos" ]; then
   mkdir -p build/bisdk/macos
+else
+  mkdir -p build/bisdk/linux
 fi
 if [ $MINGW_AVAILABLE ]; then
   mkdir -p build/bisdk/mingw
@@ -97,6 +99,8 @@ copy_template () {
   mkdir -p $DIR/share/bisdk/template
   if [ $HOST = "macos" ]; then
     cp -R build/macos/template/ $DIR/share/bisdk/template/macos
+  else
+    cp -R build/linux/template/ $DIR/share/bisdk/template/linux
   fi
   if [ $MINGW_AVAILABLE ]; then
     cp -R build/x86_64-w64-mingw32/template/ $DIR/share/bisdk/template/x86_64-w64-mingw32
@@ -107,6 +111,8 @@ copy_template () {
 }
 if [ $HOST = "macos" ]; then
   copy_template "build/bisdk/macos"
+else
+  copy_template "build/bisdk/linux"
 fi
 if [ $MINGW_AVAILABLE ]; then
   copy_template "build/bisdk/mingw"
@@ -115,18 +121,18 @@ fi
 #
 # copy bisdk/bin
 #
-if [ $HOST = "macos" ]; then
-  echo " * * * bisdk/macos/"
-  BISDK_DIR="build/bisdk/macos"
-  mkdir -p $BISDK_DIR/bin/
-  cp build/macos/bin/* $BISDK_DIR/bin/
-  cp src/bicompile.rb $BISDK_DIR/bin/
-  cp src/birun.rb $BISDK_DIR/bin/
-  cp src/biexport.rb $BISDK_DIR/bin/
-  cp src/bipackager.rb $BISDK_DIR/bin/
-fi
+
+echo " * * * bisdk/$HOST"
+BISDK_DIR="build/bisdk/$HOST"
+mkdir -p $BISDK_DIR/bin/
+cp build/host/bin/* $BISDK_DIR/bin/
+cp src/bicompile.rb $BISDK_DIR/bin/
+cp src/birun.rb $BISDK_DIR/bin/
+cp src/biexport.rb $BISDK_DIR/bin/
+cp src/bipackager.rb $BISDK_DIR/bin/
+
 if [ $MINGW_AVAILABLE ]; then
-  echo " * * * bisdk/mingw/"
+  echo " * * * bisdk/mingw"
   BISDK_DIR="build/bisdk/mingw"
   mkdir -p $BISDK_DIR/bin
   cp build/x86_64-w64-mingw32/bin/*.exe $BISDK_DIR/bin
