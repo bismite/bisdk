@@ -10,7 +10,7 @@ class Mingw
     asset = "#{dst}/assets.dat"
 
     `mkdir -p #{dst}`
-    `cp -r "#{template}" "#{dst}"`
+    `cp -R "#{template}/." "#{dst}/."`
     `cp "#{mrb_file}" "#{main_mrb}"`
     `cp "#{asset_file}" "#{asset}"`
   end
@@ -24,7 +24,7 @@ class Emscripten
     asset = "#{dst}/assets.dat"
 
     `mkdir -p #{dst}`
-    `cp -R "#{template}" "#{dst}"`
+    `cp -R "#{template}/." "#{dst}/."`
     `cp "#{mrb_file}" "#{main_mrb}"`
     `cp "#{asset_file}" "#{asset}"`
   end

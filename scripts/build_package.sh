@@ -51,13 +51,10 @@ _update_link_ () {
 if [ $HOST = "macos" ]; then
   APP_MAIN_EXE="build/macos/template/template.app/Contents/Resources/main"
   # copy template
-  cp -R src/template.app build/macos/template
+  rsync -a --delete src/template.app build/macos/template/
   ./scripts/build_biexec.rb $HOST src/main.c $APP_MAIN_EXE
   # copy frameworks
-  rm -rf "build/macos/template/template.app/Contents/Frameworks"
-  mkdir -p "build/macos/template/template.app/Contents/Frameworks"
-  cp -R $HOME/Library/Frameworks/SDL2* "build/macos/template/template.app/Contents/Frameworks/."
-  ls "build/macos/template/template.app/Contents/Frameworks/"
+  rsync -a --delete $HOME/Library/Frameworks/SDL2* "build/macos/template/template.app/Contents/Frameworks/."
   # update library search path
   _update_link_ "SDL2" $APP_MAIN_EXE
   _update_link_ "SDL2_image" $APP_MAIN_EXE
@@ -70,7 +67,6 @@ if [ $MINGW_AVAILABLE ]; then
   ./scripts/build_biexec.rb mingw src/main.c build/x86_64-w64-mingw32/template/main.exe
   # copy dlls for template
   cp build/x86_64-w64-mingw32/bin/*.dll build/x86_64-w64-mingw32/template/
-  cp /opt/local/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/template/
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
   ./scripts/build_biexec.rb emscripten src/main-emscripten.c src/support-emscripten.c build/emscripten/template/main.html
@@ -98,9 +94,7 @@ copy_template () {
   local DIR=$1
   mkdir -p $DIR/share/bisdk/template
   if [ $HOST = "macos" ]; then
-    cp -R build/macos/template/ $DIR/share/bisdk/template/macos
-  else
-    cp -R build/linux/template/ $DIR/share/bisdk/template/linux
+    rsync -a --delete build/macos/template/ $DIR/share/bisdk/template/macos/
   fi
   if [ $MINGW_AVAILABLE ]; then
     cp -R build/x86_64-w64-mingw32/template/ $DIR/share/bisdk/template/x86_64-w64-mingw32
