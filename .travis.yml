@@ -15,6 +15,6 @@ matrix:
             - libglew-dev
             - bison
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64 emscripten; fi
 script:
   - "sh scripts/setup.sh"
