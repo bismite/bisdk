@@ -144,6 +144,10 @@ MRuby::CrossBuild.new('mingw') do |conf|
     linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libstdc++ -static-libgcc"
   end
 
+  conf.exts do |exts|
+    exts.executable = '.exe'
+  end
+
   conf.archiver.command = 'x86_64-w64-mingw32-ar'
 end if MINGW_AVAILABLE
 
