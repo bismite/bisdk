@@ -29,7 +29,8 @@ def include_gems(conf)
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
   # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
-  conf.gem github:"Asmod4n/mruby-simplemsgpack"
+  # conf.gem github:"Asmod4n/mruby-simplemsgpack" # trouble in travis
+  conf.gem github: "bismite/mruby-simplemsgpack"
   # conf.gem github: 'hfm/mruby-fileutils' # error in mingw
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
