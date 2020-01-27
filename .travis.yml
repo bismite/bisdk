@@ -15,15 +15,13 @@ matrix:
             - libglew-dev
             - bison
 before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
   - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install mingw-w64
-      git clone https://github.com/emscripten-core/emsdk.git
-      cd emsdk
-      ./emsdk install latest
-      ./emsdk activate latest
-      source ./emsdk_env.sh
-      cd -
-    fi
+    git clone https://github.com/emscripten-core/emsdk.git
+    cd emsdk
+    ./emsdk install latest
+    ./emsdk activate latest
+    source ./emsdk_env.sh
+    cd ../
 script:
   - "sh scripts/setup.sh"
