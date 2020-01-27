@@ -38,11 +38,13 @@ ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 # install mruby
 #
 install_mruby () {
+  echo " * install mruby to $2"
   mkdir -p build/$2/bin/ build/$2/include/ build/$2/lib/
-  cp build/mruby/build/$1/bin/* build/$2/bin/
+  ls build/mruby/build/$1/bin/
+  cp -v build/mruby/build/$1/bin/* build/$2/bin/
   rm build/$2/bin/mruby-config
-  cp build/mruby/build/$1/lib/* build/$2/lib/
-  cp -R build/mruby/include build/$2/
+  cp -v build/mruby/build/$1/lib/* build/$2/lib/
+  cp -v -R build/mruby/include build/$2/
 }
 install_mruby "host" "host"
 if [ $MINGW_AVAILABLE ]; then
@@ -50,11 +52,11 @@ if [ $MINGW_AVAILABLE ]; then
   # copy dll
   if [ $HOST = "macos" ]; then
     # macports
-    cp /opt/local/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
+    cp -v /opt/local/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
     # homebrew
-    cp /usr/local/Cellar/mingw-w64/7.0.0_1/toolchain-x86_64/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
+    cp -v /usr/local/Cellar/mingw-w64/7.0.0_1/toolchain-x86_64/x86_64-w64-mingw32/bin/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
   else
-    cp /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
+    cp -v /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll build/x86_64-w64-mingw32/bin/
   fi
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
