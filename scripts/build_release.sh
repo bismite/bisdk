@@ -56,6 +56,22 @@ if [ $MINGW_AVAILABLE ]; then
 fi
 
 #
+# license files
+#
+_copy_license_files_ () {
+  mkdir -p $2
+  cp build/licenses/$1/* $2
+}
+if [ $HOST = "macos" ]; then
+  _copy_license_files_ "macos" "build/bisdk/macos/licenses"
+else
+  _copy_license_files_ "linux" "build/bisdk/linux/licenses"
+fi
+if [ $MINGW_AVAILABLE ]; then
+  _copy_license_files_ "mingw" "build/bisdk/mingw/licenses"
+fi
+
+#
 # copy bisdk/bin
 #
 
