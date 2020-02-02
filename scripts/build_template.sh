@@ -25,6 +25,11 @@ _update_link_ () {
   install_name_tool -change "@rpath/$FRAMEWORK" "@executable_path/../Frameworks/$FRAMEWORK" "$2"
 }
 
+_copy_license_files_ () {
+  mkdir -p $2
+  cp build/licenses/$1/* $2
+}
+
 if [ $HOST = "macos" ]; then
   APP_MAIN_EXE="build/macos/template/template.app/Contents/Resources/main"
   # copy template
@@ -38,14 +43,18 @@ if [ $HOST = "macos" ]; then
   _update_link_ "SDL2_image" $APP_MAIN_EXE
   _update_link_ "SDL2_mixer" $APP_MAIN_EXE
   otool -L $APP_MAIN_EXE
+  _copy_license_files_ macos build/macos/template/template.app/Contents/Resources/
 else
   ./scripts/build_biexec.rb $HOST src/main.c build/host/template/main
+  _copy_license_files_ linux build/linux/template/licenses
 fi
 if [ $MINGW_AVAILABLE ]; then
   ./scripts/build_biexec.rb mingw src/main.c build/x86_64-w64-mingw32/template/main.exe
   # copy dlls for template
   cp build/x86_64-w64-mingw32/bin/*.dll build/x86_64-w64-mingw32/template/
+  _copy_license_files_ mingw build/x86_64-w64-mingw32/template/licenses
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
   ./scripts/build_biexec.rb emscripten src/main-emscripten.c src/support-emscripten.c build/emscripten/template/main.html
+  _copy_license_files_ emscripten build/emscripten/template/licenses
 fi
