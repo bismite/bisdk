@@ -2,15 +2,26 @@ sudo: false
 matrix:
   include:
     - os: osx
+      osx_image: xcode11.3
     - os: linux
+      dist: bionic
       addons:
         apt:
           packages:
+            - build-essential
             - libsdl2-dev
             - libsdl2-image-dev
             - libsdl2-mixer-dev
             - libglew-dev
+            - bison
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
+  - |
+    git clone https://github.com/emscripten-core/emsdk.git
+    cd emsdk
+    ./emsdk install latest
+    ./emsdk activate latest
+    source ./emsdk_env.sh
+    cd ../
 script:
-  - "sh setup.sh"
+  - "sh scripts/setup.sh"
