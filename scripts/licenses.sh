@@ -35,7 +35,6 @@ if [ $MINGW_AVAILABLE ]; then
   mkdir -p $LICENSE_DIR
   cp build/x86_64-w64-mingw32/bin/*.txt $LICENSE_DIR/
   cp build/mruby/build/mingw/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
-  cp build/macos/glew-2.1.0/LICENSE.txt $LICENSE_DIR/LICENSE.glew.txt
 
   cp src/licenses/mingw/* $LICENSE_DIR/
 
