@@ -20,18 +20,14 @@ fi
 
 if [ $HOST = "macos" ]; then
   (cd build/macos; zip --symlinks -r template-macos.zip template -x "*/\__MACOSX" -x "*/\.*")
-  ./script/upload-template-zip.rb build/macos/template-macos.zip
 else
   (cd build/linux; zip --symlinks -r template-linux.zip template -x "*/\__MACOSX" -x "*/\.*")
-  ./script/upload-template-zip.rb build/macos/template-linux.zip
 fi
 
 if [ $MINGW_AVAILABLE ]; then
   (cd build/x86_64-w64-mingw32; zip --symlinks -r template-x86_64-w64-mingw32.zip template -x "*/\__MACOSX" -x "*/\.*")
-  ./script/upload-template-zip.rb build/x86_64-w64-mingw32/template-x86_64-w64-mingw32.zip
 fi
 
 if [ $EMSCRIPTEN_AVAILABLE ]; then
   (cd build/emscripten; zip --symlinks -r template-emscripten.zip template -x "*/\__MACOSX" -x "*/\.*")
-  ./script/upload-template-zip.rb build/emscripten/template-emscripten.zip
 fi

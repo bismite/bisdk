@@ -7,8 +7,6 @@ Dotenv.load
 
 TARGET_TAG = "0.1.0"
 
-zip = ARGV[0]
-
 access_token = ENV['GITHUB_ACCESS_TOKEN']
 client = Octokit::Client.new( access_token: access_token )
 
@@ -26,9 +24,17 @@ end
 
 assets = release.assets
 
-if assets.find{|a| a.name == File.basename(zip) }
-  puts "already uploaded #{zip}"
-else
-  puts "upload #{zip}"
-  client.upload_asset(release.url, zip )
-end
+%w(
+  build/macos/template-macos.zip
+  build/macos/template-linux.zip
+  build/x86_64-w64-mingw32/template-x86_64-w64-mingw32.zip
+  build/emscripten/template-emscripten.zip
+).each{|zip|
+  next unless File.exist? zip
+  if assets.find{|a| a.name == File.basename(zip) }
+    puts "already uploaded #{zip}"
+  else
+    puts "upload #{zip}"
+    client.upload_asset(release.url, zip )
+  end
+}
