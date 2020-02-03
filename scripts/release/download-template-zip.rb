@@ -6,9 +6,9 @@ require "octokit"
 Dotenv.load
 
 TARGET_TAG = "0.1.0"
+ACCESS_TOKEN = ENV['GITHUB_ACCESS_TOKEN']
 
-access_token = ENV['GITHUB_ACCESS_TOKEN']
-client = Octokit::Client.new( access_token: access_token )
+client = Octokit::Client.new( access_token: ACCESS_TOKEN )
 
 releases = client.releases "bismite/bisdk"
 releases = releases.select{|r| r.tag_name == TARGET_TAG}.sort_by(&:created_at)
@@ -32,8 +32,9 @@ assets = release.assets
 ).each{|zip|
   asset = assets.find{|a| a.name == File.basename(zip) }
   if asset
-    puts "download #{asset.browser_download_url}"
-    `curl -sSL -o build/bisdk/#{zip}  -L #{asset.browser_download_url}`
+    asset_url = "https://#{ACCESS_TOKEN}@api.github.com/repos/bismite/bisdk/releases/assets/#{asset.id}"
+    puts "download #{zip} from #{asset_url}"
+    `curl -# -L -o build/bisdk/#{zip} -H 'Accept: application/octet-stream' #{asset_url}`
   else
     puts "not found #{zip}"
   end

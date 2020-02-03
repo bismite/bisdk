@@ -26,7 +26,7 @@ assets = release.assets
 
 %w(
   build/macos/template-macos.zip
-  build/macos/template-linux.zip
+  build/linux/template-linux.zip
   build/x86_64-w64-mingw32/template-x86_64-w64-mingw32.zip
   build/emscripten/template-emscripten.zip
 ).each{|zip|
