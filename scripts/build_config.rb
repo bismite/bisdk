@@ -3,8 +3,10 @@ require 'rbconfig'
 BUILD_DIR = File.expand_path File.join __dir__, "..", "build"
 if /darwin|mac os/ === RbConfig::CONFIG['host_os']
   FRAMEWORKS_DIR = "#{ENV['HOME']}/Library/Frameworks"
+  HOST="macos"
 else
   FRAMEWORKS_DIR = nil
+  HOST="linux"
 end
 
 MINGW_AVAILABLE = ENV['MINGW_AVAILABLE']
@@ -75,7 +77,7 @@ MRuby::Build.new do |conf|
   conf.cc do |cc|
     cc.command = '/usr/bin/gcc'
     cc.defines += COMMON_DEFINES
-    cc.include_paths << "#{BUILD_DIR}/host/include"
+    cc.include_paths << "#{BUILD_DIR}/#{HOST}/include"
   end
   conf.cc.flags = COMMON_CFLAGS + [ OPTIMIZE, C_STD ]
   if FRAMEWORKS_DIR
@@ -87,7 +89,7 @@ MRuby::Build.new do |conf|
   conf.cxx do |cxx|
     cxx.command = '/usr/bin/g++'
     cxx.defines += COMMON_DEFINES
-    cxx.include_paths << "#{BUILD_DIR}/host/include"
+    cxx.include_paths << "#{BUILD_DIR}/#{HOST}/include"
   end
   conf.cxx.flags = COMMON_CFLAGS + [ OPTIMIZE, CXX_STD ]
   if FRAMEWORKS_DIR
@@ -98,7 +100,7 @@ MRuby::Build.new do |conf|
 
   conf.linker do |linker|
     linker.command = '/usr/bin/gcc'
-    linker.library_paths << "#{BUILD_DIR}/host/lib"
+    linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
     # linker.libraries += %W(biext bi GLEW stdc++)
     linker.libraries += %W(bi biext GLEW)
     if FRAMEWORKS_DIR

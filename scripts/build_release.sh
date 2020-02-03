@@ -78,7 +78,7 @@ fi
 echo " * * * bisdk/$HOST"
 BISDK_DIR="build/bisdk/$HOST"
 mkdir -p $BISDK_DIR/bin/
-rsync -a --delete build/host/bin/ $BISDK_DIR/bin/
+rsync -a --delete build/$HOST/bin/ $BISDK_DIR/bin/
 cp src/bicompile.rb $BISDK_DIR/bin/
 cp src/birun.rb $BISDK_DIR/bin/
 cp src/biexport.rb $BISDK_DIR/bin/

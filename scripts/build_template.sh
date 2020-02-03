@@ -43,9 +43,9 @@ if [ $HOST = "macos" ]; then
   _update_link_ "SDL2_image" $APP_MAIN_EXE
   _update_link_ "SDL2_mixer" $APP_MAIN_EXE
   otool -L $APP_MAIN_EXE
-  _copy_license_files_ macos build/macos/template/template.app/Contents/Resources/
+  _copy_license_files_ macos build/$HOST/template/template.app/Contents/Resources/
 else
-  ./scripts/build_biexec.rb $HOST src/main.c build/host/template/main
+  ./scripts/build_biexec.rb $HOST src/main.c build/$HOST/template/main
   _copy_license_files_ linux build/linux/template/licenses
 fi
 if [ $MINGW_AVAILABLE ]; then

@@ -28,7 +28,6 @@ export MRUBY_CONFIG="${PWD}/scripts/build_config.rb"
 #
 # build mruby
 #
-ln -s $HOST build/host
 if [ ! -e build/mruby ]; then git clone -b 2.1.0 https://github.com/mruby/mruby.git build/mruby; fi
 (cd build/mruby; rake -v)
 ret=$?; if [ $ret != 0 ]; then exit $ret; fi
@@ -46,7 +45,8 @@ install_mruby () {
   cp -v build/mruby/build/$1/lib/* build/$2/lib/
   cp -v -R build/mruby/include build/$2/
 }
-install_mruby "host" "host"
+
+install_mruby "host" $HOST
 if [ $MINGW_AVAILABLE ]; then
   install_mruby "mingw" "x86_64-w64-mingw32";
   # copy dll
