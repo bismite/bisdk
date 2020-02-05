@@ -29,26 +29,25 @@ end
 
 assets = release.assets
 
-def zip_template(dir,target)
-  if File.exist? "#{dir}/#{target}"
-    cmd = "(cd #{dir}; zip --quiet --symlinks -r template-#{target}.zip #{target} -x '*/\__MACOSX' -x '*/\.*')"
+def zip_release(dir,filename)
+  if File.exist? "#{dir}/bisdk"
+    cmd = "(cd #{dir}; zip --quiet --symlinks -r ../#{filename} bisdk -x '*/\__MACOSX' -x '*/\.*')"
     puts cmd
     system cmd
   else
-    puts "#{dir}/#{target} not exist"
+    puts "#{dir}/bisdk not exist"
   end
 end
 
 %w(
   macos
   linux
-  x86_64-w64-mingw32
-  emscripten
+  windows
 ).each{|target|
 
-  dir = "build/template"
-  filename = "template-#{target}.zip"
-  zip = "#{dir}/#{filename}"
+  dir = "build/bisdk/#{target}"
+  filename = "bisdk-#{target}-#{TARGET_TAG}.zip"
+  zip = "build/bisdk/#{filename}"
 
   if File.exist?(zip)
     if `find #{dir} -newer #{zip}`.empty?
@@ -56,10 +55,10 @@ end
     else
       puts "remove #{zip}"
       File.delete(zip)
-      zip_template dir, target
+      zip_release dir, filename
     end
   else
-    zip_template dir, target
+    zip_release dir, filename
   end
 
   if assets.find{|a| a.name == filename }
@@ -68,6 +67,8 @@ end
     if File.exist? zip
       puts "upload #{zip}"
       client.upload_asset release.url, zip
+    else
+      puts "#{zip} not found"
     end
   end
 }

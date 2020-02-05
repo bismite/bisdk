@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+require "fileutils"
 require "dotenv"
 require "octokit"
 
@@ -24,6 +24,7 @@ end
 
 assets = release.assets
 
+FileUtils.mkdir_p "build/bisdk"
 %w(
   template-macos.zip
   template-linux.zip
@@ -32,9 +33,13 @@ assets = release.assets
 ).each{|zip|
   asset = assets.find{|a| a.name == File.basename(zip) }
   if asset
-    asset_url = "https://#{ACCESS_TOKEN}@api.github.com/repos/bismite/bisdk/releases/assets/#{asset.id}"
-    puts "download #{zip} from #{asset_url}"
-    `curl -# -L -o build/bisdk/#{zip} -H 'Accept: application/octet-stream' #{asset_url}`
+    p [asset.name, asset.created_at, asset.updated_at]
+    zip_file = "build/bisdk/#{zip}"
+    unless File.exist? zip_file
+      asset_url = "https://#{ACCESS_TOKEN}@api.github.com/repos/bismite/bisdk/releases/assets/#{asset.id}"
+      puts "download #{zip} from #{asset_url}"
+      `curl -# -L -o #{zip_file} -H 'Accept: application/octet-stream' #{asset_url}`
+    end
   else
     puts "not found #{zip}"
   end
