@@ -1,93 +1,55 @@
-
 #!/bin/bash
-
-UNAME="$(uname -s)"
-case "$UNAME" in
-    Darwin*)  HOST=macos;;
-    *)        HOST=linux;;
-esac
-echo "Host is $HOST"
-
-if type x86_64-w64-mingw32-gcc > /dev/null 2>&1; then
-  export MINGW_AVAILABLE=1;
-  echo MINGW_AVAILABLE
-fi
-if type emcc > /dev/null 2>&1; then
-  export EMSCRIPTEN_AVAILABLE=1;
-  echo EMSCRIPTEN_AVAILABLE
-fi
 
 #
 # create release package
 #
 
-mkdir -p build/bisdk
-if [ $HOST = "macos" ]; then
-  mkdir -p build/bisdk/macos/bisdk
-else
-  mkdir -p build/bisdk/linux/bisdk
-fi
-if [ $MINGW_AVAILABLE ]; then
-  mkdir -p build/bisdk/mingw/bisdk
-fi
+
+mkdir -p build/macos/bisdk
+mkdir -p build/linux/bisdk
+mkdir -p build/x86_64-w64-mingw32/bisdk
 
 #
-# unzip templates
+# copy templates
 #
-unzip_templates () {
-  local DIR=$1/share/bisdk/template
+copy_templates () {
+  local DIR=build/$1/bisdk/share/bisdk/template
   mkdir -p $DIR
-  unzip -qo build/bisdk/template-macos.zip -d $DIR/
-  unzip -qo build/bisdk/template-x86_64-w64-mingw32.zip -d $DIR/
-  unzip -qo build/bisdk/template-linux.zip -d $DIR/
-  unzip -qo build/bisdk/template-emscripten.zip -d $DIR/
+  rsync -a --delete build/template/macos -d $DIR/
+  rsync -a --delete build/template/linux -d $DIR/
+  rsync -a --delete build/template/x86_64-w64-mingw32 -d $DIR/
+  rsync -a --delete build/template/emscripten -d $DIR/
 }
-if [ $HOST = "macos" ]; then
-  unzip_templates "build/bisdk/macos/bisdk"
-else
-  unzip_templates "build/bisdk/linux/bisdk"
-fi
-if [ $MINGW_AVAILABLE ]; then
-  unzip_templates "build/bisdk/windows/bisdk"
-fi
+
+copy_templates "macos"
+copy_templates "linux"
+copy_templates "x86_64-w64-mingw32"
 
 #
 # copy license files
 #
 _copy_license_files_ () {
-  mkdir -p $2
-  cp build/licenses/$1/* $2
+  local DIR="build/$2/bisdk/licenses"
+  mkdir -p $DIR
+  cp build/licenses/$1/* $DIR
 }
-if [ $HOST = "macos" ]; then
-  _copy_license_files_ "macos" "build/bisdk/macos/bisdk/licenses"
-else
-  _copy_license_files_ "linux" "build/bisdk/linux/bisdk/licenses"
-fi
-if [ $MINGW_AVAILABLE ]; then
-  _copy_license_files_ "mingw" "build/bisdk/windows/bisdk/licenses"
-fi
+_copy_license_files_ "macos" "macos"
+_copy_license_files_ "linux" "linux"
+_copy_license_files_ "mingw" "x86_64-w64-mingw32"
 
 #
 # copy bisdk/bin
 #
+_copy_bin_ () {
+  local DIR="build/$1/bisdk/bin"
+  rsync -a --delete build/$1/bin/ $DIR/
+  rm $DIR/*.txt # license files in mingw
+  cp src/bicompile.rb $DIR
+  cp src/birun.rb $DIR
+  cp src/biexport.rb $DIR
+  cp src/bipackager.rb $DIR
+}
 
-echo " * * * bisdk/$HOST"
-BISDK_DIR="build/bisdk/$HOST/bisdk"
-mkdir -p $BISDK_DIR/bin/
-rsync -a --delete build/$HOST/bin/ $BISDK_DIR/bin/
-cp src/bicompile.rb $BISDK_DIR/bin/
-cp src/birun.rb $BISDK_DIR/bin/
-cp src/biexport.rb $BISDK_DIR/bin/
-cp src/bipackager.rb $BISDK_DIR/bin/
-
-if [ $MINGW_AVAILABLE ]; then
-  echo " * * * bisdk/windows"
-  BISDK_DIR="build/bisdk/windows/bisdk"
-  mkdir -p $BISDK_DIR/bin
-  cp build/x86_64-w64-mingw32/bin/*.exe $BISDK_DIR/bin
-  cp build/x86_64-w64-mingw32/bin/*.dll $BISDK_DIR/bin
-  cp src/bicompile.rb $BISDK_DIR/bin
-  cp src/birun.rb $BISDK_DIR/bin
-  cp src/biexport.rb $BISDK_DIR/bin
-  cp src/bipackager.rb $BISDK_DIR/bin
-fi
+_copy_bin_ "macos"
+_copy_bin_ "linux"
+_copy_bin_ "x86_64-w64-mingw32"

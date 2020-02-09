@@ -23,7 +23,7 @@ export BI_CORE_DIR=build/bi-core
 export BI_EXT_DIR=build/bi-ext
 
 export MRUBY_CONFIG="${PWD}/scripts/build_config.rb"
-
+export MRUBY_BUILD_DIR="${PWD}/build/$HOST/mruby"
 
 #
 # build mruby
@@ -32,17 +32,16 @@ if [ ! -e build/mruby ]; then git clone -b 2.1.0 https://github.com/mruby/mruby.
 (cd build/mruby; rake -v)
 ret=$?; if [ $ret != 0 ]; then exit $ret; fi
 
-
 #
 # install mruby
 #
 install_mruby () {
   echo " * install mruby to $2"
   mkdir -p build/$2/bin/ build/$2/include/ build/$2/lib/
-  ls build/mruby/build/$1/bin/
-  cp -v build/mruby/build/$1/bin/* build/$2/bin/
+
+  cp -v build/$HOST/mruby/$1/bin/* build/$2/bin/
   rm build/$2/bin/mruby-config
-  cp -v build/mruby/build/$1/lib/* build/$2/lib/
+  cp -v build/$HOST/mruby/$1/lib/* build/$2/lib/
   cp -v -R build/mruby/include build/$2/
 }
 
