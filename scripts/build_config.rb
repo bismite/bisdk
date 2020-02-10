@@ -66,7 +66,7 @@ end
 
 
 MRuby::Build.new do |conf|
-  toolchain :gcc
+  toolchain :clang
 
   # conf.enable_cxx_exception
   conf.enable_bintest = false
@@ -75,7 +75,7 @@ MRuby::Build.new do |conf|
   include_gems conf
 
   conf.cc do |cc|
-    cc.command = '/usr/bin/gcc'
+    cc.command = 'clang'
     cc.defines += COMMON_DEFINES
     cc.include_paths << "#{BUILD_DIR}/#{HOST}/include"
   end
@@ -87,7 +87,7 @@ MRuby::Build.new do |conf|
   end
 
   conf.cxx do |cxx|
-    cxx.command = '/usr/bin/g++'
+    cxx.command = 'clang++'
     cxx.defines += COMMON_DEFINES
     cxx.include_paths << "#{BUILD_DIR}/#{HOST}/include"
   end
@@ -99,7 +99,7 @@ MRuby::Build.new do |conf|
   end
 
   conf.linker do |linker|
-    linker.command = '/usr/bin/gcc'
+    linker.command = 'clang'
     linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
     # linker.libraries += %W(biext bi GLEW stdc++)
     linker.libraries += %W(bi biext GLEW)

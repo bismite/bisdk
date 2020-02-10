@@ -21,7 +21,7 @@ mkdir -p build/licenses
 # copy license files
 LICENSE_DIR=build/licenses/$HOST
 mkdir -p $LICENSE_DIR
-cp build/mruby/build/host/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
+cp build/$HOST/mruby/host/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
 if [ $HOST = "macos" ]; then
   cp build/macos/glew-2.1.0/LICENSE.txt $LICENSE_DIR/LICENSE.glew.txt
 fi
@@ -34,13 +34,15 @@ if [ $MINGW_AVAILABLE ]; then
   LICENSE_DIR=build/licenses/mingw
   mkdir -p $LICENSE_DIR
   cp build/x86_64-w64-mingw32/bin/*.txt $LICENSE_DIR/
-  cp build/mruby/build/mingw/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
+  cp build/$HOST/mruby/mingw/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
 
   cp src/licenses/mingw/* $LICENSE_DIR/
 
-  (cd $LICENSE_DIR; curl -OJL "https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/COPYING.MinGW-w64-runtime/COPYING.MinGW-w64-runtime.txt")
-  (cd $LICENSE_DIR; curl -OJL "https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/COPYING.MinGW-w64/COPYING.MinGW-w64.txt")
-  (cd $LICENSE_DIR; curl -L -o "COPYING.winpthreads.txt" "https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/mingw-w64-libraries/winpthreads/COPYING")
+  MINGW_LICENSE_FROM="https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0"
+  echo "Download mingw-w64 license files from $MINGW_LICENSE_FROM"
+  (cd $LICENSE_DIR; curl -OJL "${MINGW_LICENSE_FROM}/COPYING.MinGW-w64-runtime/COPYING.MinGW-w64-runtime.txt")
+  (cd $LICENSE_DIR; curl -OJL "${MINGW_LICENSE_FROM}/COPYING.MinGW-w64/COPYING.MinGW-w64.txt")
+  (cd $LICENSE_DIR; curl -L -o "COPYING.winpthreads.txt" "${MINGW_LICENSE_FROM}/mingw-w64-libraries/winpthreads/COPYING")
 
   cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
   cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
@@ -52,6 +54,7 @@ if [ $EMSCRIPTEN_AVAILABLE ]; then
   LICENSE_DIR=build/licenses/emscripten
   mkdir -p $LICENSE_DIR
 
+  cp build/$HOST/mruby/emscripten/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
   EMDIR=`which emcc`
   EMDIR=`dirname $EMDIR`
   # emscripten itself

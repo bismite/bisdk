@@ -40,14 +40,14 @@ def zip_release(dir,filename)
 end
 
 %w(
-  macos
-  linux
-  windows
-).each{|target|
+  macos macos
+  linux linux
+  x86_64-w64-mingw32 windows
+).each_slice(2){|target,name|
 
-  dir = "build/bisdk/#{target}"
-  filename = "bisdk-#{target}-#{TARGET_TAG}.zip"
-  zip = "build/bisdk/#{filename}"
+  dir = "build/#{target}"
+  filename = "bisdk-#{name}-#{TARGET_TAG}.zip"
+  zip = "build/#{filename}"
 
   if File.exist?(zip)
     if `find #{dir} -newer #{zip}`.empty?

@@ -27,17 +27,7 @@ else
 end
 
 assets = release.assets
-
-%w(
-  macos
-  linux
-  x86_64-w64-mingw32
-  emscripten
-).each{|platform|
-  filename = "template-#{platform}.zip"
-  assets.each{|asset|
-    next unless asset.name == filename
-    puts "remove #{filename}"
-    client.delete_release_asset asset.url
-  }
+assets.each{|asset|
+  puts "remove #{asset.name}"
+  client.delete_release_asset asset.url
 }
