@@ -31,8 +31,8 @@ _copy_license_files_ () {
 }
 
 # compile
-export PATH=$PWD/build/bisdk/$HOST/bisdk/bin:$PATH
-bicompile.rb src/main.rb build/template/main.mrb
+export PATH=$PWD/build/${HOST}/bin:$PATH
+./src/bicompile.rb src/main.rb build/template/main.mrb
 
 mkdir -p build/template/$HOST/
 if [ $HOST = "macos" ]; then
