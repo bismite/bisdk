@@ -15,10 +15,8 @@ EMSCRIPTEN_AVAILABLE = ENV['EMSCRIPTEN_AVAILABLE']
 OPTIMIZE = "-O3"
 C_STD="-std=gnu11"
 CXX_STD="-std=gnu++11"
-# COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wdeclaration-after-statement -Wwrite-strings)
-COMMON_CFLAGS = %W(-g -Wall -Werror-implicit-function-declaration -Wwrite-strings)
+COMMON_CFLAGS = %W( -DNDEBUG -Wall -Werror-implicit-function-declaration -Wwrite-strings)
 COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
-
 
 def include_gems(conf)
 
@@ -28,6 +26,8 @@ def include_gems(conf)
     conf.gem :core => g unless g =~ /^mruby-(bin-debugger|test)$/
   end
 
+  conf.gem mgem: 'mruby-os'
+  conf.gem mgem: 'mruby-env'
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
   # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
@@ -78,11 +78,10 @@ MRuby::Build.new do |conf|
     cc.command = 'clang'
     cc.defines += COMMON_DEFINES
     cc.include_paths << "#{BUILD_DIR}/#{HOST}/include"
+    cc.include_paths << "#{BUILD_DIR}/#{HOST}/include/SDL2"
   end
   conf.cc.flags = COMMON_CFLAGS + [ OPTIMIZE, C_STD ]
-  if FRAMEWORKS_DIR
-    conf.cc.flags += %W(-F #{FRAMEWORKS_DIR})
-  else
+  if HOST == "linux"
     conf.cc.flags << "`sdl2-config --cflags`"
   end
 
@@ -90,25 +89,22 @@ MRuby::Build.new do |conf|
     cxx.command = 'clang++'
     cxx.defines += COMMON_DEFINES
     cxx.include_paths << "#{BUILD_DIR}/#{HOST}/include"
+    cc.include_paths << "#{BUILD_DIR}/#{HOST}/include/SDL2"
   end
   conf.cxx.flags = COMMON_CFLAGS + [ OPTIMIZE, CXX_STD ]
-  if FRAMEWORKS_DIR
-    conf.cxx.flags += %W(-F #{FRAMEWORKS_DIR})
-  else
+  if HOST == "linux"
     conf.cxx.flags << "`sdl2-config --cflags`"
   end
 
   conf.linker do |linker|
     linker.command = 'clang'
     linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
-    # linker.libraries += %W(biext bi GLEW stdc++)
-    linker.libraries += %W(bi biext GLEW)
-    if FRAMEWORKS_DIR
-      linker.flags << "-F #{FRAMEWORKS_DIR}"
-      linker.flags << "-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
+    # linker.libraries << "stdc++"
+    linker.libraries += %W( bi biext GLEW SDL2 SDL2_image SDL2_mixer mpg123 )
+    if HOST == "macos"
+      linker.flags << "-framework OpenGL"
     else
       linker.libraries << "GL"
-      linker.flags_after_libraries << "`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
     end
   end
 end
@@ -144,7 +140,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
     linker.command = 'x86_64-w64-mingw32-g++'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
     linker.libraries += %w(biext bi glew32 opengl32)
-    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libstdc++ -static-libgcc"
+    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libstdc++ -static-libgcc -mconsole"
   end
 
   conf.exts do |exts|
