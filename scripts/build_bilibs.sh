@@ -50,7 +50,8 @@ fi
 # install libraries
 #
 if [ $HOST = "macos" ]; then
-  ./scripts/macos/install_sdl.sh
+  ./scripts/macos/install_sdl.rb
+  ./scripts/macos/install_sdl_image_and_mixer.rb
   ./scripts/macos/install_glew.sh
 fi
 if [ $MINGW_AVAILABLE ]; then
@@ -77,7 +78,7 @@ _copy_lib_ () {
 
 INSTALL_PATH="${BI_BUILDER_ROOT}/build/$HOST"
 _copy_headers_ $INSTALL_PATH
-INCLUDE_PATHS="-I ${INSTALL_PATH}/include"
+INCLUDE_PATHS="-I ${INSTALL_PATH}/include -I ${INSTALL_PATH}/include/SDL2"
 (cd $BI_CORE_DIR; make -f Makefile.$HOST.mk "INCLUDE_PATHS=$INCLUDE_PATHS")
 (cd $BI_EXT_DIR; make -f Makefile.$HOST.mk "INCLUDE_PATHS=$INCLUDE_PATHS")
 _copy_lib_ $HOST $INSTALL_PATH
