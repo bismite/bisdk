@@ -18,18 +18,29 @@ fi
 
 mkdir -p build/licenses
 
+#
 # copy license files
-LICENSE_DIR=build/licenses/$HOST
-mkdir -p $LICENSE_DIR
-cp build/$HOST/mruby/host/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
-if [ $HOST = "macos" ]; then
+#
+
+copy_linux_licenses () {
+  local LICENSE_DIR=build/licenses/$HOST
+  mkdir -p $LICENSE_DIR
+  cp build/$HOST/mruby/host/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
+  cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
+  cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
+}
+
+copy_macos_licenses () {
+  local LICENSE_DIR=build/licenses/$HOST
+  mkdir -p $LICENSE_DIR
+  cp build/$HOST/mruby/host/LEGAL $LICENSE_DIR/LEGAL.mruby.txt
   cp build/macos/glew-2.1.0/LICENSE.txt $LICENSE_DIR/LICENSE.glew.txt
-fi
-cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
-cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
+  cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
+  cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
+  cp build/macos/mpg123-1.25.13/COPYING $LICENSE_DIR/COPYING.mpg123.txt
+}
 
-
-if [ $MINGW_AVAILABLE ]; then
+copy_mingw_licenses () {
   # copy license files
   LICENSE_DIR=build/licenses/mingw
   mkdir -p $LICENSE_DIR
@@ -46,10 +57,9 @@ if [ $MINGW_AVAILABLE ]; then
 
   cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
   cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
-fi
+}
 
-
-if [ $EMSCRIPTEN_AVAILABLE ]; then
+copy_emscripten_licenses () {
   # copy license files
   LICENSE_DIR=build/licenses/emscripten
   mkdir -p $LICENSE_DIR
@@ -73,4 +83,18 @@ if [ $EMSCRIPTEN_AVAILABLE ]; then
   # bi
   cp build/bi-core/LICENSE $LICENSE_DIR/LICENSE.bi-core.txt
   cp build/bi-ext/LICENSE $LICENSE_DIR/LICENSE.bi-ext.txt
+}
+
+if [ $HOST = "macos" ]; then
+  copy_macos_licenses
+else
+  copy_linux_licenses
+fi
+
+if [ $MINGW_AVAILABLE ]; then
+  copy_mingw_licenses
+fi
+
+if [ $EMSCRIPTEN_AVAILABLE ]; then
+  copy_emscripten_licenses
 fi
