@@ -16,6 +16,11 @@ if type emcc > /dev/null 2>&1; then
   echo EMSCRIPTEN_AVAILABLE
 fi
 
+#
+# compile mrb
+#
+export PATH=$PWD/build/${HOST}/bin:$PATH
+./src/bicompile.rb src/main.rb build/template/main.mrb
 
 #
 # compile template main executable
@@ -30,42 +35,57 @@ _copy_license_files_ () {
   cp build/licenses/$1/* $2
 }
 
-# compile
-export PATH=$PWD/build/${HOST}/bin:$PATH
-./src/bicompile.rb src/main.rb build/template/main.mrb
-
-mkdir -p build/template/$HOST/
-if [ $HOST = "macos" ]; then
-  APP_MAIN_EXE="build/template/$HOST/template.app/Contents/Resources/main"
+build_macos_template () {
+  mkdir -p build/template/
+  local DIR="build/template/macos"
+  local RES_DIR="$DIR/template.app/Contents/Resources"
+  local APP_MAIN_EXE="$RES_DIR/main"
   # copy template
-  rsync -a --delete src/template.app build/template/$HOST/
+  rsync -a --delete src/template.app $DIR/
   # main executable
   ./scripts/build_biexec.rb $HOST src/main.c $APP_MAIN_EXE
-  cp build/template/main.mrb build/template/$HOST/template.app/Contents/Resources/
-  # copy frameworks
-  mkdir -p build/template/macos/template.app/Contents/Frameworks
-  rsync -a --delete $HOME/Library/Frameworks/SDL2* "build/template/macos/template.app/Contents/Frameworks/."
+  cp build/template/main.mrb $DIR/template.app/Contents/Resources/
+  # copy libs
+  mkdir -p $RES_DIR
+  cp build/macos/lib/libmpg123.0.dylib $RES_DIR
+  cp build/macos/lib/libSDL2-2.0.0.dylib $RES_DIR
+  cp build/macos/lib/libSDL2_mixer-2.0.0.dylib $RES_DIR
+  cp build/macos/lib/libSDL2_image-2.0.0.dylib $RES_DIR
   # update library search path
-  _update_link_ "SDL2" $APP_MAIN_EXE
-  _update_link_ "SDL2_image" $APP_MAIN_EXE
-  _update_link_ "SDL2_mixer" $APP_MAIN_EXE
-  otool -L $APP_MAIN_EXE
-  _copy_license_files_ macos build/template/$HOST/template.app/Contents/Resources/
-else
+  ./scripts/macos/update_install_name.rb
+  # copy licenses
+  _copy_license_files_ macos $DIR/licenses/
+}
+
+build_linux_template () {
+  mkdir -p build/template/$HOST/
   ./scripts/build_biexec.rb $HOST src/main.c build/template/$HOST/main
   cp build/template/main.mrb build/template/$HOST/main.mrb
   _copy_license_files_ linux build/template/linux/licenses
-fi
+}
 
-if [ $MINGW_AVAILABLE ]; then
+build_mingw_template () {
   ./scripts/build_biexec.rb mingw src/main.c build/template/x86_64-w64-mingw32/main.exe
   cp build/template/main.mrb build/template/x86_64-w64-mingw32/main.mrb
   # copy dlls for template
   cp build/x86_64-w64-mingw32/bin/*.dll build/template/x86_64-w64-mingw32/
   _copy_license_files_ mingw build/template/x86_64-w64-mingw32/licenses
-fi
-if [ $EMSCRIPTEN_AVAILABLE ]; then
+}
+
+build_emscripten_template () {
   ./scripts/build_biexec.rb emscripten src/main-emscripten.c src/support-emscripten.c build/template/emscripten/main.html
   cp build/template/main.mrb build/template/emscripten/main.mrb
   _copy_license_files_ emscripten build/template/emscripten/licenses
+}
+
+if [ $HOST = "macos" ]; then
+  build_macos_template
+else
+  build_linux_template
+fi
+if [ $MINGW_AVAILABLE ]; then
+  build_mingw_template
+fi
+if [ $EMSCRIPTEN_AVAILABLE ]; then
+  build_emscripten_template
 fi

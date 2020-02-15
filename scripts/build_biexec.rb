@@ -10,14 +10,13 @@ end
 class MacOS < Compiler
   HOST = "macos"
   CC = "clang"
-  INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
+  INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include -I #{BISDK_DIR}/build/#{HOST}/include/SDL2"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
 
-  LIBS="-lmruby -lbiext -lbi -lGLEW -lstdc++"
-  FRAMEWORKS_DIR = "-F #{Dir.home}/Library/Frameworks"
-  FRAMEWORKS="-framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework OpenGL"
-  CFLAGS="-std=gnu11 -O3 -Wall #{FRAMEWORKS_DIR}"
-  LDFLAGS="#{FRAMEWORKS_DIR} #{FRAMEWORKS}"
+  LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW -lstdc++"
+  FRAMEWORKS="-framework OpenGL"
+  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG"
+  LDFLAGS="#{FRAMEWORKS}"
 
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
@@ -33,7 +32,7 @@ class Linux < Compiler
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
   LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
-  CFLAGS="-std=c11 -O3 -Wall `sdl2-config --cflags`"
+  CFLAGS="-std=c11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
@@ -53,7 +52,7 @@ class Mingw < Compiler
 
   LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libstdc++ -static-libgcc"
 
-  CFLAGS="-std=gnu++11 -O3 -Wall `#{SDL2_CONFIG} --cflags`"
+  CFLAGS="-std=gnu++11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
   LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.available?
@@ -81,7 +80,7 @@ class Emscripten < Compiler
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
-  CFLAGS="-std=gnu++11 -g4 -Oz -Wall #{EM_CFLAGS}"
+  CFLAGS="-std=gnu++11 -DNDEBUG -Oz -Wall #{EM_CFLAGS}"
   LDFLAGS="#{EM_LDFLAGS}"
 
   def self.available?
