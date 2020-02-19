@@ -40,16 +40,39 @@ _copy_license_files_ "mingw" "x86_64-w64-mingw32"
 #
 # copy bisdk/bin
 #
-_copy_bin_ () {
+copy_bin () {
   local DIR="build/$1/bisdk/bin"
-  rsync -a --delete build/$1/bin/ $DIR/
-  rm $DIR/*.txt # license files in mingw
+  cp build/$1/bin/mruby $DIR/
+  cp build/$1/bin/mirb $DIR/
+  cp build/$1/bin/mrbc $DIR/
+  cp build/$1/bin/mruby-strip $DIR/
   cp src/bicompile.rb $DIR
   cp src/birun.rb $DIR
   cp src/biexport.rb $DIR
   cp src/bipackager.rb $DIR
 }
+copy_bin_mingw () {
+  local DIR="build/$1/bisdk/bin"
+  cp build/$1/bin/mruby.exe $DIR/
+  cp build/$1/bin/mirb.exe $DIR/
+  cp build/$1/bin/mrbc.exe $DIR/
+  cp build/$1/bin/mruby-strip.exe $DIR/
+  cp build/$1/bin/*.dll $DIR/
+  cp src/bicompile.rb $DIR
+  cp src/birun.rb $DIR
+  cp src/biexport.rb $DIR
+  cp src/bipackager.rb $DIR
+}
+copy_bin "macos"
+copy_bin "linux"
+copy_bin_mingw "x86_64-w64-mingw32"
 
-_copy_bin_ "macos"
-_copy_bin_ "linux"
-_copy_bin_ "x86_64-w64-mingw32"
+#
+# zip
+#
+zip_release () {
+  (cd build/$1/; zip --quiet --symlinks -r ../$2 bisdk -x '*/\__MACOSX' -x '*/\.*')
+}
+zip_release "macos" "bisdk-macos.zip"
+zip_release "linux" "bisdk-linux.zip"
+zip_release "x86_64-w64-mingw32" "bisdk-windows.zip"

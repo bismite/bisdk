@@ -1,13 +1,26 @@
 #!/usr/bin/env ruby
-require "colorize"
 require "fileutils"
+begin
+  require "colorize"
+rescue LoadError
+  String.class_eval do
+    alias :red :to_s
+    alias :green :to_s
+  end
+end
 
 FRAMEWORKS_DIR = "build/macos/Frameworks"
+LIB_DIR = "build/macos/lib"
+INCLUDE_DIR = "build/macos/include"
+BIN_DIR = "build/macos/bin"
 FileUtils.mkdir_p FRAMEWORKS_DIR
+FileUtils.mkdir_p LIB_DIR
+FileUtils.mkdir_p INCLUDE_DIR
+FileUtils.mkdir_p BIN_DIR
 
 def run(cmd)
   puts cmd.green
-  puts `#{cmd}`
+  system cmd
   unless $?.success?
     puts "exit status fail.".red
     exit 1
@@ -26,16 +39,15 @@ unless File.exists? "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
 end
 
 dir = "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
-lib_dir = "build/macos/lib"
 dylib_name = "libSDL2-2.0.0.dylib"
-dylib = "#{lib_dir}/#{dylib_name}"
-lib_name="#{Dir.pwd}/build/macos/lib/#{dylib_name}"
+dylib = "#{LIB_DIR}/#{dylib_name}"
+lib_name="#{Dir.pwd}/#{LIB_DIR}/#{dylib_name}"
 run "cp #{dir}/Versions/A/SDL2 #{dylib}"
-run "(cd #{lib_dir}; ln -sf #{dylib_name} libSDL2.dylib )"
+run "(cd #{LIB_DIR}; ln -sf #{dylib_name} libSDL2.dylib )"
 run "install_name_tool -id #{lib_name} #{dylib}"
 run "codesign --remove-signature #{dylib}"
 run "otool -L #{dylib}"
-run "rsync -av #{dir}/Versions/A/Headers/ build/macos/include/SDL2"
+run "rsync -av #{dir}/Versions/A/Headers/ #{INCLUDE_DIR}/SDL2"
 
-run "cp -f src/sdl2-config.rb build/macos/bin/sdl2-config"
-run "chmod +x build/macos/bin/sdl2-config"
+run "cp -f src/sdl2-config.rb #{BIN_DIR}/sdl2-config"
+run "chmod +x #{BIN_DIR}/sdl2-config"

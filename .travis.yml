@@ -16,6 +16,7 @@ matrix:
             - bison
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
+  - gem install colorize
   - |
     git clone https://github.com/emscripten-core/emsdk.git
     cd emsdk

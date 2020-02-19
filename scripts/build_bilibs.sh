@@ -25,7 +25,20 @@ export BI_EXT_DIR=build/bi-ext
 mkdir build
 
 #
-# download
+# install libraries
+#
+if [ $HOST = "macos" ]; then
+  ./scripts/macos/install_sdl.rb
+  ./scripts/macos/install_sdl_image_and_mixer.rb
+  ./scripts/macos/install_glew.sh
+fi
+if [ $MINGW_AVAILABLE ]; then
+  ./scripts/mingw/install_sdl.sh
+  ./scripts/mingw/install_glew.sh
+fi
+
+#
+# download bi-core and bi-ext
 #
 
 if [ ! -e $BI_CORE_DIR ]; then
@@ -44,19 +57,6 @@ if [ ! -e $BI_EXT_DIR ]; then
     cp -R $BI_EXT build/
     rm -rf $BI_EXT_DIR/build
   fi
-fi
-
-#
-# install libraries
-#
-if [ $HOST = "macos" ]; then
-  ./scripts/macos/install_sdl.rb
-  ./scripts/macos/install_sdl_image_and_mixer.rb
-  ./scripts/macos/install_glew.sh
-fi
-if [ $MINGW_AVAILABLE ]; then
-  ./scripts/mingw/install_sdl.sh
-  ./scripts/mingw/install_glew.sh
 fi
 
 #

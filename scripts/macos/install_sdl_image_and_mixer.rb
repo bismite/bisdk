@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
-require "colorize"
+begin
+  require "colorize"
+rescue LoadError
+  String.class_eval do
+    alias :red :to_s
+    alias :green :to_s
+  end
+end
 
 ENV['PATH']="/Users/k2/git/bismite/bisdk/build/macos/bin:" + ENV['PATH']
 
@@ -11,7 +18,7 @@ ENV['LIBRARY_PATH']="#{PREFIX}/lib"
 
 def run(cmd)
   puts cmd.green
-  puts `#{cmd}`
+  system cmd
   unless $?.success?
     puts "exit status fail.".red
     exit 1
@@ -20,7 +27,6 @@ end
 
 [
   %w( https://mpg123.de/download/ mpg123-1.25.13 .tar.bz2 libmpg123.0.dylib) ,
-  %w( https://www.libsdl.org/release/ SDL2-2.0.10 .tar.gz libSDL2-2.0.0.dylib) ,
   %w( https://www.libsdl.org/projects/SDL_mixer/release/ SDL2_mixer-2.0.4 .tar.gz libSDL2_mixer-2.0.0.dylib) ,
   %w( https://www.libsdl.org/projects/SDL_image/release/ SDL2_image-2.0.5 .tar.gz libSDL2_image-2.0.0.dylib)
 ].each{|server,name,ext,lib|
