@@ -25,4 +25,4 @@ before_install:
     source ./emsdk_env.sh
     cd ../
 script:
-  - "sh scripts/setup.rb"
+  - "./scripts/setup.rb"
