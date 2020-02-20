@@ -52,7 +52,7 @@ build_macos_template () {
   cp build/macos/lib/libSDL2_mixer-2.0.0.dylib $RES_DIR
   cp build/macos/lib/libSDL2_image-2.0.0.dylib $RES_DIR
   # update library search path
-  ./scripts/macos/update_install_name.rb
+  ./scripts/macos/update_install_name.rb "build/template/macos/template.app/Contents/Resources" "main"
   # copy licenses
   _copy_license_files_ macos $DIR/licenses/
 }

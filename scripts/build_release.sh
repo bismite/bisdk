@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#
-# create release package
-#
-
-
 mkdir -p build/macos/bisdk
 mkdir -p build/linux/bisdk
 mkdir -p build/x86_64-w64-mingw32/bisdk
@@ -42,6 +37,7 @@ _copy_license_files_ "mingw" "x86_64-w64-mingw32"
 #
 copy_bin () {
   local DIR="build/$1/bisdk/bin"
+  mkdir -p $DIR
   cp build/$1/bin/mruby $DIR/
   cp build/$1/bin/mirb $DIR/
   cp build/$1/bin/mrbc $DIR/
@@ -51,8 +47,20 @@ copy_bin () {
   cp src/biexport.rb $DIR
   cp src/bipackager.rb $DIR
 }
+copy_lib_macos () {
+  local src="build/template/macos/template.app/Contents/Resources"
+  local DIR="build/macos/bisdk/bin"
+  mkdir -p $DIR
+  cp $src/libmpg123.0.dylib $DIR/
+  cp $src/libSDL2-2.0.0.dylib $DIR/
+  cp $src/libSDL2_image-2.0.0.dylib $DIR/
+  cp $src/libSDL2_mixer-2.0.0.dylib $DIR/
+  # install name
+  ./scripts/macos/update_install_name.rb "$DIR" mruby mirb mrbc mruby-strip
+}
 copy_bin_mingw () {
   local DIR="build/$1/bisdk/bin"
+  mkdir -p $DIR
   cp build/$1/bin/mruby.exe $DIR/
   cp build/$1/bin/mirb.exe $DIR/
   cp build/$1/bin/mrbc.exe $DIR/
@@ -64,6 +72,7 @@ copy_bin_mingw () {
   cp src/bipackager.rb $DIR
 }
 copy_bin "macos"
+copy_lib_macos
 copy_bin "linux"
 copy_bin_mingw "x86_64-w64-mingw32"
 
@@ -71,6 +80,7 @@ copy_bin_mingw "x86_64-w64-mingw32"
 # zip
 #
 zip_release () {
+  rm build/$2
   (cd build/$1/; zip --quiet --symlinks -r ../$2 bisdk -x '*/\__MACOSX' -x '*/\.*')
 }
 zip_release "macos" "bisdk-macos.zip"

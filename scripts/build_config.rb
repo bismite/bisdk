@@ -100,8 +100,9 @@ MRuby::Build.new do |conf|
     linker.command = 'clang'
     linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
     # linker.libraries << "stdc++"
-    linker.libraries += %W( bi biext GLEW SDL2 SDL2_image SDL2_mixer mpg123 )
+    linker.libraries += %W( bi biext GLEW SDL2 SDL2_image SDL2_mixer )
     if HOST == "macos"
+      linker.libraries << "mpg123"
       linker.flags << "-framework OpenGL"
     else
       linker.libraries << "GL"
