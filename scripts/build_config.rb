@@ -26,8 +26,9 @@ def include_gems(conf)
     conf.gem :core => g unless g =~ /^mruby-(bin-debugger|test)$/
   end
 
-  conf.gem mgem: 'mruby-os'
-  conf.gem mgem: 'mruby-env'
+  conf.gem github: 'appPlant/mruby-os'
+  conf.gem github: 'iij/mruby-env'
+  conf.gem github: 'appPlant/mruby-process'
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
   # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
