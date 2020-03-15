@@ -42,8 +42,8 @@ copy_bin () {
   cp build/$1/bin/mirb $DIR/
   cp build/$1/bin/mrbc $DIR/
   cp build/$1/bin/mruby-strip $DIR/
-  cp src/bicompile.rb $DIR
-  cp src/birun.rb $DIR
+  cp build/$1/bin/bicompile $DIR/
+  cp build/$1/bin/birun $DIR/
   cp src/biexport.rb $DIR
   cp src/bipackager.rb $DIR
 }
@@ -65,9 +65,9 @@ copy_bin_mingw () {
   cp build/$1/bin/mirb.exe $DIR/
   cp build/$1/bin/mrbc.exe $DIR/
   cp build/$1/bin/mruby-strip.exe $DIR/
+  cp build/$1/bin/bicompile.exe $DIR/
+  cp build/$1/bin/birun.exe $DIR/
   cp build/$1/bin/*.dll $DIR/
-  cp src/bicompile.rb $DIR
-  cp src/birun.rb $DIR
   cp src/biexport.rb $DIR
   cp src/bipackager.rb $DIR
 }
