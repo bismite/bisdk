@@ -35,7 +35,12 @@ _copy_license_files_ "mingw" "x86_64-w64-mingw32"
 #
 # copy bisdk/bin
 #
-copy_bin () {
+copy_scripts () {
+  cp src/biexport.rb $1/biexport
+  cp src/bipackassets.rb $1/bipackassets
+  cp src/biunpackassets.rb $1/biunpackassets
+}
+copy_exec () {
   local DIR="build/$1/bisdk/bin"
   mkdir -p $DIR
   cp build/$1/bin/mruby $DIR/
@@ -44,8 +49,7 @@ copy_bin () {
   cp build/$1/bin/mruby-strip $DIR/
   cp build/$1/bin/bicompile $DIR/
   cp build/$1/bin/birun $DIR/
-  cp src/biexport.rb $DIR
-  cp src/bipackager.rb $DIR
+  copy_scripts $DIR
 }
 copy_lib_macos () {
   local src="build/template/macos/template.app/Contents/Resources"
@@ -58,7 +62,7 @@ copy_lib_macos () {
   # install name
   ./scripts/macos/update_install_name.rb "$DIR" mruby mirb mrbc mruby-strip
 }
-copy_bin_mingw () {
+copy_exec_mingw () {
   local DIR="build/$1/bisdk/bin"
   mkdir -p $DIR
   cp build/$1/bin/mruby.exe $DIR/
@@ -68,13 +72,14 @@ copy_bin_mingw () {
   cp build/$1/bin/bicompile.exe $DIR/
   cp build/$1/bin/birun.exe $DIR/
   cp build/$1/bin/*.dll $DIR/
-  cp src/biexport.rb $DIR
-  cp src/bipackager.rb $DIR
+  # scripts and batch file
+  copy_scripts $DIR
+  cp src/mingw/*.bat $DIR
 }
-copy_bin "macos"
+copy_exec "macos"
 copy_lib_macos
-copy_bin "linux"
-copy_bin_mingw "x86_64-w64-mingw32"
+copy_exec "linux"
+copy_exec_mingw "x86_64-w64-mingw32"
 
 #
 # zip

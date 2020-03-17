@@ -1,6 +1,6 @@
 #!/usr/bin/env mruby
 
-# usage: biexport.rb {macos|linux|windows|emscripten} MRB_FILE ASSETS_FILE DST_DIR
+# usage: biexport {macos|linux|windows|emscripten} MRB_FILE ASSETS_FILE DST_DIR
 
 def run(command)
   puts command
@@ -33,7 +33,7 @@ end
 
 def compile(src,target)
   if src.end_with? ".rb"
-    cmd = "bicompile.rb #{src} #{target}"
+    cmd = "bicompile #{src} #{target}"
     puts cmd
     `#{cmd}`
   elsif src.end_with? ".mrb"
