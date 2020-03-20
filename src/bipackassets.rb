@@ -35,9 +35,6 @@ File.open(dat,'wb') do |out|
   index = $index.to_msgpack
   index_length = index.bytes.length
 
-  puts index.unpack("C*").map{|c| "%X" % c}.join
-  puts "index_length: #{index_length}"
-
   out.write [0].pack('V') # 32bit unsigned Little Endian
   out.write [index_length].pack('V') # 32bit unsigned Little Endian
   out.write index
