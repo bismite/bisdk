@@ -7,6 +7,14 @@ class Compiler
   MRB_FLAGS="-DMRB_INT64 -DMRB_UTF8_STRING"
 end
 
+def run(cmd)
+  puts cmd
+  system cmd
+  unless $?.success?
+    exit 1
+  end
+end
+
 class MacOS < Compiler
   HOST = "macos"
   CC = "clang"
@@ -21,8 +29,7 @@ class MacOS < Compiler
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
-    puts cmd
-    system cmd
+    run cmd
   end
 end
 
@@ -38,8 +45,7 @@ class Linux < Compiler
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
-    puts cmd
-    system cmd
+    run cmd
   end
 end
 
@@ -63,8 +69,7 @@ class Mingw < Compiler
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
-    puts cmd
-    system cmd
+    run cmd
   end
 end
 
@@ -90,8 +95,7 @@ class Emscripten < Compiler
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
-    puts cmd
-    system cmd
+    run cmd
   end
 end
 
