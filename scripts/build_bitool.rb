@@ -9,6 +9,9 @@ rescue LoadError
   end
 end
 
+PLATFORM = RUBY_PLATFORM =~ /darwin/ ? "macos" : "linux"
+MRBC="./build/#{PLATFORM}/bin/mrbc"
+
 def which(cmd)
   exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
   ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
@@ -34,7 +37,7 @@ DIR = "build/tools"
 FileUtils.mkdir_p DIR
 %w( bicompile.c birun.c bitool.h bitool.rb ).each{|f| FileUtils.copy "src/bitool/#{f}", DIR }
 
-run "mrbc -B bitool_rb -o #{DIR}/bitool_rb.h #{DIR}/bitool.rb"
+run "#{MRBC} -B bitool_rb -o #{DIR}/bitool_rb.h #{DIR}/bitool.rb"
 
 class MacOS
   def self.compile
@@ -44,6 +47,19 @@ class MacOS
       cmd << " -I build/macos/include -I build/macos/include/SDL2"
       cmd << " -L build/macos/lib -lmruby -lbi -lbiext -lSDL2 -lSDL2_mixer -lSDL2_image"
       cmd << " -lGLEW -framework OpenGL"
+      run cmd
+    }
+  end
+end
+
+class Linux
+  def self.compile
+    %w(bicompile birun).each{|name|
+      outfile = "build/linux/bin/#{name}"
+      cmd = "clang -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
+      cmd << " -I build/linux/include `sdl2-config --cflags`"
+      cmd << " -L build/linux/lib -lmruby -lbi -lbiext `sdl2-config --libs` -lSDL2_mixer -lSDL2_image"
+      cmd << " -lGLEW -lm -lGL"
       run cmd
     }
   end
@@ -69,12 +85,11 @@ class Mingw
   end
 end
 
-PLATFORM = RUBY_PLATFORM =~ /darwin/ ? "macos" : "linux"
 
 if PLATFORM == "macos"
   MacOS.compile
 else
-  linux
+  Linux.compile
 end
 
 if which "x86_64-w64-mingw32-gcc"
