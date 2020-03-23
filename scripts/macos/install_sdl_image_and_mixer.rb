@@ -37,11 +37,11 @@ end
   url = server+name+ext
   zip = name+ext
   # "-C -" continue download
-  run "curl --progress-bar -S -L -C - -o build/macos/#{zip} #{url}"
+  run "curl --progress-bar -S -L -C - -o build/download/#{zip} #{url}"
   if ext.end_with? "bz2"
-    run "(cd build/macos; tar jxf #{zip})"
+    run "tar jxf build/download/#{zip} -C build/macos"
   else
-    run "(cd build/macos; tar zxf #{zip})"
+    run "tar zxf build/download/#{zip} -C build/macos"
   end
 
   # compile

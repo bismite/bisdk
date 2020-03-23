@@ -30,10 +30,10 @@ end
 SDL2_FRAMEWORK = "SDL2.framework"
 SDL2_DMG = "SDL2-2.0.10.dmg"
 
-run "curl --progress-bar -S -L -C - -o build/macos/#{SDL2_DMG} https://www.libsdl.org/release/#{SDL2_DMG}"
+run "curl --progress-bar -S -L -C - -o build/download/#{SDL2_DMG} https://www.libsdl.org/release/#{SDL2_DMG}"
 
 unless File.exists? "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
-  run "hdiutil attach build/macos/#{SDL2_DMG}"
+  run "hdiutil attach build/download/#{SDL2_DMG}"
   run "cp -R /Volumes/SDL2/#{SDL2_FRAMEWORK} #{FRAMEWORKS_DIR}"
   run "hdiutil detach /Volumes/SDL2"
 end

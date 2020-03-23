@@ -74,6 +74,7 @@ build_mingw_template () {
 
 build_emscripten_template () {
   ./scripts/build_biexec.rb emscripten src/main-emscripten.c src/support-emscripten.c build/template/emscripten/main.html
+  ret=$?; if [ $ret != 0 ]; then exit $ret; fi
   cp build/template/main.mrb build/template/emscripten/main.mrb
   _copy_license_files_ emscripten build/template/emscripten/licenses
 }
