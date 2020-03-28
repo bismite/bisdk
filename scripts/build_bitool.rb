@@ -43,7 +43,7 @@ class MacOS
   def self.compile
     %w(bicompile birun).each{|name|
       outfile = "build/macos/bin/#{name}"
-      cmd = "clang -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
+      cmd = "clang -Os -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
       cmd << " -I build/macos/include -I build/macos/include/SDL2"
       cmd << " -L build/macos/lib -lmruby -lbi -lbiext -lSDL2 -lSDL2_mixer -lSDL2_image"
       cmd << " -lGLEW -framework OpenGL"
@@ -56,7 +56,7 @@ class Linux
   def self.compile
     %w(bicompile birun).each{|name|
       outfile = "build/linux/bin/#{name}"
-      cmd = "clang -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
+      cmd = "clang -Os -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
       cmd << " -I build/linux/include `sdl2-config --cflags`"
       cmd << " -L build/linux/lib -lmruby -lbi -lbiext `sdl2-config --libs` -lSDL2_mixer -lSDL2_image"
       cmd << " -lGLEW -lm -lGL"
@@ -73,7 +73,7 @@ class Mingw
     %w(birun bicompile).each{|name|
       outfile = "build/x86_64-w64-mingw32/bin/#{name}.exe"
       cmd = "x86_64-w64-mingw32-g++ -o #{outfile} #{DIR}/#{name}.c"
-      cmd << " -O3 -Wall -DNDEBUG -std=gnu++11 "
+      cmd << " -Os -Wall -DNDEBUG -std=gnu++11 "
       cmd << " `#{SDL2_CONFIG} --cflags`"
       cmd << " #{MRB_FLAGS}"
       cmd << " -I build/x86_64-w64-mingw32/include"
