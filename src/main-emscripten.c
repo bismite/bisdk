@@ -53,8 +53,8 @@ void downloadProgress(emscripten_fetch_t *fetch) {
 
 int main(int argc, char* argv[])
 {
-  emscripten_set_mousedown_callback(0, NULL, EM_FALSE, on_mouse_click);
-  emscripten_set_touchstart_callback(0, NULL, EM_FALSE, on_touch);
+  // emscripten_set_mousedown_callback(0, NULL, EM_FALSE, on_mouse_click);
+  // emscripten_set_touchstart_callback(0, NULL, EM_FALSE, on_touch);
 
   emscripten_fetch_attr_t attr;
   emscripten_fetch_attr_init(&attr);
