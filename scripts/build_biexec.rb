@@ -81,7 +81,7 @@ class Emscripten < Compiler
 
   EM_LIB_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
   EM_MEMORY_FLAGS="-s ALLOW_MEMORY_GROWTH=1 -s TOTAL_MEMORY=1024Mb -s WASM_MEM_MAX=1024Mb"
-  EM_FLAGS="-s WASM=1 #{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} -s FETCH=1 -s DISABLE_EXCEPTION_CATCHING=0"
+  EM_FLAGS="-s WASM=1 #{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} -s FETCH=1 -s DISABLE_EXCEPTION_CATCHING=0 -s ERROR_ON_UNDEFINED_SYMBOLS=0"
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
@@ -94,7 +94,7 @@ class Emscripten < Compiler
   end
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
-    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
+    cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
     run cmd
   end
 end

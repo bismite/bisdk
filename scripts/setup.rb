@@ -20,5 +20,5 @@ end
 run "./scripts/build_bilibs.sh"
 run "./scripts/build_mruby.sh"
 run "./scripts/licenses.sh"
-run "./scripts/build_template.sh"
 run "./scripts/build_bitool.rb"
+run "./scripts/build_template.sh"

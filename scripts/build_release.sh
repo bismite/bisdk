@@ -59,6 +59,7 @@ copy_lib_macos () {
   cp $src/libSDL2-2.0.0.dylib $DIR/
   cp $src/libSDL2_image-2.0.0.dylib $DIR/
   cp $src/libSDL2_mixer-2.0.0.dylib $DIR/
+  cp $src/libhidapi.dylib $DIR/
   # install name
   ./scripts/macos/update_install_name.rb "$DIR" mruby mirb mrbc mruby-strip
 }

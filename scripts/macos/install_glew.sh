@@ -4,6 +4,7 @@ echo "* * * install GLEW for macos * * *"
 
 GLEW_URL="https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz"
 
+mkdir -p build/download
 mkdir -p build/macos/lib
 mkdir -p build/macos/include
 

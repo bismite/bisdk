@@ -17,6 +17,7 @@ libs = %w(
   libSDL2-2.0.0.dylib
   libSDL2_mixer-2.0.0.dylib
   libSDL2_image-2.0.0.dylib
+  libhidapi.dylib
 )
 targets += libs
 

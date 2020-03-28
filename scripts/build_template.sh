@@ -16,11 +16,20 @@ if type emcc > /dev/null 2>&1; then
   echo EMSCRIPTEN_AVAILABLE
 fi
 
+run () {
+  echo $1
+  $1
+  ret=$?; if [ $ret != 0 ]; then
+    echo "failed..."
+    exit $ret;
+  fi
+}
+
 #
 # compile mrb
 #
 export PATH=$PWD/build/${HOST}/bin:$PATH
-./src/bicompile.rb src/main.rb build/template/main.mrb
+run "bicompile src/main.rb build/template/main.mrb"
 
 #
 # compile template main executable
@@ -41,7 +50,8 @@ build_macos_template () {
   local RES_DIR="$DIR/template.app/Contents/Resources"
   local APP_MAIN_EXE="$RES_DIR/main"
   # copy template
-  rsync -a --delete src/template.app $DIR/
+  # rsync -a --delete src/template.app $DIR/
+  cp -R src/template.app $DIR/
   # main executable
   ./scripts/build_biexec.rb $HOST src/main.c $APP_MAIN_EXE
   cp build/template/main.mrb $DIR/template.app/Contents/Resources/
@@ -51,6 +61,7 @@ build_macos_template () {
   cp build/macos/lib/libSDL2-2.0.0.dylib $RES_DIR
   cp build/macos/lib/libSDL2_mixer-2.0.0.dylib $RES_DIR
   cp build/macos/lib/libSDL2_image-2.0.0.dylib $RES_DIR
+  cp build/macos/lib/libhidapi.dylib $RES_DIR
   # update library search path
   ./scripts/macos/update_install_name.rb "build/template/macos/template.app/Contents/Resources" "main"
   # copy licenses
