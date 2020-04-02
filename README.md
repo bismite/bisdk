@@ -10,7 +10,7 @@ setup.sh requires ruby, SDL2, GLEW, bison etc.
 in ubuntu 18.04, may install required packages via:
 
 ```
-sudo apt-get install clang libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libglew-dev ruby2.5 bison git
+sudo apt-get install clang libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libglew-dev ruby2.5 bison git curl
 ```
 
 # License

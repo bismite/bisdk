@@ -30,6 +30,7 @@ MRUBY_DIR="mruby-2.1.0"
 #
 # build mruby
 #
+mkdir -p build/download
 if [ ! -e build/download/mruby-2.1.0.tar.gz ]; then
   curl --progress-bar -S -L -o build/download/mruby-2.1.0.tar.gz https://github.com/mruby/mruby/archive/2.1.0.tar.gz
 fi
