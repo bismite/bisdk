@@ -61,7 +61,7 @@ copy_lib_macos () {
   cp $src/libSDL2_mixer-2.0.0.dylib $DIR/
   cp $src/libhidapi.dylib $DIR/
   # install name
-  ./scripts/macos/update_install_name.rb "$DIR" mruby mirb mrbc mruby-strip
+  ./scripts/macos/update_install_name.rb "$DIR" mruby mirb mrbc mruby-strip bicompile birun
 }
 copy_exec_mingw () {
   local DIR="build/$1/bisdk/bin"

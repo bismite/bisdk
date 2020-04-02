@@ -61,7 +61,7 @@ static char* _construct_error_text(struct mrb_parser_state *p)
   return error_text;
 }
 
-static mrb_value _load(mrb_state *mrb, struct mrb_parser_state **p, const char* filename, const char* source, bool exec)
+char* _load(mrb_state *mrb, struct mrb_parser_state **p, const char* filename, const char* source, bool exec, mrb_value *obj)
 {
   mrbc_context *c = mrbc_context_new(mrb);
   c->dump_result = FALSE;
@@ -71,12 +71,18 @@ static mrb_value _load(mrb_state *mrb, struct mrb_parser_state **p, const char* 
   mrbc_filename(mrb, c, filename);
   // mrb_gv_set(mrb, mrb_intern_lit(mrb, "$0"), mrb_str_new_cstr(mrb, filename));
 
-  mrb_value obj;
+  char *error_text=NULL;
   *p = mrb_parse_nstring(mrb, source, strlen(source), c);
-  obj = mrb_load_exec(mrb, *p, c);
+  if( (*p)->nerr > 0 ) {
+    error_text = _construct_error_text(*p);
+  }else if(obj!=NULL){
+    *obj = mrb_load_exec(mrb, *p, c);
+  }else{
+    mrb_load_exec(mrb, *p, c);
+  }
   mrbc_context_free(mrb, c);
 
-  return obj;
+  return error_text;
 }
 
 static char* _run(const char* filename, const char* source, int argc, const char* argv[])
@@ -84,28 +90,23 @@ static char* _run(const char* filename, const char* source, int argc, const char
   mrb_state *mrb = mrb_open();
   _define_argv(mrb,argc,argv);
   struct mrb_parser_state *p;
-  _load(mrb,&p,filename,source,true);
-  return _construct_error_text(p);
+  return _load(mrb,&p,filename,source,true,NULL);
 }
 
 static char* _check_syntax(const char* filename, const char* source)
 {
   mrb_state *mrb = mrb_open();
   struct mrb_parser_state *p;
-  _load(mrb,&p,filename,source,false);
-  return _construct_error_text(p);
+  return _load(mrb,&p,filename,source,false,NULL);
 }
 
 static char* _compile(const char* filename, const char* source, const char* outfile)
 {
   const size_t ERROR_TEXT_BUFFER_SIZE = 1024;
   mrb_state *mrb = mrb_open();
-  char* error_text;
-
   struct mrb_parser_state *p;
-  mrb_value obj = _load(mrb,&p,filename,source,false);
-
-  error_text = _construct_error_text(p);
+  mrb_value obj;
+  char *error_text = _load(mrb,&p,filename,source,false,&obj);
   if(error_text){
     return error_text;
   }
