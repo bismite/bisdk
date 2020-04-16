@@ -69,7 +69,7 @@ char* _load(mrb_state *mrb, struct mrb_parser_state **p, const char* filename, c
   c->capture_errors = TRUE;
 
   mrbc_filename(mrb, c, filename);
-  // mrb_gv_set(mrb, mrb_intern_lit(mrb, "$0"), mrb_str_new_cstr(mrb, filename));
+  mrb_gv_set(mrb, mrb_intern_lit(mrb, "$0"), mrb_str_new_cstr(mrb, filename));
 
   char *error_text=NULL;
   *p = mrb_parse_nstring(mrb, source, strlen(source), c);
