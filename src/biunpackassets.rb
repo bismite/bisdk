@@ -25,9 +25,9 @@ def mkdir_p(dst)
   end
 end
 
-Bi::Archive.fetch(SRC){|dat|
+Bi::Archive.new(SRC,SECRET).load{|dat|
   dat.filenames.each{|f|
-    bin = dat.read f, SECRET
+    bin = dat.read f
     path = File.join(DST,f)
     dir = File.dirname path
     mkdir_p dir
