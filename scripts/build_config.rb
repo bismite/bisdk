@@ -69,7 +69,6 @@ end
 MRuby::Build.new do |conf|
   toolchain :clang
 
-  # conf.enable_cxx_exception
   conf.enable_bintest = false
   conf.enable_test = false
 
@@ -116,7 +115,6 @@ MRuby::CrossBuild.new('mingw') do |conf|
   toolchain :gcc
   conf.host_target = "x86_64-w64-mingw32"
 
-  conf.enable_cxx_exception
   conf.enable_bintest = false
   conf.enable_test = false
 
@@ -142,7 +140,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
     linker.command = 'x86_64-w64-mingw32-g++'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
     linker.libraries += %w(biext bi glew32 opengl32)
-    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libstdc++ -static-libgcc -mconsole"
+    linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libgcc -mconsole"
   end
 
   conf.exts do |exts|
@@ -156,7 +154,6 @@ end if MINGW_AVAILABLE
 MRuby::CrossBuild.new('emscripten') do |conf|
   toolchain :clang
 
-  conf.enable_cxx_exception
   conf.enable_bintest = false
   conf.enable_test = false
 
@@ -182,7 +179,7 @@ MRuby::CrossBuild.new('emscripten') do |conf|
   end
 
   conf.linker do |linker|
-    linker.command = 'em++'
+    linker.command = 'emcc'
     linker.library_paths << "#{BUILD_DIR}/emscripten/lib"
     linker.libraries += %w(biext bi)
     linker.flags += emscripten_flags

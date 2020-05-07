@@ -39,7 +39,7 @@ class Linux < Compiler
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
   LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
-  CFLAGS="-std=c11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
+  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
@@ -50,15 +50,15 @@ class Linux < Compiler
 end
 
 class Mingw < Compiler
-  CC="x86_64-w64-mingw32-g++"
+  CC="x86_64-w64-mingw32-gcc"
 
   SDL2_CONFIG="#{BISDK_DIR}/build/x86_64-w64-mingw32/bin/sdl2-config"
   INCLUDE_PATHS="-I #{BISDK_DIR}/build/x86_64-w64-mingw32/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/x86_64-w64-mingw32/lib"
 
-  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libstdc++ -static-libgcc"
+  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libgcc"
 
-  CFLAGS="-std=gnu++11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
+  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
   LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.available?
@@ -74,7 +74,7 @@ class Mingw < Compiler
 end
 
 class Emscripten < Compiler
-  CC="em++"
+  CC="emcc"
   INCLUDE_PATHS="-I #{BISDK_DIR}/build/emscripten/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/emscripten/lib"
   LIBS="-lmruby -lbiext -lbi"
@@ -85,8 +85,10 @@ class Emscripten < Compiler
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
-  CFLAGS="-std=gnu++11 -DNDEBUG -Oz -Wall #{EM_CFLAGS}"
+  CFLAGS="-std=gnu11 -DNDEBUG -Oz -Wall #{EM_CFLAGS}"
   LDFLAGS="#{EM_LDFLAGS}"
+
+  SHELL="--shell-file src/shell/shell_bisdk.html"
 
   def self.available?
     `type emcc > /dev/null 2>&1`
@@ -94,7 +96,7 @@ class Emscripten < Compiler
   end
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
-    cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
+    cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS} #{SHELL}"
     run cmd
   end
 end
