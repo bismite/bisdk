@@ -1,0 +1,33 @@
+mruby:
+  -
+    - https://github.com/mruby/mruby/archive/2.1.0.tar.gz
+    - mruby-2.1.0.tar.gz
+  - c01a4bbf62e6f5765c70b8813e0ce7da
+macos:
+  - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz
+  - b2ab12331033ddfaa50dc39345343980
+  - https://www.libsdl.org/release/SDL2-2.0.12.dmg
+  - d052b76525bbf401af23e3ead8b07822
+  - https://mpg123.de/download/mpg123-1.25.13.tar.bz2
+  - 294a6c30546504ec3d0deac2b2ea22be
+  - https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz
+  - f26f3a153360a8f09ed5220ef7b07aea
+  - https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.tar.gz
+  - a36e8410cac46b00a4d01752b32c3eb1
+mingw:
+  - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip
+  - 32a72e6b43367db8dbea6010cd095355
+  - https://www.libsdl.org/release/SDL2-devel-2.0.10-mingw.tar.gz
+  - 9557cc8b9a6380b6c18a4ec29c575274
+  - https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.5-mingw.tar.gz
+  - 2704080296a24b765ce1e9c3c427a970
+  - https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-mingw.tar.gz
+  - 067275e50b40aed65dc472b9964c1d38
+  - https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/COPYING.MinGW-w64-runtime/COPYING.MinGW-w64-runtime.txt
+  - 3edacf7e64e1b7a634666ac043f6b13c
+  - https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+  - 5bb2c9f26ed3acd4c9cfa4445a7a9772
+  -
+    - https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/mingw-w64-libraries/winpthreads/COPYING
+    - COPYING.winpthreads.txt
+  - 06a442d2c46dd1e90807932a0c544789

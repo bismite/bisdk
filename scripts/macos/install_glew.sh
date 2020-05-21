@@ -2,18 +2,11 @@
 
 echo "* * * install GLEW for macos * * *"
 
-GLEW_URL="https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz"
-
-mkdir -p build/download
 mkdir -p build/macos/lib
 mkdir -p build/macos/include
 
 if [ ! -e build/macos/glew-2.1.0/lib/libGLEW.a ]; then
   if [ ! -e build/macos/glew-2.1.0 ]; then
-    if [ ! -e build/download/glew-2.1.0.tgz ]; then
-      echo "Download ${GLEW_URL}"
-      curl --progress-bar -S -L -o build/download/glew-2.1.0.tgz $GLEW_URL
-    fi
     tar zxf build/download/glew-2.1.0.tgz -C build/macos/
   fi
   (cd build/macos/glew-2.1.0; make glew.lib.static)

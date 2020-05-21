@@ -9,6 +9,7 @@ rescue LoadError
   end
 end
 
+
 SDL2_FRAMEWORK = "SDL2.framework"
 SDL2_DMG = "SDL2-2.0.12.dmg"
 
@@ -18,11 +19,11 @@ INCLUDE_DIR = "build/macos/include"
 BIN_DIR = "build/macos/bin"
 DOWNLOAD_DIR = "build/download"
 
-FileUtils.mkdir_p DOWNLOAD_DIR
 FileUtils.mkdir_p FRAMEWORKS_DIR
 FileUtils.mkdir_p LIB_DIR
 FileUtils.mkdir_p INCLUDE_DIR
 FileUtils.mkdir_p BIN_DIR
+FileUtils.mkdir_p "build/licenses/macos/hidapi"
 
 def run(cmd)
   puts cmd.green
@@ -32,8 +33,6 @@ def run(cmd)
     exit 1
   end
 end
-
-run "curl --progress-bar -S -L -C - -o #{DOWNLOAD_DIR}/#{SDL2_DMG} https://www.libsdl.org/release/#{SDL2_DMG}"
 
 unless File.exists? "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
   run "hdiutil attach #{DOWNLOAD_DIR}/#{SDL2_DMG}"

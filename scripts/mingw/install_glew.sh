@@ -4,13 +4,8 @@ echo "* * * install GLEW for mingw * * *"
 
 MINGW_DIR=build/x86_64-w64-mingw32
 
-GLEW_URL="https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip"
 
 if [ ! -e ${MINGW_DIR}/glew-2.1.0 ]; then
-  if [ ! -e build/download/glew-2.1.0-win32.zip ]; then
-    echo "Download ${GLEW_URL}"
-    curl --progress-bar -S -L -o build/download/glew-2.1.0-win32.zip $GLEW_URL
-  fi
   unzip build/download/glew-2.1.0-win32.zip -d ${MINGW_DIR}
 fi
 

@@ -17,6 +17,7 @@ def run(script)
   end
 end
 
+run "./scripts/download_required_files.rb macos mingw"
 run "./scripts/build_bilibs.sh"
 run "./scripts/build_mruby.sh"
 run "./scripts/licenses.sh"
