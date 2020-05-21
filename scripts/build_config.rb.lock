@@ -29,6 +29,11 @@ builds:
       branch: master
       commit: 89dceefa1250fb1ae868d4cb52498e9e24293cd1
       version: 0.0.0
+    https://github.com/iij/mruby-iijson.git:
+      url: https://github.com/iij/mruby-iijson.git
+      branch: master
+      commit: c5e730c30090d3cddae258f57ab9508edb3e9fce
+      version: 0.0.0
     https://github.com/bismite/mruby-simplemsgpack.git:
       url: https://github.com/bismite/mruby-simplemsgpack.git
       branch: master
@@ -47,12 +52,12 @@ builds:
     https://github.com/bismite/mruby-bi-core.git:
       url: https://github.com/bismite/mruby-bi-core.git
       branch: master
-      commit: 78a4d0cd8230902cfc4a30b226c7c7a011abef3c
+      commit: cda5a799a35aa8aaa2dafd2856e7e6be623bccc9
       version: 0.5.0
     https://github.com/bismite/mruby-bi-ext.git:
       url: https://github.com/bismite/mruby-bi-ext.git
       branch: master
-      commit: c5a34378621d20fd65b1159ae11da7782f75548d
+      commit: a6f7890fcf5fe5d95ac561a5a4c0bb9fc68bc2a1
       version: 0.3.0
     https://github.com/bismite/mruby-bi-sound.git:
       url: https://github.com/bismite/mruby-bi-sound.git
@@ -62,8 +67,8 @@ builds:
     https://github.com/bismite/mruby-bi-archive.git:
       url: https://github.com/bismite/mruby-bi-archive.git
       branch: master
-      commit: cc682af82c59c79b87f0648d7ad42b69324fff59
-      version: 0.1.0
+      commit: 143758ce582f0d1d9d71bb5ceb31ac24407ff962
+      version: 0.2.0
     https://github.com/bismite/mruby-bi-geometry.git:
       url: https://github.com/bismite/mruby-bi-geometry.git
       branch: master
@@ -100,6 +105,11 @@ builds:
       branch: master
       commit: 89dceefa1250fb1ae868d4cb52498e9e24293cd1
       version: 0.0.0
+    https://github.com/iij/mruby-iijson.git:
+      url: https://github.com/iij/mruby-iijson.git
+      branch: master
+      commit: c5e730c30090d3cddae258f57ab9508edb3e9fce
+      version: 0.0.0
     https://github.com/bismite/mruby-simplemsgpack.git:
       url: https://github.com/bismite/mruby-simplemsgpack.git
       branch: master
@@ -118,12 +128,12 @@ builds:
     https://github.com/bismite/mruby-bi-core.git:
       url: https://github.com/bismite/mruby-bi-core.git
       branch: master
-      commit: 78a4d0cd8230902cfc4a30b226c7c7a011abef3c
+      commit: cda5a799a35aa8aaa2dafd2856e7e6be623bccc9
       version: 0.5.0
     https://github.com/bismite/mruby-bi-ext.git:
       url: https://github.com/bismite/mruby-bi-ext.git
       branch: master
-      commit: c5a34378621d20fd65b1159ae11da7782f75548d
+      commit: a6f7890fcf5fe5d95ac561a5a4c0bb9fc68bc2a1
       version: 0.3.0
     https://github.com/bismite/mruby-bi-sound.git:
       url: https://github.com/bismite/mruby-bi-sound.git
@@ -133,8 +143,8 @@ builds:
     https://github.com/bismite/mruby-bi-archive.git:
       url: https://github.com/bismite/mruby-bi-archive.git
       branch: master
-      commit: cc682af82c59c79b87f0648d7ad42b69324fff59
-      version: 0.1.0
+      commit: 143758ce582f0d1d9d71bb5ceb31ac24407ff962
+      version: 0.2.0
     https://github.com/bismite/mruby-bi-geometry.git:
       url: https://github.com/bismite/mruby-bi-geometry.git
       branch: master
@@ -171,6 +181,11 @@ builds:
       branch: master
       commit: 89dceefa1250fb1ae868d4cb52498e9e24293cd1
       version: 0.0.0
+    https://github.com/iij/mruby-iijson.git:
+      url: https://github.com/iij/mruby-iijson.git
+      branch: master
+      commit: c5e730c30090d3cddae258f57ab9508edb3e9fce
+      version: 0.0.0
     https://github.com/bismite/mruby-simplemsgpack.git:
       url: https://github.com/bismite/mruby-simplemsgpack.git
       branch: master
@@ -189,12 +204,12 @@ builds:
     https://github.com/bismite/mruby-bi-core.git:
       url: https://github.com/bismite/mruby-bi-core.git
       branch: master
-      commit: 78a4d0cd8230902cfc4a30b226c7c7a011abef3c
+      commit: cda5a799a35aa8aaa2dafd2856e7e6be623bccc9
       version: 0.5.0
     https://github.com/bismite/mruby-bi-ext.git:
       url: https://github.com/bismite/mruby-bi-ext.git
       branch: master
-      commit: c5a34378621d20fd65b1159ae11da7782f75548d
+      commit: a6f7890fcf5fe5d95ac561a5a4c0bb9fc68bc2a1
       version: 0.3.0
     https://github.com/bismite/mruby-bi-sound.git:
       url: https://github.com/bismite/mruby-bi-sound.git
@@ -204,8 +219,8 @@ builds:
     https://github.com/bismite/mruby-bi-archive.git:
       url: https://github.com/bismite/mruby-bi-archive.git
       branch: master
-      commit: cc682af82c59c79b87f0648d7ad42b69324fff59
-      version: 0.1.0
+      commit: 143758ce582f0d1d9d71bb5ceb31ac24407ff962
+      version: 0.2.0
     https://github.com/bismite/mruby-bi-geometry.git:
       url: https://github.com/bismite/mruby-bi-geometry.git
       branch: master
