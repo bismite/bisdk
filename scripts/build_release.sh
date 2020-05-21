@@ -13,7 +13,8 @@ copy_templates () {
   rsync -a --delete build/template/macos -d $DIR/
   rsync -a --delete build/template/linux -d $DIR/
   rsync -a --delete build/template/x86_64-w64-mingw32 -d $DIR/
-  rsync -a --delete build/template/emscripten -d $DIR/
+  rsync -a --delete build/template/wasm -d $DIR/
+  rsync -a --delete build/template/js -d $DIR/
 }
 
 copy_templates "macos"

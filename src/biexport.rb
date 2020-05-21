@@ -1,6 +1,6 @@
 #!/usr/bin/env mruby
 
-# usage: biexport {macos|linux|windows|emscripten} MRB_FILE ASSETS_FILE DST_DIR
+# usage: biexport {macos|linux|windows|wasm|js} MRB_FILE ASSETS_FILE DST_DIR
 
 def run(command)
   puts command
@@ -47,7 +47,8 @@ class Export
     template_table = %w(
       linux linux
       windows x86_64-w64-mingw32
-      emscripten emscripten
+      wasm wasm
+      js js
     ).each_slice(2).to_h
     template_name = template_table[target]
 

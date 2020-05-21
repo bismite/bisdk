@@ -83,11 +83,18 @@ build_mingw_template () {
   _copy_license_files_ mingw build/template/x86_64-w64-mingw32/licenses
 }
 
-build_emscripten_template () {
-  ./scripts/build_biexec.rb emscripten src/main-emscripten.c src/support-emscripten.c build/template/emscripten/index.html
+build_wasm_template () {
+  ./scripts/build_biexec.rb wasm src/main-emscripten.c src/support-emscripten.c build/template/wasm/index.html
   ret=$?; if [ $ret != 0 ]; then exit $ret; fi
-  cp build/template/main.mrb build/template/emscripten/main.mrb
-  _copy_license_files_ emscripten build/template/emscripten/licenses
+  cp build/template/main.mrb build/template/wasm/main.mrb
+  _copy_license_files_ emscripten build/template/wasm/licenses
+}
+
+build_js_template () {
+  ./scripts/build_biexec.rb js src/main-emscripten.c src/support-emscripten.c build/template/js/index.html
+  ret=$?; if [ $ret != 0 ]; then exit $ret; fi
+  cp build/template/main.mrb build/template/js/main.mrb
+  _copy_license_files_ emscripten build/template/js/licenses
 }
 
 if [ $HOST = "macos" ]; then
@@ -99,5 +106,6 @@ if [ $MINGW_AVAILABLE ]; then
   build_mingw_template
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
-  build_emscripten_template
+  build_wasm_template
+  build_js_template
 fi
