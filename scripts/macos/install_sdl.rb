@@ -23,7 +23,6 @@ FileUtils.mkdir_p FRAMEWORKS_DIR
 FileUtils.mkdir_p LIB_DIR
 FileUtils.mkdir_p INCLUDE_DIR
 FileUtils.mkdir_p BIN_DIR
-FileUtils.mkdir_p "build/licenses/macos/hidapi"
 
 def run(cmd)
   puts cmd.green
