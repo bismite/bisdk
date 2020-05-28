@@ -226,6 +226,11 @@ builds:
       branch: master
       commit: 7730e4161971e1bfea659dfb5bfda71266f060ff
       version: 0.1.0
+    https://github.com/bismite/mruby-emscripten.git:
+      url: https://github.com/bismite/mruby-emscripten.git
+      branch: master
+      commit: 6f2d0975fbb8a79ad9f1c3666d0a1f6c50dac327
+      version: 0.1.0
     https://github.com/iij/mruby-errno.git:
       url: https://github.com/iij/mruby-errno.git
       branch: master

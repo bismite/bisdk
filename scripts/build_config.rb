@@ -64,8 +64,14 @@ def include_gems(conf)
   else
     conf.gem github: 'bismite/mruby-bi-geometry'
   end
+  if conf.name == "emscripten"
+    if ENV['MRUBY_EMSCRIPTEN']
+      conf.gem ENV['MRUBY_EMSCRIPTEN']
+    else
+      conf.gem github: 'bismite/mruby-emscripten'
+    end
+  end
 end
-
 
 MRuby::Build.new do |conf|
   toolchain :clang
