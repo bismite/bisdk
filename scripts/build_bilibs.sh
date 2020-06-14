@@ -44,6 +44,7 @@ fi
 if [ $MINGW_AVAILABLE ]; then
   run "./scripts/mingw/install_sdl.sh"
   run "./scripts/mingw/install_glew.sh"
+  run "./scripts/mingw/install_dlfcn.sh"
 fi
 
 #

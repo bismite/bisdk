@@ -59,7 +59,7 @@ class Mingw < Compiler
   LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libgcc"
 
   CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
-  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
+  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer -llibdl"
 
   def self.available?
     `type x86_64-w64-mingw32-gcc > /dev/null 2>&1`

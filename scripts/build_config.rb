@@ -71,6 +71,11 @@ def include_gems(conf)
       conf.gem github: 'bismite/mruby-emscripten'
     end
   end
+  if ENV['MRUBY_DLOPEN']
+    conf.gem ENV['MRUBY_DLOPEN']
+  else
+    conf.gem github: 'bismite/mruby-dlopen'
+  end
 end
 
 MRuby::Build.new do |conf|
@@ -146,7 +151,7 @@ MRuby::CrossBuild.new('mingw') do |conf|
   conf.linker do |linker|
     linker.command = 'x86_64-w64-mingw32-g++'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
-    linker.libraries += %w(biext bi glew32 opengl32)
+    linker.libraries += %w(biext bi glew32 opengl32 libdl)
     linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libgcc -mconsole"
   end
 

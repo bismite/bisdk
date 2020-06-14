@@ -31,3 +31,5 @@ mingw:
     - https://raw.githubusercontent.com/mirror/mingw-w64/v7.0.0/mingw-w64-libraries/winpthreads/COPYING
     - COPYING.winpthreads.txt
   - 06a442d2c46dd1e90807932a0c544789
+  - http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-dlfcn-1.2.0-1-any.pkg.tar.xz
+  - c5df6b0a38e7475895b82b6adcd86f7d
