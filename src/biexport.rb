@@ -48,6 +48,7 @@ class Export
       linux linux
       windows x86_64-w64-mingw32
       wasm wasm
+      wasm-dl wasm-dl
       js js
     ).each_slice(2).to_h
     template_name = template_table[target]
