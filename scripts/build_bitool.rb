@@ -59,7 +59,7 @@ class Linux
       cmd = "clang -Os -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
       cmd << " -I build/linux/include `sdl2-config --cflags`"
       cmd << " -L build/linux/lib -lmruby -lbi -lbiext `sdl2-config --libs` -lSDL2_mixer -lSDL2_image"
-      cmd << " -lGLEW -lm -lGL"
+      cmd << " -lGLEW -lm -lGL -ldl"
       run cmd
     }
   end

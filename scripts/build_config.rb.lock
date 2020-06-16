@@ -74,6 +74,11 @@ builds:
       branch: master
       commit: 7730e4161971e1bfea659dfb5bfda71266f060ff
       version: 0.1.0
+    https://github.com/bismite/mruby-dlopen.git:
+      url: https://github.com/bismite/mruby-dlopen.git
+      branch: master
+      commit: 10e0c0cdfe6903c174e26818ba0ae0ae0f6585b2
+      version: 0.1.0
     https://github.com/iij/mruby-errno.git:
       url: https://github.com/iij/mruby-errno.git
       branch: master
@@ -150,6 +155,11 @@ builds:
       branch: master
       commit: 7730e4161971e1bfea659dfb5bfda71266f060ff
       version: 0.1.0
+    https://github.com/bismite/mruby-dlopen.git:
+      url: https://github.com/bismite/mruby-dlopen.git
+      branch: master
+      commit: 10e0c0cdfe6903c174e26818ba0ae0ae0f6585b2
+      version: 0.1.0
     https://github.com/iij/mruby-errno.git:
       url: https://github.com/iij/mruby-errno.git
       branch: master
@@ -165,11 +175,6 @@ builds:
       url: https://github.com/iij/mruby-env.git
       branch: master
       commit: 056ae324451ef16a50c7887e117f0ea30921b71b
-      version: 0.0.0
-    https://github.com/appPlant/mruby-process.git:
-      url: https://github.com/appPlant/mruby-process.git
-      branch: master
-      commit: d9e4913005958950ced5505238ba71c28d10f3a4
       version: 0.0.0
     https://github.com/ksss/mruby-singleton.git:
       url: https://github.com/ksss/mruby-singleton.git
@@ -230,6 +235,11 @@ builds:
       url: https://github.com/bismite/mruby-emscripten.git
       branch: master
       commit: 6f2d0975fbb8a79ad9f1c3666d0a1f6c50dac327
+      version: 0.1.0
+    https://github.com/bismite/mruby-dlopen.git:
+      url: https://github.com/bismite/mruby-dlopen.git
+      branch: master
+      commit: 10e0c0cdfe6903c174e26818ba0ae0ae0f6585b2
       version: 0.1.0
     https://github.com/iij/mruby-errno.git:
       url: https://github.com/iij/mruby-errno.git

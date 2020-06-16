@@ -121,6 +121,7 @@ MRuby::Build.new do |conf|
       linker.flags << "-framework OpenGL"
     else
       linker.libraries << "GL"
+      linker.libraries << "dl"
     end
   end
 end

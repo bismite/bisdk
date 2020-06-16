@@ -38,7 +38,7 @@ class Linux < Compiler
   CC = "clang"
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
-  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
+  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL -ldl"
   CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
@@ -81,7 +81,7 @@ class Emscripten < Compiler
 
   EM_LIB_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
   EM_MEMORY_FLAGS="-s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=128Mb -s MAXIMUM_MEMORY=1024Mb"
-  EM_FLAGS="#{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} -s FETCH=1 -s DISABLE_EXCEPTION_CATCHING=0 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -flto=full -s MAIN_MODULE=1"
+  EM_FLAGS="#{EM_LIB_FLAGS} #{EM_MEMORY_FLAGS} -s DISABLE_EXCEPTION_CATCHING=0 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -flto=full"
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
@@ -104,6 +104,12 @@ end
 class Wasm < Emscripten
   def self.target
     "-s WASM=1"
+  end
+end
+
+class WasmDL < Emscripten
+  def self.target
+    "-s WASM=1 -s MAIN_MODULE=1"
   end
 end
 
@@ -135,6 +141,8 @@ when 'mingw'
   Mingw::compile(IN_FILES,DST_FILE) if Mingw::available?
 when 'wasm'
   Wasm::compile(IN_FILES,DST_FILE) if Wasm::available?
+when 'wasm-dl'
+  WasmDL::compile(IN_FILES,DST_FILE) if WasmDL::available?
 when 'js'
   Js::compile(IN_FILES,DST_FILE) if Js::available?
 end
