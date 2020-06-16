@@ -108,10 +108,10 @@ if [ $EMSCRIPTEN_AVAILABLE ]; then
   INSTALL_PATH="${BI_BUILDER_ROOT}/build/emscripten"
   _copy_headers_ $INSTALL_PATH
   INCLUDE_PATHS="-I ${INSTALL_PATH}/include"
-  CFLAGS="-std=c11 -Oz -Wall -Werror=implicit-function-declaration -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
-  (cd $BI_CORE_DIR; make -f Makefile.emscripten.mk "INCLUDE_PATHS=$INCLUDE_PATHS" "CFLAGS=$CFLAGS")
+  CFLAGS="-std=c11 -Oz -Wall -Werror=implicit-function-declaration -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
+  (cd $BI_CORE_DIR; make -f Makefile.emscripten.mk clean all "INCLUDE_PATHS=$INCLUDE_PATHS" "CFLAGS=$CFLAGS")
   ret=$?; if [ $ret != 0 ]; then exit $ret; fi
-  (cd $BI_EXT_DIR; make -f Makefile.emscripten.mk "INCLUDE_PATHS=$INCLUDE_PATHS" "CFLAGS=$CFLAGS")
+  (cd $BI_EXT_DIR; make -f Makefile.emscripten.mk clean all "INCLUDE_PATHS=$INCLUDE_PATHS" "CFLAGS=$CFLAGS")
   ret=$?; if [ $ret != 0 ]; then exit $ret; fi
   _copy_lib_ emscripten $INSTALL_PATH
 fi

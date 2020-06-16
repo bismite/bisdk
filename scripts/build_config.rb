@@ -28,7 +28,10 @@ def include_gems(conf)
 
   conf.gem github: 'appPlant/mruby-os'
   conf.gem github: 'iij/mruby-env'
-  conf.gem github: 'appPlant/mruby-process'
+  # conf.gem github: 'iij/mruby-process' # fail in mingw
+  if conf.name != "emscripten"
+    conf.gem github: 'appPlant/mruby-process' # fail in emscripten module
+  end
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
   conf.gem github: 'iij/mruby-iijson'
@@ -171,7 +174,7 @@ MRuby::CrossBuild.new('emscripten') do |conf|
 
   include_gems(conf)
 
-  emscripten_flags = %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s DISABLE_EXCEPTION_CATCHING=0 )
+  emscripten_flags = %W(-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]' -s DISABLE_EXCEPTION_CATCHING=0 -s MAIN_MODULE=1 -fPIC -s WASM=1)
   emscripten_optimize_level = "-Oz"
 
   conf.cc do |cc|

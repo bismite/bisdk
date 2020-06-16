@@ -77,24 +77,18 @@ build_linux_template () {
 
 build_mingw_template () {
   ./scripts/build_biexec.rb mingw src/main.c build/template/x86_64-w64-mingw32/main.exe
+  ret=$?; if [ $ret != 0 ]; then exit $ret; fi
   cp build/template/main.mrb build/template/x86_64-w64-mingw32/main.mrb
   # copy dlls for template
   cp build/x86_64-w64-mingw32/bin/*.dll build/template/x86_64-w64-mingw32/
   _copy_license_files_ mingw build/template/x86_64-w64-mingw32/licenses
 }
 
-build_wasm_template () {
-  ./scripts/build_biexec.rb wasm src/main-emscripten.c src/support-emscripten.c build/template/wasm/index.html
+build_emscripten_template () {
+  ./scripts/build_biexec.rb $1 src/main-emscripten.c src/support-emscripten.c build/template/$1/index.html
   ret=$?; if [ $ret != 0 ]; then exit $ret; fi
-  cp build/template/main.mrb build/template/wasm/main.mrb
-  _copy_license_files_ emscripten build/template/wasm/licenses
-}
-
-build_js_template () {
-  ./scripts/build_biexec.rb js src/main-emscripten.c src/support-emscripten.c build/template/js/index.html
-  ret=$?; if [ $ret != 0 ]; then exit $ret; fi
-  cp build/template/main.mrb build/template/js/main.mrb
-  _copy_license_files_ emscripten build/template/js/licenses
+  cp build/template/main.mrb build/template/$1/main.mrb
+  _copy_license_files_ emscripten build/template/$1/licenses
 }
 
 if [ $HOST = "macos" ]; then
@@ -106,6 +100,6 @@ if [ $MINGW_AVAILABLE ]; then
   build_mingw_template
 fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
-  build_wasm_template
-  build_js_template
+  build_emscripten_template "wasm"
+  # build_emscripten_template "js"
 fi

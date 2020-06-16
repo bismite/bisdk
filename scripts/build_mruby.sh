@@ -30,10 +30,6 @@ MRUBY_DIR="mruby-2.1.0"
 #
 # build mruby
 #
-mkdir -p build/download
-if [ ! -e build/download/mruby-2.1.0.tar.gz ]; then
-  curl --progress-bar -S -L -o build/download/mruby-2.1.0.tar.gz https://github.com/mruby/mruby/archive/2.1.0.tar.gz
-fi
 tar zxf build/download/mruby-2.1.0.tar.gz -C build/
 (cd build/$MRUBY_DIR ; rake -v)
 ret=$?; if [ $ret != 0 ]; then exit $ret; fi
