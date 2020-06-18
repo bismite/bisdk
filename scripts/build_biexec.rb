@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 require "fileutils"
+begin
+  require "colorize"
+rescue LoadError
+  String.class_eval do
+    alias :yellow :to_s
+    alias :red :to_s
+  end
+end
 
 BISDK_DIR=File.absolute_path(File.join(File.dirname(__FILE__),".."))
 
@@ -8,9 +16,10 @@ class Compiler
 end
 
 def run(cmd)
-  puts cmd
+  puts cmd.yellow
   system cmd
   unless $?.success?
+    puts "failed #{cmd}".red
     exit 1
   end
 end
@@ -109,6 +118,7 @@ end
 
 class WasmDL < Emscripten
   def self.target
+    # "-s WASM=1 -s MAIN_MODULE=2 -s 'EXPORTED_FUNCTIONS=[\"_main\"]'"
     "-s WASM=1 -s MAIN_MODULE=1"
   end
 end
@@ -116,6 +126,12 @@ end
 class Js < Emscripten
   def self.target
     "-s WASM=0"
+  end
+end
+
+class JsDL < Emscripten
+  def self.target
+    "-s WASM=0 -s MAIN_MODULE=2"
   end
 end
 
@@ -145,4 +161,6 @@ when 'wasm-dl'
   WasmDL::compile(IN_FILES,DST_FILE) if WasmDL::available?
 when 'js'
   Js::compile(IN_FILES,DST_FILE) if Js::available?
+when 'js-dl'
+  JsDL::compile(IN_FILES,DST_FILE) if JsDL::available?
 end

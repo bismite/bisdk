@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 require "fileutils"
+begin
+  require "colorize"
+rescue LoadError
+  String.class_eval do
+    alias :yellow :to_s
+    alias :red :to_s
+  end
+end
 
 BISDK_DIR=File.absolute_path(File.join(File.dirname(__FILE__),".."))
 
@@ -8,9 +16,10 @@ class Compiler
 end
 
 def run(cmd)
-  puts cmd
+  puts cmd.yellow
   system cmd
   unless $?.success?
+    puts "failed #{cmd}".red
     exit 1
   end
 end
@@ -57,14 +66,16 @@ class Mingw < Compiler
   INCLUDE_PATHS="-I #{BISDK_DIR}/build/x86_64-w64-mingw32/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/x86_64-w64-mingw32/lib"
 
-  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -ldl -static-libgcc"
+  # LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -ldl -static-libgcc"
+  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -ldl"
+  # LIBS=""
 
-  # CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
-  CFLAGS="-fPIC -std=gnu11 -O3 -Wall -DNDEBUG -I/Users/k2/git/bismite/bisdk/build/x86_64-w64-mingw32/include/SDL2"
+  CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
 
-  # LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
+  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
   # LDFLAGS="-L/Users/k2/git/bismite/bisdk/build/x86_64-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows -lSDL2_image -lSDL2_mixer"
-  LDFLAGS="--shared -L/Users/k2/git/bismite/bisdk/build/x86_64-w64-mingw32/lib  -lSDL2 -lSDL2_image -lSDL2_mixer"
+  # LDFLAGS="-L/Users/k2/git/bismite/bisdk/build/x86_64-w64-mingw32/lib  -lSDL2 -lSDL2_image -lSDL2_mixer"
+  # LDFLAGS="--shared -L/Users/k2/git/bismite/bisdk/build/x86_64-w64-mingw32/lib"
 
 
   def self.available?
@@ -74,7 +85,7 @@ class Mingw < Compiler
 
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
-    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
+    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS} -fPIC -flto --shared"
     run cmd
   end
 end
@@ -91,7 +102,7 @@ class Emscripten < Compiler
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
-  CFLAGS="-std=gnu11 -DNDEBUG -Oz -Wall #{EM_CFLAGS} -s SIDE_MODULE=1 -s EXPORT_ALL"
+  CFLAGS="-std=gnu11 -DNDEBUG -Oz -Wall #{EM_CFLAGS}"
   # CFLAGS="-std=gnu11 -DNDEBUG -Oz -Wall #{EM_CFLAGS} "
   LDFLAGS="#{EM_LDFLAGS}"
 
@@ -104,14 +115,15 @@ class Emscripten < Compiler
   end
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
-    cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{self.target} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS} #{SHELL}"
+    cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{self.target} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
     run cmd
   end
 end
 
 class Wasm < Emscripten
   def self.target
-    "-s WASM=1"
+    # "-s WASM=1 -s SIDE_MODULE=1"
+    "-s WASM=1 -s SIDE_MODULE=2 -s 'EXPORTED_FUNCTIONS=[\"_initialize\"]'"
   end
 end
 

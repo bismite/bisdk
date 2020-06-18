@@ -102,5 +102,6 @@ fi
 if [ $EMSCRIPTEN_AVAILABLE ]; then
   build_emscripten_template "wasm"
   build_emscripten_template "wasm-dl"
-  # build_emscripten_template "js"
+  build_emscripten_template "js"
+  build_emscripten_template "js-dl"
 fi
