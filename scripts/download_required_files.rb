@@ -1,24 +1,5 @@
 #!/usr/bin/env ruby
-require "fileutils"
-require "yaml"
-require 'digest'
-begin
-  require "colorize"
-rescue LoadError
-  String.class_eval do
-    alias :yellow :to_s
-    alias :red :to_s
-  end
-end
-
-def run(cmd)
-  puts "#{cmd}".yellow
-  system cmd
-  unless $?.success?
-    puts "exit status fail.".red
-    exit 1
-  end
-end
+require_relative "lib/utils"
 
 def check(path,hash)
   if File.exists?(path) and File.file?(path)

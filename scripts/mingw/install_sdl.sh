@@ -2,6 +2,8 @@
 
 echo "* * * install SDL2 for mingw * * *"
 
+BI_BUILDER_ROOT=${PWD}
+
 MINGW_DIR=build/x86_64-w64-mingw32
 
 SDL2_VER=2.0.10

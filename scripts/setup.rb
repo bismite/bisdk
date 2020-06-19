@@ -1,24 +1,13 @@
 #!/usr/bin/env ruby
-begin
-  require "colorize"
-rescue LoadError
-  String.class_eval do
-    alias :yellow :to_s
-    alias :red :to_s
-  end
-end
-
-def run(script)
-  puts " * * * #{script}".yellow
-  system script
-  unless $?.success?
-    puts "exit status fail.".red
-    exit 1
-  end
-end
+require_relative "lib/utils"
 
 run "./scripts/download_required_files.rb macos mingw"
-run "./scripts/build_bilibs.sh"
+
+run "./scripts/build_bilibs.rb linux"
+run "./scripts/build_bilibs.rb mingw"
+run "./scripts/build_bilibs.rb emscripten"
+
+
 run "./scripts/build_mruby.sh"
 run "./scripts/licenses.sh"
 run "./scripts/build_bitool.rb"
