@@ -1,7 +1,7 @@
 require 'rbconfig'
 require_relative "common.rb"
 
-OPTIMIZE = "-O3"
+OPTIMIZE = "-Os"
 C_STD="-std=gnu11"
 CXX_STD="-std=gnu++11"
 COMMON_CFLAGS = %W( -DNDEBUG -Wall -Werror-implicit-function-declaration -Wwrite-strings)

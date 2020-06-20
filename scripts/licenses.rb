@@ -32,7 +32,7 @@ when /mingw/
 when /emscripten/
   FileUtils.cp "build/#{TARGET}/mruby/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
 
-  EMDIR = File.dirname `which emcc`
+  EMDIR = File.dirname which "emcc"
 
   FileUtils.cp "#{EMDIR}/LICENSE", "#{LICENSE_DIR}/LICENSE.emscripten.txt"
   FileUtils.cp "#{EMDIR}/AUTHORS", "#{LICENSE_DIR}/AUTHORS.emscripten.txt"

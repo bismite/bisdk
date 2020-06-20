@@ -11,7 +11,8 @@ run "./scripts/build_bilibs.rb #{TARGET}"
 run "./scripts/build_mruby.rb #{TARGET}"
 run "./scripts/licenses.rb #{TARGET}"
 
+run "./scripts/build_bitool.rb #{TARGET}"
+
 exit
 
-run "./scripts/build_bitool.rb"
 run "./scripts/build_template.sh"
