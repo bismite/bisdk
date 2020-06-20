@@ -11,11 +11,11 @@ BI_EXT_DIR="build/bi-ext"
 # install libraries
 #
 case TARGET
-when "macos"
+when /macos/
   run "./scripts/macos/install_sdl.rb"
   run "./scripts/macos/install_sdl_image_and_mixer.rb"
   run "./scripts/macos/install_glew.sh"
-when "mingw"
+when /mingw/
   run "./scripts/mingw/install_sdl.sh"
   run "./scripts/mingw/install_glew.sh"
   run "./scripts/mingw/install_dlfcn.sh"
@@ -58,29 +58,26 @@ def copy_lib(arch,target)
   FileUtils.cp "#{BI_EXT_DIR}/build/#{arch}/libbiext.a", "#{target}/lib/"
 end
 
+INSTALL_PATH = "#{BI_BUILDER_ROOT}/build/#{TARGET}"
+INCLUDE_PATHS = "-I #{INSTALL_PATH}/include -I #{INSTALL_PATH}/include/SDL2"
+WARN = "-Wall -Werror=implicit-function-declaration"
 
-if TARGET=="mingw"
-  INSTALL_PATH = "#{BI_BUILDER_ROOT}/build/x86_64-w64-mingw32"
-  INCLUDE_PATHS="-I #{INSTALL_PATH}/include"
-  CFLAGS = "-std=c11 -O3 -Wall -Werror=implicit-function-declaration `#{INSTALL_PATH}/bin/sdl2-config --cflags`"
-  copy_headers INSTALL_PATH
+copy_headers INSTALL_PATH
+
+case TARGET
+when /mingw/
+  CFLAGS = "-std=c11 -O3 #{WARN} `#{INSTALL_PATH}/bin/sdl2-config --cflags`"
   Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.mingw.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
   Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.mingw.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
   copy_lib "mingw", INSTALL_PATH
 
-elsif TARGET=="emscripten"
-  INSTALL_PATH="#{BI_BUILDER_ROOT}/build/emscripten"
-  INCLUDE_PATHS = "-I #{INSTALL_PATH}/include"
-  CFLAGS = "-std=c11 -Oz -Wall -Werror=implicit-function-declaration -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
-  copy_headers INSTALL_PATH
+when /emscripten/
+  CFLAGS = "-std=c11 -Oz #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
   Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
   Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
-  copy_lib "emscripten", INSTALL_PATH
+  copy_lib TARGET, INSTALL_PATH
 
 else
-  INSTALL_PATH = "#{BI_BUILDER_ROOT}/build/#{TARGET}"
-  INCLUDE_PATHS = "-I #{INSTALL_PATH}/include -I #{INSTALL_PATH}/include/SDL2"
-  copy_headers INSTALL_PATH
   Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.#{TARGET}.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}'" }
   Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.#{TARGET}.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}'" }
   copy_lib TARGET, INSTALL_PATH
