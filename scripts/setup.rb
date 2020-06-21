@@ -6,12 +6,33 @@ require_relative "lib/utils"
 TARGET=ARGV[0]
 
 run "./scripts/download_required_files.rb macos mingw"
+run "./scripts/copy_bilibs.rb"
 
-run "./scripts/build_bilibs.rb #{TARGET}"
-run "./scripts/build_mruby.rb #{TARGET}"
-run "./scripts/licenses.rb #{TARGET}"
+targets = []
+targets << ( /linux/ === RUBY_PLATFORM ? "linux" : "macos" )
+targets << "emscripten" if which "emcc"
+targets << "x86_64-w64-mingw32" if which "x86_64-w64-mingw32-gcc"
+puts "targets: #{targets}"
 
-run "./scripts/build_bitool.rb #{TARGET}"
+def spawn(cmd, target)
+  rout, wout = IO.pipe
+  rerr, werr = IO.pipe
+  pid = Process.spawn cmd, [:out,:err] => ["#{target}.log","a"]
+  _, status = Process.wait2(pid)
+  exit unless status.success?
+end
+
+pids = %w(linux emscripten x86_64-w64-mingw32).map{|target|
+  Process.fork do
+    spawn "./scripts/build_bilibs.rb #{target}", target
+    spawn "./scripts/build_mruby.rb #{target}", target
+    spawn"./scripts/licenses.rb #{target}", target
+    spawn "./scripts/build_bitool.rb #{target}", target
+    puts "#{target} done."
+  end
+}
+
+pids.each{|pid| Process.wait pid }
 
 exit
 

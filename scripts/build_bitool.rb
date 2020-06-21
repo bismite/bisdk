@@ -2,9 +2,12 @@
 require_relative "lib/utils"
 
 TARGET = ARGV[0]
-MRBC="./build/#{TARGET}/bin/mrbc"
 
-DIR = "build/tools"
+exit if /emscripten/ === TARGET
+
+MRBC="./build/#{TARGET}/mruby/host/bin/mrbc"
+
+DIR = "build/#{TARGET}/tools"
 FileUtils.mkdir_p DIR
 %w( bicompile.c birun.c bitool.h bitool.rb ).each{|f| FileUtils.copy "src/bitool/#{f}", DIR }
 
