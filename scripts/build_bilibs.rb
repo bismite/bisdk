@@ -51,7 +51,7 @@ when /mingw/
   copy_lib "mingw", INSTALL_PATH
 
 when /emscripten/
-  CFLAGS = "-std=c11 -Oz #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
+  CFLAGS = "-std=c11 -Os #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
   Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
   Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
   copy_lib TARGET, INSTALL_PATH

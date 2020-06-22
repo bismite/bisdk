@@ -28,12 +28,9 @@ pids = %w(linux emscripten x86_64-w64-mingw32).map{|target|
     spawn "./scripts/build_mruby.rb #{target}", target
     spawn"./scripts/licenses.rb #{target}", target
     spawn "./scripts/build_bitool.rb #{target}", target
+    spawn "./scripts/build_template.rb #{target}", target
     puts "#{target} done."
   end
 }
 
 pids.each{|pid| Process.wait pid }
-
-exit
-
-run "./scripts/build_template.sh"

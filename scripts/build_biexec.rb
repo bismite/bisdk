@@ -32,7 +32,7 @@ class MacOS < Compiler
 
   LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW -lstdc++"
   FRAMEWORKS="-framework OpenGL"
-  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG"
+  CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG"
   LDFLAGS="#{FRAMEWORKS}"
 
   def self.compile(sources,outfile)
@@ -48,7 +48,7 @@ class Linux < Compiler
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
   LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL -ldl"
-  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
+  CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
@@ -67,7 +67,7 @@ class Mingw < Compiler
 
   LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libgcc"
 
-  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
+  CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
   LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer -llibdl"
 
   def self.available?
@@ -94,7 +94,7 @@ class Emscripten < Compiler
   EM_CFLAGS=ENV['EM_CFLAGS']
   EM_LDFLAGS=ENV['EM_LDFLAGS']
 
-  CFLAGS="-std=gnu11 -DNDEBUG -Oz -Wall #{EM_CFLAGS}"
+  CFLAGS="-std=gnu11 -DNDEBUG -Os -Wall #{EM_CFLAGS}"
   LDFLAGS="#{EM_LDFLAGS}"
 
   SHELL="--shell-file src/shell/shell_bisdk.html"
@@ -131,7 +131,7 @@ end
 
 class JsDL < Emscripten
   def self.target
-    "-s WASM=0 -s MAIN_MODULE=2"
+    "-s WASM=0 -s MAIN_MODULE=1"
   end
 end
 
