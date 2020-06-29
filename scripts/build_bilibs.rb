@@ -18,7 +18,6 @@ when /macos/
 when /mingw/
   run "./scripts/mingw/install_sdl.sh"
   run "./scripts/mingw/install_glew.sh"
-  run "./scripts/mingw/install_dlfcn.sh"
 end
 
 #
@@ -37,6 +36,11 @@ def copy_lib(arch,target)
   FileUtils.cp "#{BI_EXT_DIR}/build/#{arch}/libbiext.a", "#{target}/lib/"
 end
 
+def compile(makefile,include_path,cflags)
+  Dir.chdir(BI_CORE_DIR){ run "make -f #{makefile} 'INCLUDE_PATHS=#{include_path}' 'CFLAGS=#{cflags}'" }
+  Dir.chdir(BI_EXT_DIR){ run "make -f #{makefile} 'INCLUDE_PATHS=#{include_path}' 'CFLAGS=#{cflags}'" }
+end
+
 INSTALL_PATH = "#{BI_BUILDER_ROOT}/build/#{TARGET}"
 INCLUDE_PATHS = "-I #{INSTALL_PATH}/include -I #{INSTALL_PATH}/include/SDL2"
 WARN = "-Wall -Werror=implicit-function-declaration"
@@ -46,18 +50,16 @@ copy_headers INSTALL_PATH
 case TARGET
 when /mingw/
   CFLAGS = "-std=c11 -O3 #{WARN} `#{INSTALL_PATH}/bin/sdl2-config --cflags`"
-  Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.mingw.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
-  Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.mingw.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
+  compile "Makefile.mingw.mk", INCLUDE_PATHS, CFLAGS
   copy_lib "mingw", INSTALL_PATH
 
 when /emscripten/
   CFLAGS = "-std=c11 -Os #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
-  Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
-  Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.emscripten.mk clean all 'INCLUDE_PATHS=#{INCLUDE_PATHS}' 'CFLAGS=#{CFLAGS}'" }
+  compile "Makefile.emscripten.mk", INCLUDE_PATHS, CFLAGS
   copy_lib TARGET, INSTALL_PATH
 
 else
-  Dir.chdir(BI_CORE_DIR){ run "make -f Makefile.#{TARGET}.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}'" }
-  Dir.chdir(BI_EXT_DIR){ run "make -f Makefile.#{TARGET}.mk 'INCLUDE_PATHS=#{INCLUDE_PATHS}'" }
+  CFLAGS = "-std=c11 -Os #{WARN} `sdl2-config --cflags` -fPIC"
+  compile "Makefile.#{TARGET}.mk", INCLUDE_PATHS, CFLAGS
   copy_lib TARGET, INSTALL_PATH
 end

@@ -37,7 +37,7 @@ when /linux/
 when /mingw/
   SDL2_CONFIG = "build/x86_64-w64-mingw32/bin/sdl2-config"
   MRB_FLAGS = "-DMRB_INT64 -DMRB_UTF8_STRING"
-  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -llibdl -lws2_32"
+  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32"
   %w(birun bicompile).each{|name|
     outfile = "build/x86_64-w64-mingw32/bin/#{name}.exe"
     cmd = "x86_64-w64-mingw32-gcc -o #{outfile} #{DIR}/#{name}.c"

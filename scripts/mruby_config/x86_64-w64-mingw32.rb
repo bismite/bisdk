@@ -24,22 +24,22 @@ MRuby::CrossBuild.new('x86_64-w64-mingw32') do |conf|
     cc.command = 'x86_64-w64-mingw32-gcc'
     cc.defines += COMMON_DEFINES
     cc.include_paths << "#{BUILD_DIR}/#{conf.host_target}/include"
+    cc.flags = COMMON_CFLAGS + [OPTIMIZE, C_STD]
+    cc.flags << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --cflags`"
   end
-  conf.cc.flags = COMMON_CFLAGS + [OPTIMIZE, C_STD]
-  conf.cc.flags << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --cflags`"
 
   conf.cxx do |cxx|
     cxx.command = 'x86_64-w64-mingw32-g++'
     cxx.defines += COMMON_DEFINES
     cxx.include_paths << "#{BUILD_DIR}/#{conf.host_target}/include"
+    cxx.flags = COMMON_CFLAGS + [OPTIMIZE, CXX_STD]
+    cxx.flags << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --cflags`"
   end
-  conf.cxx.flags = COMMON_CFLAGS + [OPTIMIZE, CXX_STD]
-  conf.cxx.flags << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --cflags`"
 
   conf.linker do |linker|
-    linker.command = 'x86_64-w64-mingw32-g++'
+    linker.command = 'x86_64-w64-mingw32-gcc'
     linker.library_paths << "#{BUILD_DIR}/#{conf.host_target}/lib"
-    linker.libraries += %w(biext bi glew32 opengl32 libdl)
+    linker.libraries += %w(biext bi glew32 opengl32)
     linker.flags_after_libraries << "`#{BUILD_DIR}/#{conf.host_target}/bin/sdl2-config --libs` -lSDL2_image -lSDL2_mixer -static-libgcc -mconsole"
   end
 
@@ -49,3 +49,4 @@ MRuby::CrossBuild.new('x86_64-w64-mingw32') do |conf|
 
   conf.archiver.command = 'x86_64-w64-mingw32-ar'
 end
+

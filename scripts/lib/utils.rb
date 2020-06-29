@@ -2,6 +2,8 @@ require "fileutils"
 require "yaml"
 require 'digest'
 
+MRUBY = "mruby-2.1.1"
+
 begin
   require "colorize"
 rescue LoadError

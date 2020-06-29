@@ -47,7 +47,7 @@ class Linux < Compiler
   CC = "clang"
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
-  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL -ldl"
+  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
@@ -68,7 +68,7 @@ class Mingw < Compiler
   LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libgcc"
 
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
-  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer -llibdl"
+  LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.available?
     `type x86_64-w64-mingw32-gcc > /dev/null 2>&1`

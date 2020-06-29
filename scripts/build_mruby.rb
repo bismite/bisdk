@@ -6,12 +6,9 @@ TARGET = ARGV[0]
 ENV["MRUBY_CONFIG"] = "#{Dir.pwd}/scripts/mruby_config/#{TARGET}.rb"
 ENV["MRUBY_BUILD_DIR"] = "#{Dir.pwd}/build/#{TARGET}/mruby"
 
-MRUBY = "mruby-2.1.0"
-
 #
 # build mruby
 #
-run "tar zxf build/download/#{MRUBY}.tar.gz -C build/"
 Dir.chdir("build/#{MRUBY}"){ run "rake -v" }
 
 #

@@ -49,12 +49,12 @@ class Linux < Compiler
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
   LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
-  CFLAGS="-std=gnu11 -O3 -Wall -DNDEBUG `sdl2-config --cflags`"
+  CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
     FileUtils.mkdir_p File.dirname(outfile)
-    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
+    cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS} --shared -fPIC"
     run cmd
   end
 end
@@ -67,7 +67,7 @@ class Mingw < Compiler
   LIB_PATHS="-L #{BISDK_DIR}/build/x86_64-w64-mingw32/lib"
 
   # LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -ldl -static-libgcc"
-  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -ldl"
+  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32"
   # LIBS=""
 
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"

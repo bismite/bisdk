@@ -39,4 +39,4 @@ FileUtils.mkdir_p "build/download"
 files = YAML.load File.read("scripts/required_files.yml")
 download files["mruby"]
 download files["macos"] if ARGV.include? "macos"
-download files["mingw"] if ARGV.include? "mingw"
+download files["x86_64-w64-mingw32"] if ARGV.include? "x86_64-w64-mingw32"

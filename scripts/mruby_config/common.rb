@@ -57,9 +57,9 @@ def include_gems(conf)
       conf.gem github: 'bismite/mruby-emscripten'
     end
   end
-  if ENV['MRUBY_DLOPEN']
-    conf.gem ENV['MRUBY_DLOPEN']
+  if ENV['MRUBY_BI_DLOPEN']
+    conf.gem ENV['MRUBY_BI_DLOPEN']
   else
-    conf.gem github: 'bismite/mruby-dlopen'
+    conf.gem github: 'bismite/mruby-bi-dlopen'
   end
 end
