@@ -14,7 +14,7 @@ case TARGET
 when /macos/
   run "./scripts/macos/install_sdl.rb"
   run "./scripts/macos/install_sdl_image_and_mixer.rb"
-  run "./scripts/macos/install_glew.sh"
+  run "./scripts/macos/install_glew_dylib.rb"
 when /mingw/
   run "./scripts/mingw/install_sdl.sh"
   run "./scripts/mingw/install_glew.sh"
