@@ -18,9 +18,25 @@ when /linux/
   copy_license_files "linux", "build/template/linux/licenses"
 
 when /macos/
-  run "./build/#{HOST}/bin/bicompile src/main.rb build/template/macos/main.mrb"
-  run "./scripts/build_biexec.rb macos src/main.c build/template/macos/main"
+  FileUtils.cp_r "src/template.app", "build/template/macos/"
+  resource_dir = "build/template/macos/template.app/Contents/Resources"
+  FileUtils.mkdir_p resource_dir
+
+  run "./build/#{HOST}/bin/bicompile src/main.rb #{resource_dir}/main.mrb"
+  run "./scripts/build_biexec.rb macos src/main.c #{resource_dir}/main"
   copy_license_files "macos", "build/template/macos/licenses"
+
+  libs = %w(
+    libSDL2-2.0.0.dylib
+    libSDL2_image-2.0.0.dylib
+    libSDL2_mixer-2.0.0.dylib
+    libmpg123.0.dylib
+    libhidapi.dylib
+    libGLEW.2.1.0.dylib
+  ).map{|l| "build/macos/lib/#{l}" }
+
+  FileUtils.cp libs, resource_dir
+  run "./scripts/macos/update_install_name.rb #{resource_dir}/main"
 
 when /mingw/
   run "./build/#{HOST}/bin/bicompile src/main.rb build/template/x86_64-w64-mingw32/main.mrb"
