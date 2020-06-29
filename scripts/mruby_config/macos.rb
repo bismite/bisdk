@@ -6,7 +6,6 @@ HOST="macos"
 
 OPTIMIZE = "-Os"
 C_STD="-std=gnu11"
-CXX_STD="-std=gnu++11"
 COMMON_CFLAGS = %W( -DNDEBUG -Wall -Werror-implicit-function-declaration -Wwrite-strings)
 COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
 
@@ -25,15 +24,6 @@ MRuby::Build.new do |conf|
     cc.include_paths << "#{BUILD_DIR}/#{HOST}/include/SDL2"
     cc.flags = COMMON_CFLAGS + [ OPTIMIZE, C_STD ]
     cc.flags << "-fPIC"
-  end
-
-  conf.cxx do |cxx|
-    cxx.command = 'clang++'
-    cxx.defines += COMMON_DEFINES
-    cxx.include_paths << "#{BUILD_DIR}/#{HOST}/include"
-    cxx.include_paths << "#{BUILD_DIR}/#{HOST}/include/SDL2"
-    cxx.flags = COMMON_CFLAGS + [ OPTIMIZE, CXX_STD ]
-    cxx.flags << "`sdl2-config --cflags`"
   end
 
   conf.linker do |linker|

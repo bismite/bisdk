@@ -30,7 +30,7 @@ class MacOS < Compiler
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include -I #{BISDK_DIR}/build/#{HOST}/include/SDL2"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
 
-  LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW -lstdc++"
+  LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW"
   FRAMEWORKS="-framework OpenGL"
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG"
   LDFLAGS="#{FRAMEWORKS}"
