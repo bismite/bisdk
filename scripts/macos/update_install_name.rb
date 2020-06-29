@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
-begin
-  require "colorize"
-rescue LoadError
-  String.class_eval do
-    alias :red :to_s
-    alias :green :to_s
-  end
-end
+require_relative "../lib/utils"
 
 def run(cmd)
   puts cmd.green

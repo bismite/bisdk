@@ -1,14 +1,5 @@
 #!/usr/bin/env ruby
-require "fileutils"
-begin
-  require "colorize"
-rescue LoadError
-  String.class_eval do
-    alias :red :to_s
-    alias :green :to_s
-  end
-end
-
+require_relative "../lib/utils"
 
 SDL2_FRAMEWORK = "SDL2.framework"
 SDL2_DMG = "SDL2-2.0.12.dmg"
@@ -23,15 +14,6 @@ FileUtils.mkdir_p FRAMEWORKS_DIR
 FileUtils.mkdir_p LIB_DIR
 FileUtils.mkdir_p INCLUDE_DIR
 FileUtils.mkdir_p BIN_DIR
-
-def run(cmd)
-  puts cmd.green
-  system cmd
-  unless $?.success?
-    puts "exit status fail.".red
-    exit 1
-  end
-end
 
 unless File.exists? "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
   run "hdiutil attach #{DOWNLOAD_DIR}/#{SDL2_DMG}"

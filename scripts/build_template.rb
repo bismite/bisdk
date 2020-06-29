@@ -17,6 +17,11 @@ when /linux/
   run "./scripts/build_biexec.rb linux src/main.c build/template/linux/main"
   copy_license_files "linux", "build/template/linux/licenses"
 
+when /macos/
+  run "./build/#{HOST}/bin/bicompile src/main.rb build/template/macos/main.mrb"
+  run "./scripts/build_biexec.rb macos src/main.c build/template/macos/main"
+  copy_license_files "macos", "build/template/macos/licenses"
+
 when /mingw/
   run "./build/#{HOST}/bin/bicompile src/main.rb build/template/x86_64-w64-mingw32/main.mrb"
   run "./scripts/build_biexec.rb mingw src/main.c build/template/x86_64-w64-mingw32/main"
