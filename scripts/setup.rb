@@ -3,18 +3,23 @@ require 'optparse'
 require_relative "lib/utils"
 
 targets = {}
-ARGV.each{|arg|
-  case arg
-  when /linux/
-    targets["linux"] = true if /linux/ === RUBY_PLATFORM
-  when /macos/
-    targets["macos"] = true  if /darwin/ === RUBY_PLATFORM
-  when /emscripten/
-    targets["emscripten"] = true if which "emcc"
-  when /mingw/
-    targets["x86_64-w64-mingw32"] = true if which "x86_64-w64-mingw32-gcc"
-  end
-}
+if ARGV.empty?
+  targets["linux"] = true if /linux/ === RUBY_PLATFORM
+  targets["macos"] = true if /darwin/ === RUBY_PLATFORM
+else
+  ARGV.each{|arg|
+    case arg
+    when /linux/
+      targets["linux"] = true if /linux/ === RUBY_PLATFORM
+    when /macos/
+      targets["macos"] = true  if /darwin/ === RUBY_PLATFORM
+    when /emscripten/
+      targets["emscripten"] = true if which "emcc"
+    when /mingw/
+      targets["x86_64-w64-mingw32"] = true if which "x86_64-w64-mingw32-gcc"
+    end
+  }
+end
 targets = targets.keys
 
 puts "targets: #{targets}"
