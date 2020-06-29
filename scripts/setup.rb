@@ -36,7 +36,7 @@ end
 
 FileUtils.mkdir_p "tmp"
 timestamp = Time.now.strftime "%Y%m%d-%H%M%S"
-pids = %w(linux emscripten x86_64-w64-mingw32).map{|target|
+pids = targets.map{|target|
   # logfile = File.join "tmp", "#{target}-#{timestamp}.log"
   logfile = File.join "tmp", "#{target}.log"
   Process.fork do
