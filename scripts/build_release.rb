@@ -17,9 +17,9 @@ def copy_templates(dir)
   }
 end
 
-def copy_bin(dir)
+def copy_bin(dir,ext="")
   FileUtils.mkdir_p dir
-  FileUtils.cp BINS.map{|bin| "build/#{TARGET}/bin/#{bin}" }, dir
+  FileUtils.cp BINS.map{|bin| "build/#{TARGET}/bin/#{bin}#{ext}" }, dir
 end
 
 def copy_dylibs(dir)
@@ -28,8 +28,16 @@ def copy_dylibs(dir)
   run "./scripts/macos/update_install_name.rb #{dir} #{BINS.join(' ')}"
 end
 
-copy_bin "#{OUTPUT_DIR}/bisdk/bin"
-copy_dylibs "#{OUTPUT_DIR}/bisdk/bin" if TARGET == "macos"
+def copy_dlls(dir)
+  libs = MINGW_DLLS.map{|l| "build/x86_64-w64-mingw32/bin/#{l}" }
+  FileUtils.cp libs, dir
+end
+
+ext = /mingw/ === TARGET ? ".exe" : ""
+copy_bin "#{OUTPUT_DIR}/bisdk/bin", ext
+
+copy_dylibs "#{OUTPUT_DIR}/bisdk/bin" if /macos/ === TARGET
+copy_dlls "#{OUTPUT_DIR}/bisdk/bin" if /mingw/ === TARGET
 
 copy_templates "#{OUTPUT_DIR}/bisdk/share/bisdk/templates"
 FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bisdk/"
