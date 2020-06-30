@@ -1,21 +1,16 @@
 #!/usr/bin/env ruby
+#
+# usage: update_install_name.rb /path/to/target/exes exe1 exe2 exe3...
+#
+
 require_relative "../lib/utils"
 
-# usage: update_install_name.rb target_file
 
 NEW_PATH = "@executable_path"
-LIBS = %w(
-  libmpg123.0.dylib
-  libSDL2-2.0.0.dylib
-  libSDL2_mixer-2.0.0.dylib
-  libSDL2_image-2.0.0.dylib
-  libhidapi.dylib
-  libGLEW.2.1.0.dylib
-)
 
-dir = File.dirname ARGV[0]
-targets = [ File.basename(ARGV[0]) ]
-targets += LIBS
+dir = ARGV.shift
+targets = ARGV
+targets += MACOS_DYLIBS
 
 puts "targets: #{targets} in #{dir}"
 Dir.chdir(dir) do
@@ -30,7 +25,7 @@ Dir.chdir(dir) do
     # list of current links
     list = (`otool -L #{t}`).each_line.drop(2).map{|l| l.match(/(.*) \(.*/)[1].strip }
     # change links
-    LIBS.each{|lib|
+    MACOS_DYLIBS.each{|lib|
       next if lib == t
       original_name = list.find{|l| l.end_with? lib }
       if original_name

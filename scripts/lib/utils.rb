@@ -4,6 +4,25 @@ require 'digest'
 
 MRUBY = "mruby-2.1.1"
 
+MACOS_DYLIBS = %w(
+  libSDL2-2.0.0.dylib
+  libSDL2_image-2.0.0.dylib
+  libSDL2_mixer-2.0.0.dylib
+  libmpg123.0.dylib
+  libhidapi.dylib
+  libGLEW.2.1.0.dylib
+)
+
+MINGW_DLLS = %w(
+  glew32.dll
+  libmpg123-0.dll
+  libpng16-16.dll
+  SDL2.dll
+  SDL2_image.dll
+  SDL2_mixer.dll
+  zlib1.dll
+)
+
 begin
   require "colorize"
 rescue LoadError

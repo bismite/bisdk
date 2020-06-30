@@ -2,13 +2,9 @@
 require_relative "lib/utils"
 
 TARGET = ARGV[0]
-LICENSE_DIR = "build/licenses/#{TARGET}"
+LICENSE_DIR = "build/#{TARGET}/licenses"
 
 FileUtils.mkdir_p LICENSE_DIR
-
-#
-# copy license files
-#
 
 FileUtils.cp "build/bi-core/LICENSE", "#{LICENSE_DIR}/LICENSE.bi-core.txt"
 FileUtils.cp "build/bi-ext/LICENSE", "#{LICENSE_DIR}/LICENSE.bi-ext.txt"
@@ -24,10 +20,11 @@ when /macos/
 
 when /mingw/
   FileUtils.cp "build/#{TARGET}/mruby/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
-  Dir["build/x86_64-w64-mingw32/bin/*.txt"].each{|f| FileUtils.cp f,LICENSE_DIR }
   Dir["src/licenses/mingw/*.txt"].each{|f| FileUtils.cp f,LICENSE_DIR }
   FileUtils.cp "build/download/COPYING.MinGW-w64-runtime.txt", LICENSE_DIR
   FileUtils.cp "build/download/COPYING.MinGW-w64.txt", LICENSE_DIR
+  # DLL license
+  FileUtils.cp "build/x86_64-w64-mingw32/bin/LICENSE.mpg123.txt",LICENSE_DIR
 
 when /emscripten/
   FileUtils.cp "build/#{TARGET}/mruby/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
