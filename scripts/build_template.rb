@@ -8,8 +8,6 @@ TARGET = ARGV[0]
 DST_DIR = ARGV[1] || "build/template"
 HOST = (/linux/ === RUBY_PLATFORM ? "linux" : "macos")
 
-FileUtils.mkdir_p "build/template/#{TARGET}"
-
 def copy_license_files(target,dir)
   FileUtils.mkdir_p dir
   FileUtils.cp_r "build/#{target}/licenses", dir
@@ -17,11 +15,13 @@ end
 
 case TARGET
 when /linux/
+  FileUtils.mkdir_p "#{DST_DIR}/linux"
   run "./build/#{HOST}/bin/bicompile src/main.rb #{DST_DIR}/linux/main.mrb"
   run "./scripts/build_biexec.rb linux src/main.c #{DST_DIR}/linux/main"
   copy_license_files "linux", "#{DST_DIR}/linux/licenses"
 
 when /macos/
+  FileUtils.mkdir_p "#{DST_DIR}/macos"
   FileUtils.cp_r "src/template.app", "#{DST_DIR}/macos/"
   resource_dir = "#{DST_DIR}/macos/template.app/Contents/Resources"
   FileUtils.mkdir_p resource_dir
@@ -33,9 +33,9 @@ when /macos/
   copy_license_files "macos", "#{DST_DIR}/macos/"
 
 when /mingw/
+  FileUtils.mkdir_p "#{DST_DIR}/x86_64-w64-mingw32"
   run "./build/#{HOST}/bin/bicompile src/main.rb #{DST_DIR}/x86_64-w64-mingw32/main.mrb"
   run "./scripts/build_biexec.rb mingw src/main.c #{DST_DIR}/x86_64-w64-mingw32/main"
-  # Dir["build/x86_64-w64-mingw32/bin/*.dll"].each{|f| FileUtils.cp f, "#{DST_DIR}/x86_64-w64-mingw32/"}
   libs = MINGW_DLLS.map{|l| "build/x86_64-w64-mingw32/bin/#{l}" }
   FileUtils.cp libs, "#{DST_DIR}/x86_64-w64-mingw32/"
   copy_license_files "x86_64-w64-mingw32", "#{DST_DIR}/x86_64-w64-mingw32/"
