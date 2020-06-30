@@ -23,7 +23,7 @@ Dir.chdir(dir) do
       run "install_name_tool -id '#{NEW_PATH}/#{t}' #{t}"
     end
     # list of current links
-    list = (`otool -L #{t}`).each_line.drop(2).map{|l| l.match(/(.*) \(.*/)[1].strip }
+    list = (`otool -L #{t}`).each_line.drop(1).map{|l| l.match(/(.*) \(.*/)[1].strip }
     # change links
     MACOS_DYLIBS.each{|lib|
       next if lib == t

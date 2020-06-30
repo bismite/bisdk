@@ -33,3 +33,5 @@ copy_dylibs "#{OUTPUT_DIR}/bisdk/bin" if TARGET == "macos"
 
 copy_templates "#{OUTPUT_DIR}/bisdk/share/bisdk/templates"
 FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bisdk/"
+
+Dir.chdir(OUTPUT_DIR){ `zip -r bisdk.zip bisdk` }
