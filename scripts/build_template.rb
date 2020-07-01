@@ -44,6 +44,9 @@ when /emscripten/
   %w(wasm js wasm-dl).each{|t|
     run "./build/#{HOST}/bin/bicompile src/main.rb #{DST_DIR}/#{t}/main.mrb"
     run "./scripts/build_biexec.rb #{t} src/main-emscripten.c src/support-emscripten.c #{DST_DIR}/#{t}/index.html"
+    empath = File.dirname which "emcc"
+    secret = "*" * empath.size
+    Dir["#{DST_DIR}/#{t}/*"].each{|f| run "sed -i -e 's@#{empath}@#{secret}@' #{f}" if File.file? f }
     copy_license_files "emscripten", "#{DST_DIR}/#{t}/"
   }
 end
