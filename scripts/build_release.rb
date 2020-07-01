@@ -42,4 +42,12 @@ copy_dlls "#{OUTPUT_DIR}/bisdk/bin" if /mingw/ === TARGET
 copy_templates "#{OUTPUT_DIR}/bisdk/share/bisdk/templates"
 FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bisdk/"
 
+%w(
+  biexport.rb
+  bipackassets.rb
+  biunpackassets.rb
+).each{|s|
+  FileUtils.cp "src/#{s}", "#{OUTPUT_DIR}/bisdk/bin/"
+}
+
 Dir.chdir(OUTPUT_DIR){ `zip -r bisdk.zip bisdk` }
