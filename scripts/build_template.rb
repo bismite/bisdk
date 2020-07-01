@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 #
-# usage: build_template.rb {linux|macos|emscripten|mingw} path/to/output
+# usage: build_template.rb {linux|macos|emscripten|mingw} [path/to/output]
 #
 require_relative "lib/utils"
 
 TARGET = ARGV[0]
-DST_DIR = ARGV[1] || "build/template"
+DST_DIR = ARGV[1] || "build/templates"
 HOST = (/linux/ === RUBY_PLATFORM ? "linux" : "macos")
 
 def copy_license_files(target,dir)

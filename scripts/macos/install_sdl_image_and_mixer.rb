@@ -38,10 +38,10 @@ DISABLE_FEATURES = %w(
   %w( SDL2_image-2.0.5 .tar.gz libSDL2_image-2.0.0.dylib ),
   %w( SDL2_mixer-2.0.4 .tar.gz libSDL2_mixer-2.0.0.dylib ),
 ].each{|name,ext,lib|
-  if File.exists? "build/macos/lib/#{lib}"
-    puts "build/macos/lib/#{lib} has been compiled."
-    next
-  end
+  # if File.exists? "build/macos/lib/#{lib}"
+  #   puts "build/macos/lib/#{lib} has been compiled."
+  #   next
+  # end
   zip = name+ext
   if ext.end_with? "bz2"
     run "tar jxf #{DOWNLOAD_DIR}/#{zip} -C build/macos"

@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 #
-# usage: build_release.rb {macos|linux|x86_64-w64-mingw32} /path/to/templates/dir /path/to/output/dir
+# usage: build_release.rb {macos|linux|x86_64-w64-mingw32} [/path/to/templates/dir] [/path/to/output/dir]
 #
 require_relative "lib/utils"
 
 TARGET = ARGV[0]
-TEMPLATES_DIR = ARGV[1]
+TEMPLATES_DIR = ARGV[1] || "build/templates"
 OUTPUT_DIR = ARGV[2] || "build/release/#{TARGET}"
 ARCHS = %w( linux macos x86_64-w64-mingw32 js wasm wasm-dl )
 BINS = %w(bicompile birun mirb mrbc mruby mruby-strip)
