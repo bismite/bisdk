@@ -34,20 +34,21 @@ def copy_dlls(dir)
 end
 
 ext = /mingw/ === TARGET ? ".exe" : ""
-copy_bin "#{OUTPUT_DIR}/bisdk/bin", ext
+copy_bin "#{OUTPUT_DIR}/bismite/bin", ext
 
-copy_dylibs "#{OUTPUT_DIR}/bisdk/bin" if /macos/ === TARGET
-copy_dlls "#{OUTPUT_DIR}/bisdk/bin" if /mingw/ === TARGET
+copy_dylibs "#{OUTPUT_DIR}/bismite/bin" if /macos/ === TARGET
+copy_dlls "#{OUTPUT_DIR}/bismite/bin" if /mingw/ === TARGET
 
-copy_templates "#{OUTPUT_DIR}/bisdk/share/bisdk/templates"
-FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bisdk/"
+copy_templates "#{OUTPUT_DIR}/bismite/share/bismite/templates"
+FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bismite/"
 
 %w(
   biexport.rb
   bipackassets.rb
   biunpackassets.rb
 ).each{|s|
-  FileUtils.cp "src/#{s}", "#{OUTPUT_DIR}/bisdk/bin/"
+  name = File.basename s, ".rb"
+  FileUtils.cp "src/#{s}", "#{OUTPUT_DIR}/bismite/bin/#{name}"
 }
 
-Dir.chdir(OUTPUT_DIR){ `zip -r bisdk.zip bisdk` }
+Dir.chdir(OUTPUT_DIR){ `zip -r bismite-#{TARGET}.zip bismite` }

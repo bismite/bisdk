@@ -57,7 +57,7 @@ class Export
     dst = File.join dst,name
 
     prefix = File.join File.dirname($0), ".."
-    template = "#{prefix}/share/bisdk/templates/#{template_name}/"
+    template = "#{prefix}/share/bismite/templates/#{template_name}/"
     main_mrb = "#{dst}/main.mrb"
     asset = "#{dst}/assets.dat"
 
@@ -71,8 +71,8 @@ end
 class MacOS
   def self.export( src, asset_file, dst )
     prefix = File.join File.dirname($0), ".."
-    template = "#{prefix}/share/bisdk/templates/macos/template.app"
-    licenses = "#{prefix}/share/bisdk/templates/macos/licenses"
+    template = "#{prefix}/share/bismite/templates/macos/template.app"
+    licenses = "#{prefix}/share/bismite/templates/macos/licenses"
     main_mrb = "#{dst}/template.app/Contents/Resources/main.mrb"
     asset = "#{dst}/template.app/Contents/Resources/assets.dat"
 
