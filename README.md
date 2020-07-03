@@ -13,7 +13,16 @@ Screenshots and Live Demo : https://bismite.github.io/
 
 ## Install
 
-For example: Unzip the archive into a `$HOME/.bismite-sdk` and set the PATH environment variable to `$HOME/.bismite-sdk/bin`.
+For example: Unzip the archive into a `$HOME/.bismite` and set the PATH environment variable to `$HOME/.bismite/bin`.
+
+## Usage
+
+- `birun source.rb` : Run the program.
+- `bipackassets path/to/assets path/to/output SECRET` : Archive the assets directory
+- `biunpackassets assets.dat SECRET` : Expand the archived assets.
+- `biexport <target> source.rb assets.dat path/to/output` : Export to the target platform.
+  - Select the target platform from `macos`, `linux`, `windows`, `wasm`, `wasm-dl` and `js` You can.
+
 
 ## Development
 

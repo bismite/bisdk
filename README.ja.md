@@ -13,7 +13,15 @@ Webブラウザで動作させるには、WebGLとWebAssemblyのサポートが�
 
 ## インストール
 
-例えば：アーカイブを `$HOME/.bismite-sdk` に解凍し、PATH 環境変数を `$HOME/.bismite-sdk/bin` に設定します。
+例えば：アーカイブを `$HOME/.bismite` に解凍し、PATH 環境変数を `$HOME/.bismite/bin` に設定します。
+
+## 使用方法
+
+- `birun source.rb` : プログラムを実行します
+- `bipackassets path/to/assets path/to/output SECRET` : アセットのディレクトリをアーカイブします
+- `biunpackassets assets.dat SECRET` : アーカイブされたアセットを展開します
+- `biexport <target> source.rb assets.dat path/to/output` : 対象プラットフォーム向けにエクスポートします
+  - `macos`, `linux`, `windows`, `wasm`, `wasm-dl`, `js` から対象を選択できます。
 
 ## 開発
 
