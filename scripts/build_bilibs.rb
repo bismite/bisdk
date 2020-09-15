@@ -54,7 +54,7 @@ when /mingw/
   copy_lib "mingw", INSTALL_PATH
 
 when /emscripten/
-  CFLAGS = "-std=c11 -Os #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
+  CFLAGS = "-std=gnu11 -Os #{WARN} -s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png] -fPIC"
   compile "Makefile.emscripten.mk", INCLUDE_PATHS, CFLAGS
   copy_lib TARGET, INSTALL_PATH
 
