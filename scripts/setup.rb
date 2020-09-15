@@ -6,6 +6,11 @@ targets = {}
 if ARGV.empty?
   targets["linux"] = true if /linux/ === RUBY_PLATFORM
   targets["macos"] = true if /darwin/ === RUBY_PLATFORM
+elsif ARGV.include? "all"
+  targets["linux"] = true if /linux/ === RUBY_PLATFORM
+  targets["macos"] = true if /darwin/ === RUBY_PLATFORM
+  targets["emscripten"] = true if which "emcc"
+  targets["x86_64-w64-mingw32"] = true if which "x86_64-w64-mingw32-gcc"
 else
   ARGV.each{|arg|
     case arg
