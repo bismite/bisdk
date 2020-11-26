@@ -8,7 +8,7 @@ FRAMEWORKS_DIR = "build/macos/Frameworks"
 LIB_DIR = "build/macos/lib"
 INCLUDE_DIR = "build/macos/include"
 BIN_DIR = "build/macos/bin"
-DOWNLOAD_DIR = "build/download"
+DOWNLOAD_DIR = "build/download/macos"
 
 FileUtils.mkdir_p FRAMEWORKS_DIR
 FileUtils.mkdir_p LIB_DIR

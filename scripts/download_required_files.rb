@@ -11,12 +11,12 @@ end
 
 def check!(path,hash)
   unless check(path,hash)
-    puts "#{path} download failed.".red
+    puts "#{path} download failed MD5 mismatch #{hash}".red
     exit 1
   end
 end
 
-def download(files)
+def download(files,target)
   files.each_slice(2) do |file,hash|
     if file.is_a? Array
       url,filename = file
@@ -24,7 +24,7 @@ def download(files)
       url = file
       filename = File.basename url
     end
-    filepath = "build/download/#{filename}"
+    filepath = "build/download/#{target}/#{filename}"
     if check filepath,hash
       puts "already downloaded #{filepath}"
     else
@@ -34,9 +34,8 @@ def download(files)
   end
 end
 
-
-FileUtils.mkdir_p "build/download"
 files = YAML.load File.read("scripts/required_files.yml")
-download files["mruby"]
-download files["macos"] if ARGV.include? "macos"
-download files["x86_64-w64-mingw32"] if ARGV.include? "x86_64-w64-mingw32"
+ARGV.each{|target|
+  FileUtils.mkdir_p "build/download/#{target}"
+  download files[target], target
+}

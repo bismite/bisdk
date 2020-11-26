@@ -6,20 +6,20 @@ LICENSE_DIR = "build/#{TARGET}/licenses"
 
 FileUtils.mkdir_p LICENSE_DIR
 
-FileUtils.cp "build/bi-core/LICENSE", "#{LICENSE_DIR}/LICENSE.bi-core.txt"
-FileUtils.cp "build/bi-ext/LICENSE", "#{LICENSE_DIR}/LICENSE.bi-ext.txt"
+FileUtils.cp "build/bismite-library-core/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-core.txt"
+FileUtils.cp "build/bismite-library-ext/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-ext.txt"
 
 case TARGET
 when /linux/
-  FileUtils.cp "build/#{TARGET}/mruby/host/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
+  FileUtils.cp "build/#{TARGET}/#{MRUBY}/build/host/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
 
 when /macos/
-  FileUtils.cp "build/#{TARGET}/mruby/host/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
+  FileUtils.cp "build/#{TARGET}/#{MRUBY}/build/host/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
   FileUtils.cp "build/macos/glew-2.1.0/LICENSE.txt", "#{LICENSE_DIR}/LICENSE.glew.txt"
   FileUtils.cp "build/macos/mpg123-1.25.13/COPYING", "#{LICENSE_DIR}/COPYING.mpg123.txt"
 
 when /mingw/
-  FileUtils.cp "build/#{TARGET}/mruby/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
+  FileUtils.cp "build/#{TARGET}/#{MRUBY}/build/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
   Dir["src/licenses/mingw/*.txt"].each{|f| FileUtils.cp f,LICENSE_DIR }
   FileUtils.cp "build/download/COPYING.MinGW-w64-runtime.txt", LICENSE_DIR
   FileUtils.cp "build/download/COPYING.MinGW-w64.txt", LICENSE_DIR

@@ -29,6 +29,7 @@ rescue LoadError
   String.class_eval do
     alias :yellow :to_s
     alias :red :to_s
+    alias :green :to_s
   end
 end
 

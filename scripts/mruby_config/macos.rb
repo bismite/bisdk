@@ -29,7 +29,7 @@ MRuby::Build.new do |conf|
   conf.linker do |linker|
     linker.command = 'clang'
     linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
-    linker.libraries += %W( bi biext GLEW SDL2 SDL2_image SDL2_mixer )
+    linker.libraries += %W( bismite-core bismite-ext GLEW SDL2 SDL2_image SDL2_mixer )
     linker.flags << "-framework OpenGL"
   end
 end

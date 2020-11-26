@@ -1,10 +1,27 @@
-sudo: false
-matrix:
+jobs:
   include:
     - os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
+      gemfile: Gemfile
+      addons:
+        homebrew:
+          packages:
+          - mingw-w64
+          - bison
+      script:
+        - "./build.rb mingw"
+    - os: osx
+      osx_image: xcode12.2
+      gemfile: Gemfile
+      addons:
+        homebrew:
+          packages:
+          - bison
+      script:
+        - "./build.rb macos"
     - os: linux
-      dist: bionic
+      dist: focal
+      gemfile: Gemfile
       addons:
         apt:
           packages:
@@ -14,15 +31,23 @@ matrix:
             - libsdl2-mixer-dev
             - libglew-dev
             - bison
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install mingw-w64; fi
-  - gem install colorize
-  - |
-    git clone https://github.com/emscripten-core/emsdk.git
-    cd emsdk
-    ./emsdk install latest
-    ./emsdk activate latest
-    source ./emsdk_env.sh
-    cd ../
-script:
-  - "./scripts/setup.rb"
+      script:
+        - "./build.rb linux"
+    - os: linux
+      dist: focal
+      gemfile: Gemfile
+      addons:
+        apt:
+          packages:
+            - build-essential
+            - bison
+      script:
+        - "./build.rb emscripten"
+      before_install:
+        - |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          cd ../
