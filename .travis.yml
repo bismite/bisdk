@@ -9,7 +9,7 @@ jobs:
           - mingw-w64
           - bison
       script:
-        - "./build.rb mingw"
+        - "./build.rb x86_64-w64-mingw32"
     - os: osx
       osx_image: xcode12.2
       gemfile: Gemfile
@@ -51,3 +51,14 @@ jobs:
           ./emsdk activate latest
           source ./emsdk_env.sh
           cd ../
+    - os: linux
+      dist: focal
+      gemfile: Gemfile
+      addons:
+        apt:
+          packages:
+            - build-essential
+            - bison
+            - mingw-w64
+      script:
+        - "./build.rb x86_64-w64-mingw32"
