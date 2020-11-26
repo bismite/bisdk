@@ -21,7 +21,7 @@ SDL2_MIXER_DIR="${MINGW_DIR}/SDL2_mixer-${SDL2_MIXER_VER}"
 mkdir -p ${BI_BUILDER_ROOT}/${MINGW_DIR}
 
 _dl_and_make_ () {
-  tar -xzf build/download/$2 -C ${MINGW_DIR}
+  tar -xzf build/download/x86_64-w64-mingw32/$2 -C ${MINGW_DIR}
   (cd $1; make cross CROSS_PATH=${BI_BUILDER_ROOT}/build ARCHITECTURES=x86_64-w64-mingw32)
 }
 

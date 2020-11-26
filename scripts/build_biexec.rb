@@ -65,7 +65,7 @@ class Mingw < Compiler
   INCLUDE_PATHS="-I #{BISDK_DIR}/build/x86_64-w64-mingw32/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/x86_64-w64-mingw32/lib"
 
-  LIBS="-lmruby -lbiext -lbi -lglew32 -lopengl32 -lws2_32 -static-libgcc"
+  LIBS="-lmruby -lbismite-ext -lbismite-core -lglew32 -lopengl32 -lws2_32 -static-libgcc"
 
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `#{SDL2_CONFIG} --cflags`"
   LDFLAGS="`#{SDL2_CONFIG} --libs` -lSDL2_image -lSDL2_mixer"
@@ -86,7 +86,7 @@ class Emscripten < Compiler
   CC="emcc"
   INCLUDE_PATHS="-I #{BISDK_DIR}/build/emscripten/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/emscripten/lib"
-  LIBS="-lmruby -lbiext -lbi"
+  LIBS="-lmruby -lbismite-ext -lbismite-core"
 
   EM_LIB_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=[png]"
   EM_MEMORY_FLAGS="-s ALLOW_MEMORY_GROWTH=1 -s INITIAL_MEMORY=128Mb -s MAXIMUM_MEMORY=1024Mb"

@@ -21,8 +21,8 @@ when /macos/
 when /mingw/
   FileUtils.cp "build/#{TARGET}/#{MRUBY}/build/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
   Dir["src/licenses/mingw/*.txt"].each{|f| FileUtils.cp f,LICENSE_DIR }
-  FileUtils.cp "build/download/COPYING.MinGW-w64-runtime.txt", LICENSE_DIR
-  FileUtils.cp "build/download/COPYING.MinGW-w64.txt", LICENSE_DIR
+  FileUtils.cp "build/download/#{TARGET}/COPYING.MinGW-w64-runtime.txt", LICENSE_DIR
+  FileUtils.cp "build/download/#{TARGET}/COPYING.MinGW-w64.txt", LICENSE_DIR
   # DLL license
   FileUtils.cp "build/x86_64-w64-mingw32/bin/LICENSE.mpg123.txt",LICENSE_DIR
 

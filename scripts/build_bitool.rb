@@ -5,7 +5,7 @@ TARGET = ARGV[0]
 
 exit if /emscripten/ === TARGET
 
-MRBC="./build/#{TARGET}/bin/mrbc"
+MRBC="./build/#{TARGET}/#{MRUBY}/bin/mrbc"
 
 DIR = "build/#{TARGET}/tools"
 FileUtils.mkdir_p DIR

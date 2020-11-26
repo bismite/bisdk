@@ -6,7 +6,7 @@ MINGW_DIR=build/x86_64-w64-mingw32
 
 
 if [ ! -e ${MINGW_DIR}/glew-2.1.0 ]; then
-  unzip build/download/glew-2.1.0-win32.zip -d ${MINGW_DIR}
+  unzip build/download/x86_64-w64-mingw32/glew-2.1.0-win32.zip -d ${MINGW_DIR}
 fi
 
 # copy
