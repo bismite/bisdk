@@ -27,7 +27,7 @@ when /mingw/
   FileUtils.cp "build/x86_64-w64-mingw32/bin/LICENSE.mpg123.txt",LICENSE_DIR
 
 when /emscripten/
-  FileUtils.cp "build/#{TARGET}/mruby/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
+  FileUtils.cp "build/#{TARGET}/#{MRUBY}/build/#{TARGET}/LEGAL", "#{LICENSE_DIR}/LEGAL.mruby.txt"
 
   EMDIR = File.dirname which "emcc"
 
