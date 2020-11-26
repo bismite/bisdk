@@ -6,8 +6,8 @@ LICENSE_DIR = "build/#{TARGET}/licenses"
 
 FileUtils.mkdir_p LICENSE_DIR
 
-FileUtils.cp "build/bismite-library-core/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-core.txt"
-FileUtils.cp "build/bismite-library-ext/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-ext.txt"
+FileUtils.cp "build/#{TARGET}/bismite-library-core/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-core.txt"
+FileUtils.cp "build/#{TARGET}/bismite-library-ext/LICENSE", "#{LICENSE_DIR}/LICENSE.bismite-library-ext.txt"
 
 case TARGET
 when /linux/

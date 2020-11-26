@@ -47,7 +47,7 @@ class Linux < Compiler
   CC = "clang"
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
-  LIBS="-lmruby -lbiext -lbi -lGLEW -lm -lGL"
+  LIBS="-lmruby -lbismite-ext -lbismite-core -lGLEW -lm -lGL"
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG `sdl2-config --cflags`"
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
