@@ -25,7 +25,6 @@ end
   ./scripts/build_mruby.rb
   ./scripts/licenses.rb
   ./scripts/build_bitool.rb
-  ./scripts/build_template.rb
 ).each{|script|
   run "#{script} #{TARGET}"
 }
