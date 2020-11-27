@@ -17,6 +17,7 @@ def check!(path,hash)
 end
 
 def download(files,target)
+  return unless files
   files.each_slice(2) do |file,hash|
     if file.is_a? Array
       url,filename = file
