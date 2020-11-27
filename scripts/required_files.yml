@@ -1,42 +1,19 @@
+common:
+  -
+    - https://github.com/bismite/bismite-library-core/archive/master.zip
+    - bismite-library-core.zip
+  - 3361a51b3bfb93ce8cf77f7aceccace7
+  -
+    - https://github.com/bismite/bismite-library-ext/archive/master.zip
+    - bismite-library-ext.zip
+  - 7da40aa1b8d6f5b282ff2aa4663d3c61
+  -
+    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
+    - mruby-2.1.1.tar.gz
+  - c0ee4a112695046b9e4f177e31096d6c
 linux:
-  -
-    - https://github.com/bismite/bismite-library-core/archive/master.zip
-    - bismite-library-core.zip
-  - 3361a51b3bfb93ce8cf77f7aceccace7
-  -
-    - https://github.com/bismite/bismite-library-ext/archive/master.zip
-    - bismite-library-ext.zip
-  - 7da40aa1b8d6f5b282ff2aa4663d3c61
-  -
-    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
-    - mruby-2.1.1.tar.gz
-  - c0ee4a112695046b9e4f177e31096d6c
 emscripten:
-  -
-    - https://github.com/bismite/bismite-library-core/archive/master.zip
-    - bismite-library-core.zip
-  - 3361a51b3bfb93ce8cf77f7aceccace7
-  -
-    - https://github.com/bismite/bismite-library-ext/archive/master.zip
-    - bismite-library-ext.zip
-  - 7da40aa1b8d6f5b282ff2aa4663d3c61
-  -
-    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
-    - mruby-2.1.1.tar.gz
-  - c0ee4a112695046b9e4f177e31096d6c
 macos:
-  -
-    - https://github.com/bismite/bismite-library-core/archive/master.zip
-    - bismite-library-core.zip
-  - 3361a51b3bfb93ce8cf77f7aceccace7
-  -
-    - https://github.com/bismite/bismite-library-ext/archive/master.zip
-    - bismite-library-ext.zip
-  - 7da40aa1b8d6f5b282ff2aa4663d3c61
-  -
-    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
-    - mruby-2.1.1.tar.gz
-  - c0ee4a112695046b9e4f177e31096d6c
   - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz
   - b2ab12331033ddfaa50dc39345343980
   - https://www.libsdl.org/release/SDL2-2.0.12.dmg
@@ -48,18 +25,6 @@ macos:
   - https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.tar.gz
   - a36e8410cac46b00a4d01752b32c3eb1
 x86_64-w64-mingw32:
-  -
-    - https://github.com/bismite/bismite-library-core/archive/master.zip
-    - bismite-library-core.zip
-  - 3361a51b3bfb93ce8cf77f7aceccace7
-  -
-    - https://github.com/bismite/bismite-library-ext/archive/master.zip
-    - bismite-library-ext.zip
-  - 7da40aa1b8d6f5b282ff2aa4663d3c61
-  -
-    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
-    - mruby-2.1.1.tar.gz
-  - c0ee4a112695046b9e4f177e31096d6c
   - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip
   - 32a72e6b43367db8dbea6010cd095355
   - https://www.libsdl.org/release/SDL2-devel-2.0.10-mingw.tar.gz
