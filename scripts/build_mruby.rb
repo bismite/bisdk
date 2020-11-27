@@ -19,6 +19,7 @@ def install_mruby(target,build_name)
   FileUtils.rm_f "build/#{target}/bin/mruby-config"
   FileUtils.cp_r "build/#{target}/#{MRUBY}/build/#{build_name}/lib/.", "build/#{target}/lib/"
   FileUtils.cp_r "build/#{target}/#{MRUBY}/include/.", "build/#{target}/include/"
+  FileUtils.cp_r "build/#{target}/#{MRUBY}/build/#{build_name}/include/.", "build/#{target}/include/"
 end
 
 if %w(macos linux).include? TARGET

@@ -20,10 +20,15 @@ def include_gems(conf)
   conf.gem github: 'iij/mruby-iijson'
   # conf.gem github: 'suzukaze/mruby-msgpack' # too much warn
   # conf.gem github:"Asmod4n/mruby-simplemsgpack" # trouble in travis
-  conf.gem github: "bismite/mruby-simplemsgpack"
   # conf.gem github: 'hfm/mruby-fileutils' # error in mingw
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
+
+  if ENV['MRUBY_SIMPLEMSGPACK']
+    conf.gem ENV['MRUBY_SIMPLEMSGPACK']
+  else
+    conf.gem github: "bismite/mruby-simplemsgpack", branch:'mruby3'
+  end
 
   if ENV['MRUBY_BI_CORE']
     conf.gem ENV['MRUBY_BI_CORE']

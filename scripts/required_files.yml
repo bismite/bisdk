@@ -8,9 +8,9 @@ common:
     - bismite-library-ext.zip
   - 7da40aa1b8d6f5b282ff2aa4663d3c61
   -
-    - https://github.com/mruby/mruby/archive/2.1.1.tar.gz
-    - mruby-2.1.1.tar.gz
-  - c0ee4a112695046b9e4f177e31096d6c
+    - https://github.com/mruby/mruby/archive/master.tar.gz
+    - mruby-master.tar.gz
+  - 873723b9164ca6176cceedb2dda7bc83
 linux:
 emscripten:
 macos:
