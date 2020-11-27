@@ -29,9 +29,7 @@ class MacOS < Compiler
   CC = "clang"
   INCLUDE_PATHS = "-I #{BISDK_DIR}/build/#{HOST}/include -I #{BISDK_DIR}/build/#{HOST}/include/SDL2"
   LIB_PATHS="-L #{BISDK_DIR}/build/#{HOST}/lib"
-
-  # LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW -lstdc++"
-  LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbiext -lbi -lGLEW"
+  LIBS="-lSDL2 -lSDL2_image -lSDL2_mixer -lmpg123 -lmruby -lbismite-ext -lbismite-core -lGLEW"
   FRAMEWORKS="-framework OpenGL"
   CFLAGS="-std=gnu11 -Os -Wall -DNDEBUG -fPIC"
   LDFLAGS="-shared #{FRAMEWORKS}"
