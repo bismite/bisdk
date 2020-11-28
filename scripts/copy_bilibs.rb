@@ -8,7 +8,9 @@ BI_EXT_DIR="#{DIR}/bismite-library-ext"
 
 unless Dir.exists? BI_CORE_DIR
   if ENV["BI_CORE"]
-    FileUtils.cp_r ENV["BI_CORE"], "#{DIR}"
+    puts "bismite-core library copy from #{ENV["BI_CORE"]}"
+    FileUtils.mkdir_p BI_CORE_DIR
+    FileUtils.cp_r File.join(ENV["BI_CORE"],"/."), BI_CORE_DIR
     FileUtils.rm_rf "#{BI_CORE_DIR}/build"
   else
     run "unzip build/download/#{TARGET}/bismite-library-core.zip -d #{DIR}"
@@ -18,7 +20,9 @@ end
 
 unless Dir.exists? BI_EXT_DIR
   if ENV["BI_EXT"]
-    FileUtils.cp_r ENV["BI_EXT"], "#{DIR}"
+    puts "bismite-ext library copy from #{ENV["BI_EXT"]}"
+    FileUtils.mkdir_p BI_EXT_DIR
+    FileUtils.cp_r File.join(ENV["BI_EXT"],"/."), BI_EXT_DIR
     FileUtils.rm_rf "#{BI_EXT_DIR}/build"
   else
     run "unzip build/download/#{TARGET}/bismite-library-ext.zip -d #{DIR}"

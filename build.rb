@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "dotenv/load" rescue nil
 require 'optparse'
 require_relative "scripts/lib/utils"
 
@@ -7,7 +8,8 @@ exit 1 unless TARGET
 puts "TARGET: #{TARGET}"
 run "./scripts/download_required_files.rb #{TARGET}"
 run "./scripts/copy_bilibs.rb #{TARGET}"
-run "tar zxf build/download/#{TARGET}/#{MRUBY}.tar.gz -C build/#{TARGET}"
+FileUtils.mkdir_p "build/#{TARGET}/#{MRUBY}"
+run "tar --strip-component 1 -zxf build/download/#{TARGET}/#{MRUBY}.tar.gz -C build/#{TARGET}/#{MRUBY}"
 
 # install libraries
 case TARGET
