@@ -1,12 +1,12 @@
 common:
   -
-    - https://github.com/bismite/bismite-library-core/archive/master.zip
-    - bismite-library-core.zip
-  - 3361a51b3bfb93ce8cf77f7aceccace7
+    - https://github.com/bismite/bismite-library-core/archive/master.tar.gz
+    - bismite-library-core.tar.gz
+  - 4ac8d53269a8dd6f04a14a4f6d335e3f
   -
-    - https://github.com/bismite/bismite-library-ext/archive/master.zip
-    - bismite-library-ext.zip
-  - 7da40aa1b8d6f5b282ff2aa4663d3c61
+    - https://github.com/bismite/bismite-library-ext/archive/master.tar.gz
+    - bismite-library-ext.tar.gz
+  - 4f7b7e70010476ba0e0c56f92968aa4d
   -
     - https://github.com/mruby/mruby/archive/6d07d9b3d7a64834bda8644ab6c4ed1fabe217a4.tar.gz
     - mruby-3.0.0.tar.gz

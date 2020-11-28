@@ -11,26 +11,26 @@ ARCHS = %w( linux macos x86_64-w64-mingw32 js wasm wasm-dl )
 BINS = %w(bicompile birun mirb mrbc mruby mruby-strip)
 
 def copy_templates(dir)
-  FileUtils.mkdir_p dir
+  mkdir_p dir
   ARCHS.each{|arch|
-    FileUtils.cp_r File.join(TEMPLATES_DIR,arch), dir
+    cp_r File.join(TEMPLATES_DIR,arch), dir
   }
 end
 
 def copy_bin(dir,ext="")
-  FileUtils.mkdir_p dir
-  FileUtils.cp BINS.map{|bin| "build/#{TARGET}/bin/#{bin}#{ext}" }, dir
+  mkdir_p dir
+  cp BINS.map{|bin| "build/#{TARGET}/bin/#{bin}#{ext}" }, dir
 end
 
 def copy_dylibs(dir)
   libs = MACOS_DYLIBS.map{|l| "build/macos/lib/#{l}" }
-  FileUtils.cp libs, dir
+  cp libs, dir
   run "./scripts/macos/update_install_name.rb #{dir} #{BINS.join(' ')}"
 end
 
 def copy_dlls(dir)
   libs = MINGW_DLLS.map{|l| "build/x86_64-w64-mingw32/bin/#{l}" }
-  FileUtils.cp libs, dir
+  cp libs, dir
 end
 
 ext = /mingw/ === TARGET ? ".exe" : ""
@@ -40,7 +40,7 @@ copy_dylibs "#{OUTPUT_DIR}/bismite/bin" if /macos/ === TARGET
 copy_dlls "#{OUTPUT_DIR}/bismite/bin" if /mingw/ === TARGET
 
 copy_templates "#{OUTPUT_DIR}/bismite/share/bismite/templates"
-FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bismite/"
+cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bismite/"
 
 %w(
   biexport.rb
@@ -48,7 +48,7 @@ FileUtils.cp_r "build/#{TARGET}/licenses", "#{OUTPUT_DIR}/bismite/"
   biunpackassets.rb
 ).each{|s|
   name = File.basename s, ".rb"
-  FileUtils.cp "src/#{s}", "#{OUTPUT_DIR}/bismite/bin/#{name}"
+  cp "src/#{s}", "#{OUTPUT_DIR}/bismite/bin/#{name}"
 }
 
 Dir.chdir(OUTPUT_DIR){ `zip -r bismite-#{TARGET}.zip bismite` }

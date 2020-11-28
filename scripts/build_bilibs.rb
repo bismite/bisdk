@@ -12,15 +12,15 @@ BI_EXT_DIR="build/#{TARGET}/bismite-library-ext"
 #
 
 def copy_headers(target)
-  FileUtils.mkdir_p "#{target}/include"
-  FileUtils.cp_r "#{BI_CORE_DIR}/include/.", "#{target}/include"
-  FileUtils.cp_r "#{BI_EXT_DIR}/include/.", "#{target}/include"
+  mkdir_p "#{target}/include"
+  cp_r "#{BI_CORE_DIR}/include/.", "#{target}/include"
+  cp_r "#{BI_EXT_DIR}/include/.", "#{target}/include"
 end
 
 def copy_lib(arch,target)
-  FileUtils.mkdir_p "#{target}/lib"
-  FileUtils.cp "#{BI_CORE_DIR}/build/#{arch}/libbismite-core.a", "#{target}/lib/"
-  FileUtils.cp "#{BI_EXT_DIR}/build/#{arch}/libbismite-ext.a", "#{target}/lib/"
+  mkdir_p "#{target}/lib"
+  cp "#{BI_CORE_DIR}/build/#{arch}/libbismite-core.a", "#{target}/lib/"
+  cp "#{BI_EXT_DIR}/build/#{arch}/libbismite-ext.a", "#{target}/lib/"
 end
 
 def compile(makefile,include_path,cflags)

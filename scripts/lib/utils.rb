@@ -23,6 +23,8 @@ MINGW_DLLS = %w(
   zlib1.dll
 )
 
+include FileUtils
+
 begin
   require "colorize"
 rescue LoadError

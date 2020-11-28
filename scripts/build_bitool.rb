@@ -8,8 +8,8 @@ exit if /emscripten/ === TARGET
 MRBC="./build/#{TARGET}/#{MRUBY}/bin/mrbc"
 
 DIR = "build/#{TARGET}/tools"
-FileUtils.mkdir_p DIR
-%w( bicompile.c birun.c bitool.h bitool.rb ).each{|f| FileUtils.copy "src/bitool/#{f}", DIR }
+mkdir_p DIR
+%w( bicompile.c birun.c bitool.h bitool.rb ).each{|f| copy "src/bitool/#{f}", DIR }
 
 run "#{MRBC} -B bitool_rb -o #{DIR}/bitool_rb.h #{DIR}/bitool.rb"
 

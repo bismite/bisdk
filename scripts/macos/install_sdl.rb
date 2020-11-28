@@ -10,10 +10,10 @@ INCLUDE_DIR = "build/macos/include"
 BIN_DIR = "build/macos/bin"
 DOWNLOAD_DIR = "build/download/macos"
 
-FileUtils.mkdir_p FRAMEWORKS_DIR
-FileUtils.mkdir_p LIB_DIR
-FileUtils.mkdir_p INCLUDE_DIR
-FileUtils.mkdir_p BIN_DIR
+mkdir_p FRAMEWORKS_DIR
+mkdir_p LIB_DIR
+mkdir_p INCLUDE_DIR
+mkdir_p BIN_DIR
 
 unless File.exists? "#{FRAMEWORKS_DIR}/#{SDL2_FRAMEWORK}"
   run "hdiutil attach #{DOWNLOAD_DIR}/#{SDL2_DMG}"

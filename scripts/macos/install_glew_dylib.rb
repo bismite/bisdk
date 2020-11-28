@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 require_relative "../lib/utils"
 
-FileUtils.mkdir_p "build/macos/lib"
-FileUtils.mkdir_p "build/macos/include"
+mkdir_p "build/macos/lib"
+mkdir_p "build/macos/include"
 
 GLEW_DEST = File.join Dir.pwd, "build/macos/"
 
