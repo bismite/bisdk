@@ -18,6 +18,7 @@ when /macos/
   %w(bicompile birun).each{|name|
     outfile = "build/macos/bin/#{name}"
     cmd = "clang -Os -std=c11 -Wall #{DIR}/#{name}.c -o #{outfile}"
+    cmd << " -DMRB_INT64 -DMRB_UTF8_STRING -DMRB_NO_BOXING "
     cmd << " -I build/macos/include -I build/macos/include/SDL2"
     cmd << " -L build/macos/lib -lmruby -lbismite-core -lbismite-ext -lSDL2 -lSDL2_mixer -lSDL2_image"
     cmd << " -lGLEW -framework OpenGL"
