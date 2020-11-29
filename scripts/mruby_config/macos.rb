@@ -7,7 +7,7 @@ HOST="macos"
 OPTIMIZE = "-Os"
 C_STD="-std=gnu11"
 COMMON_CFLAGS = %W( -DNDEBUG -Wall -Werror-implicit-function-declaration -Wwrite-strings)
-COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
+COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING MRB_NO_BOXING)
 
 MRuby::Build.new do |conf|
   toolchain :clang
