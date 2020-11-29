@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "fileutils"
+include FileUtils
 begin
   require "colorize"
 rescue LoadError
@@ -12,7 +13,7 @@ end
 BISDK_DIR=File.absolute_path(File.join(File.dirname(__FILE__),".."))
 
 class Compiler
-  MRB_FLAGS="-DMRB_INT64 -DMRB_UTF8_STRING"
+  MRB_FLAGS="-DMRB_INT64 -DMRB_UTF8_STRING -DMRB_NO_BOXING"
 end
 
 def run(cmd)

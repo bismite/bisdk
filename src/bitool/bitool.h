@@ -121,11 +121,11 @@ static char* _compile(const char* filename, const char* source, const char* outf
     return error_text;
   }
 
-  unsigned int flags = DUMP_ENDIAN_LIL | DUMP_DEBUG_INFO; // DUMP_DEBUG_INFO , DUMP_ENDIAN_BIG, DUMP_ENDIAN_LIL...
+  unsigned int flags = DUMP_DEBUG_INFO; // DUMP_DEBUG_INFO , DUMP_ENDIAN_BIG, DUMP_ENDIAN_LIL...
   int dump_result = MRB_DUMP_OK;
   struct RProc *proc = mrb_proc_ptr(obj);
-  mrb_irep *irep = proc->body.irep;
-  mrb_irep_remove_lv(mrb, irep);
+  const mrb_irep *irep = proc->body.irep;
+  mrb_irep_remove_lv(mrb, (mrb_irep*)irep);
   dump_result = mrb_dump_irep_binary(mrb, irep, flags, fp);
 
   if( dump_result != MRB_DUMP_OK ){
