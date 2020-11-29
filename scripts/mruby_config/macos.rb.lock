@@ -1,7 +1,7 @@
 ---
-mruby:
-  version: 3.0.0
-  release_no: 30000
+mruby_version:
+  version: 2.1.2
+  release_no: 20102
 builds:
   host:
     https://github.com/appPlant/mruby-os.git:
@@ -46,8 +46,8 @@ builds:
       version: 0.0.0
     https://github.com/bismite/mruby-simplemsgpack.git:
       url: https://github.com/bismite/mruby-simplemsgpack.git
-      branch: mruby3
-      commit: 75c00b6b7cb0939b6659b24711d1c0ae34db65fe
+      branch: master
+      commit: 6a66a0217407a1bf4733ef843a70ce90ddbaa261
       version: 0.0.0
     https://github.com/bismite/mruby-bi-core.git:
       url: https://github.com/bismite/mruby-bi-core.git

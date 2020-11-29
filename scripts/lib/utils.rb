@@ -2,7 +2,7 @@ require "fileutils"
 require "yaml"
 require 'digest'
 
-MRUBY = "mruby-3.0.0"
+MRUBY = "mruby-2.1.2"
 
 MACOS_DYLIBS = %w(
   libSDL2-2.0.0.dylib

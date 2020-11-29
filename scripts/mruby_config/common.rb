@@ -27,7 +27,7 @@ def include_gems(conf)
   if ENV['MRUBY_SIMPLEMSGPACK']
     conf.gem ENV['MRUBY_SIMPLEMSGPACK']
   else
-    conf.gem github: "bismite/mruby-simplemsgpack", branch:'mruby3'
+    conf.gem github: "bismite/mruby-simplemsgpack"
   end
 
   if ENV['MRUBY_BI_CORE']
