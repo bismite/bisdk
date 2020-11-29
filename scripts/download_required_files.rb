@@ -37,7 +37,7 @@ end
 
 files = YAML.load File.read("scripts/required_files.yml")
 ARGV.each{|target|
-  FileUtils.mkdir_p "build/download/#{target}"
+  mkdir_p "build/download/#{target}"
   download files["common"], target
   download files[target], target
 }

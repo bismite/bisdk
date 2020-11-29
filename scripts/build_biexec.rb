@@ -36,7 +36,7 @@ class MacOS < Compiler
   LDFLAGS="#{FRAMEWORKS}"
 
   def self.compile(sources,outfile)
-    FileUtils.mkdir_p File.dirname(outfile)
+    mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
     run cmd
   end
@@ -52,7 +52,7 @@ class Linux < Compiler
   LDFLAGS="`sdl2-config --libs` -lSDL2_image -lSDL2_mixer"
 
   def self.compile(sources,outfile)
-    FileUtils.mkdir_p File.dirname(outfile)
+    mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
     run cmd
   end
@@ -76,7 +76,7 @@ class Mingw < Compiler
   end
 
   def self.compile(sources,outfile)
-    FileUtils.mkdir_p File.dirname(outfile)
+    mkdir_p File.dirname(outfile)
     cmd = "#{CC} -o #{outfile} #{sources.join(" ")} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS}"
     run cmd
   end
@@ -104,7 +104,7 @@ class Emscripten < Compiler
     $?.success?
   end
   def self.compile(sources,outfile)
-    FileUtils.mkdir_p File.dirname(outfile)
+    mkdir_p File.dirname(outfile)
     cmd = "#{CC} -v -o #{outfile} #{sources.join(" ")} #{self.target} #{EM_FLAGS} #{CFLAGS} #{INCLUDE_PATHS} #{MRB_FLAGS} #{LIB_PATHS} #{LIBS} #{LDFLAGS} #{SHELL}"
     run cmd
   end
