@@ -8,6 +8,7 @@ rescue LoadError
     alias :red :to_s
   end
 end
+include FileUtils
 
 BISDK_DIR=File.absolute_path(File.join(File.dirname(__FILE__),".."))
 
