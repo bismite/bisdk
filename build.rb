@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
+begin
+  require "dotenv/load"
+rescue LoadError
+  nil
+end
 require 'optparse'
 require_relative "scripts/lib/utils"
 
