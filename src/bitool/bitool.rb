@@ -167,7 +167,13 @@ class Restorer
 end
 
 
-def run(infile)
+def run
+  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size != 1
+    puts "Usage: birun source.rb"
+    exit 1
+  end
+  infile = ARGV.first
+
   compile = Bi::Compile.new infile
   begin
     compile.run
@@ -181,10 +187,18 @@ def run(infile)
   end
 end
 
-def compile(infile,outfile)
-  exit 1 if infile.to_s.empty? or outfile.to_s.empty?
+def compile
+  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size != 2
+    puts "Usage: bicompile source.rb out.mrb"
+    exit 1
+  end
+  infile = ARGV.first
+  outfile = ARGV.last
 
-  exit 1 unless infile.end_with? ".rb"
+  if not infile.end_with? ".rb" or not outfile.end_with? ".mrb"
+    puts "Usage: bicompile source.rb out.mrb"
+    exit 1
+  end
 
   compile = Bi::Compile.new infile
 

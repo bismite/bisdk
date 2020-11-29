@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
   create_mruby_inner_methods(mrb);
   mrb_value obj = mrb_load_irep(mrb,bitool_rb);
 
-  mrb_funcall(mrb, obj, "run", 1, mrb_str_new_cstr(mrb,argv[1]));
+  mrb_funcall(mrb, obj, "run", 0);
 
   if (mrb->exc) {
     if (mrb_undef_p(obj)) {
