@@ -168,12 +168,11 @@ end
 
 
 def run
-  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size != 1
-    puts "Usage: birun source.rb"
+  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size < 1
+    puts "Usage: birun source.rb [arguments]"
     exit 1
   end
   infile = ARGV.first
-
   compile = Bi::Compile.new infile
   begin
     compile.run
