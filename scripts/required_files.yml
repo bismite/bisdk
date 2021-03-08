@@ -2,7 +2,7 @@ common:
   -
     - https://github.com/bismite/bismite-library-core/archive/master.tar.gz
     - bismite-library-core.tar.gz
-  - 4ac8d53269a8dd6f04a14a4f6d335e3f
+  - e91622e7669858de32b6c0b2d6426757
   -
     - https://github.com/bismite/bismite-library-ext/archive/master.tar.gz
     - bismite-library-ext.tar.gz

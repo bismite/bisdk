@@ -9,11 +9,11 @@ def include_gems(conf)
     conf.gem :core => g unless g =~ /^mruby-(bin-debugger|test)$/
   end
 
-  conf.gem github: 'appPlant/mruby-os'
+  conf.gem github: 'katzer/mruby-os'
   conf.gem github: 'iij/mruby-env'
   # conf.gem github: 'iij/mruby-process' # fail in mingw
   if conf.name != "emscripten"
-    conf.gem github: 'appPlant/mruby-process' # fail in emscripten module
+    conf.gem github: 'katzer/mruby-process' # fail in emscripten module
   end
   conf.gem github: 'ksss/mruby-singleton'
   conf.gem github: 'iij/mruby-dir'
@@ -24,47 +24,19 @@ def include_gems(conf)
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
 
-  if ENV['MRUBY_SIMPLEMSGPACK']
-    conf.gem ENV['MRUBY_SIMPLEMSGPACK']
-  else
-    conf.gem github: "bismite/mruby-simplemsgpack"
+  ENV['MRUBY_SIMPLEMSGPACK'] ? conf.gem(ENV['MRUBY_SIMPLEMSGPACK']) : conf.gem(github:"bismite/mruby-simplemsgpack")
+
+  ENV['MRUBY_BI_CORE']  ? conf.gem(ENV['MRUBY_BI_CORE'])  : conf.gem(github:'bismite/mruby-bi-core')
+  ENV['MRUBY_BI_EXT']   ? conf.gem(ENV['MRUBY_BI_EXT'])   : conf.gem(github:'bismite/mruby-bi-ext')
+  ENV['MRUBY_BI_SOUND'] ? conf.gem(ENV['MRUBY_BI_SOUND']) : conf.gem(github:'bismite/mruby-bi-sound')
+  ENV['MRUBY_BI_ARCHIVE'] ? conf.gem(ENV['MRUBY_BI_ARCHIVE']) : conf.gem(github:'bismite/mruby-bi-archive')
+  ENV['MRUBY_BI_IMAGE'] ? conf.gem(ENV['MRUBY_BI_IMAGE']) : conf.gem(github:'bismite/mruby-bi-image')
+
+  ENV['MRUBY_BI_GEOMETRY'] ?  conf.gem(ENV['MRUBY_BI_GEOMETRY']) : conf.gem(github:'bismite/mruby-bi-geometry')
+
+  if conf.name == "emscripten"
+    ENV['MRUBY_EMSCRIPTEN'] ?  conf.gem(ENV['MRUBY_EMSCRIPTEN']) : conf.gem(github:'bismite/mruby-emscripten')
   end
 
-  if ENV['MRUBY_BI_CORE']
-    conf.gem ENV['MRUBY_BI_CORE']
-  else
-    conf.gem github: 'bismite/mruby-bi-core'
-  end
-  if ENV['MRUBY_BI_EXT']
-    conf.gem ENV['MRUBY_BI_EXT']
-  else
-    conf.gem github: 'bismite/mruby-bi-ext'
-  end
-  if ENV['MRUBY_BI_SOUND']
-    conf.gem ENV['MRUBY_BI_SOUND']
-  else
-    conf.gem github: 'bismite/mruby-bi-sound'
-  end
-  if ENV['MRUBY_BI_ARCHIVE']
-    conf.gem ENV['MRUBY_BI_ARCHIVE']
-  else
-    conf.gem github: 'bismite/mruby-bi-archive'
-  end
-  if ENV['MRUBY_BI_GEOMETRY']
-    conf.gem ENV['MRUBY_BI_GEOMETRY']
-  else
-    conf.gem github: 'bismite/mruby-bi-geometry'
-  end
-  if conf.name == "emscripten"
-    if ENV['MRUBY_EMSCRIPTEN']
-      conf.gem ENV['MRUBY_EMSCRIPTEN']
-    else
-      conf.gem github: 'bismite/mruby-emscripten'
-    end
-  end
-  if ENV['MRUBY_BI_DLOPEN']
-    conf.gem ENV['MRUBY_BI_DLOPEN']
-  else
-    conf.gem github: 'bismite/mruby-bi-dlopen'
-  end
+  ENV['MRUBY_BI_DLOPEN'] ? conf.gem(ENV['MRUBY_BI_DLOPEN']) : conf.gem(github: 'bismite/mruby-bi-dlopen')
 end
