@@ -168,38 +168,50 @@ end
 
 
 def run
-  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size < 1
-    puts "Usage: birun source.rb [arguments]"
+  if ARGV == ["-h"] or ARGV == ["--help"] or ARGV.size < 1
+    puts "Usage: birun [switches] source.rb [arguments]"
+    puts "switches: -I/load/path"
     exit 1
   end
-  infile = ARGV.first
-  compile = Bi::Compile.new infile
+  index = ARGV.index{|a| ! a.start_with?("-") }
+  args = ARGV[index..-1]
+  switches = ARGV[0...index]
+  load_path = switches.map{|s| s.start_with?("-I") ? s[2..-1] : nil }.compact
+
+  infile = args.first
+  compile = Bi::Compile.new infile, load_path
   begin
     compile.run
   rescue SyntaxError => e
     exit 1
   end
 
-  result = Bi.run infile, compile.code, ARGV
+  result = Bi.run infile, compile.code, args
   if result
     STDERR.puts result
   end
 end
 
 def compile
-  if ARGV.find{|arg| ["-h","--help"].include? arg } or ARGV.size != 2
-    puts "Usage: bicompile source.rb out.mrb"
+  if ARGV == ["-h"] or ARGV == ["--help"] or ARGV.size < 2
+    puts "Usage: bicompile [switches] source.rb out.mrb"
+    puts "switches: -I/load/path"
     exit 1
   end
-  infile = ARGV.first
-  outfile = ARGV.last
+  index = ARGV.index{|a| ! a.start_with?("-") }
+  args = ARGV[index..-1]
+  switches = ARGV[0...index]
+  load_path = switches.map{|s| s.start_with?("-I") ? s[2..-1] : nil }.compact
+
+  infile = args.first
+  outfile = args.last
 
   if not infile.end_with? ".rb" or not outfile.end_with? ".mrb"
-    puts "Usage: bicompile source.rb out.mrb"
+    puts "Usage: bicompile [switches] source.rb out.mrb"
     exit 1
   end
 
-  compile = Bi::Compile.new infile
+  compile = Bi::Compile.new infile, load_path
 
   begin
     compile.run
