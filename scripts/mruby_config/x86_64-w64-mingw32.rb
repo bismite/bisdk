@@ -15,9 +15,6 @@ MRuby::CrossBuild.new('x86_64-w64-mingw32') do |conf|
   toolchain :gcc
   conf.host_target = "x86_64-w64-mingw32"
 
-  conf.enable_bintest = false
-  conf.enable_test = false
-
   include_gems(conf)
 
   conf.cc do |cc|

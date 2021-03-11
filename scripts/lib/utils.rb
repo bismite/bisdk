@@ -60,7 +60,7 @@ def install_path(target)
   case target
   when "macos"
     "#{root}/build/macos/bismite-sdk.app/Contents/Resources"
-  when "linux","mingw","emscripten"
+  when "linux","x86_64-w64-mingw32","emscripten"
     "#{root}/build/#{target}"
   else
     raise "target name invalid: #{target}"

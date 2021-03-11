@@ -6,7 +6,7 @@ rescue LoadError
 end
 require_relative "scripts/lib/utils"
 
-targets = ARGV.reject{|a| not ["clean","macos","linux","emscripten","mingw"].include? a }
+targets = ARGV.reject{|a| not ["clean","macos","linux","emscripten","x86_64-w64-mingw32"].include? a }
 if targets.empty?
   if RUBY_PLATFORM.include?("darwin")
     targets << "macos"
@@ -16,9 +16,6 @@ if targets.empty?
 end
 
 targets.each do |target|
-
-  exit 1 unless ["clean","macos","linux","emscripten","mingw"].include? target
-
   p install_path target
 
   if target == "clean"

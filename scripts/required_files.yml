@@ -27,8 +27,8 @@ macos:
 x86_64-w64-mingw32:
   - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0-win32.zip
   - 32a72e6b43367db8dbea6010cd095355
-  - https://www.libsdl.org/release/SDL2-devel-2.0.10-mingw.tar.gz
-  - 9557cc8b9a6380b6c18a4ec29c575274
+  - https://www.libsdl.org/release/SDL2-devel-2.0.14-mingw.tar.gz
+  - 1f331c4e29f54cfc470976ac43994617
   - https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.5-mingw.tar.gz
   - 2704080296a24b765ce1e9c3c427a970
   - https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-mingw.tar.gz
