@@ -13,8 +13,8 @@ COMMON_DEFINES = %w(MRB_INT64 MRB_UTF8_STRING)
 MRuby::Build.new do |conf|
   toolchain :clang
 
-  conf.enable_bintest = false
-  conf.enable_test = false
+  #conf.enable_bintest = false
+  #conf.enable_test = false
 
   include_gems conf
 
