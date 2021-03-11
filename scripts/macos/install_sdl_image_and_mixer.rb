@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require_relative "../lib/utils"
 
-PREFIX="#{Dir.pwd}/build/macos"
+PREFIX = install_path "macos"
 DOWNLOAD_DIR = "build/download/macos"
 
 # for SDL2_mixer searching mpg123

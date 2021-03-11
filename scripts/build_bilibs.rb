@@ -7,9 +7,9 @@ BI_BUILDER_ROOT = Dir.pwd
 BI_CORE_DIR="build/#{TARGET}/bismite-library-core"
 BI_EXT_DIR="build/#{TARGET}/bismite-library-ext"
 
-#
-# build bi-core and bi-ext
-#
+INSTALL_PATH = install_path(TARGET)
+INCLUDE_PATHS = "-I #{INSTALL_PATH}/include -I #{INSTALL_PATH}/include/SDL2"
+WARN = "-Wall -Werror=implicit-function-declaration"
 
 def copy_headers(target)
   mkdir_p "#{target}/include"
@@ -28,9 +28,9 @@ def compile(makefile,include_path,cflags)
   Dir.chdir(BI_EXT_DIR){ run "make -f #{makefile} 'INCLUDE_PATHS=#{include_path}' 'CFLAGS=#{cflags}'" }
 end
 
-INSTALL_PATH = "#{BI_BUILDER_ROOT}/build/#{TARGET}"
-INCLUDE_PATHS = "-I #{INSTALL_PATH}/include -I #{INSTALL_PATH}/include/SDL2"
-WARN = "-Wall -Werror=implicit-function-declaration"
+#
+# build bi-core and bi-ext
+#
 
 copy_headers INSTALL_PATH
 

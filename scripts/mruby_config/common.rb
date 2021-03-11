@@ -24,7 +24,7 @@ def include_gems(conf)
   conf.gem github: 'kabies/mruby-stable-sort'
   conf.gem github: 'kabies/mruby-cellular-automaton'
 
-  ENV['MRUBY_SIMPLEMSGPACK'] ? conf.gem(ENV['MRUBY_SIMPLEMSGPACK']) : conf.gem(github:"bismite/mruby-simplemsgpack")
+  ENV['MRUBY_SIMPLEMSGPACK'] ? conf.gem(ENV['MRUBY_SIMPLEMSGPACK']) : conf.gem(github:"bismite/mruby-simplemsgpack", branch:"mruby3")
 
   ENV['MRUBY_BI_CORE']  ? conf.gem(ENV['MRUBY_BI_CORE'])  : conf.gem(github:'bismite/mruby-bi-core')
   ENV['MRUBY_BI_EXT']   ? conf.gem(ENV['MRUBY_BI_EXT'])   : conf.gem(github:'bismite/mruby-bi-ext')

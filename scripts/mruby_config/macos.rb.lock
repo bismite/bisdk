@@ -1,7 +1,7 @@
 ---
-mruby_version:
-  version: 2.1.2
-  release_no: 20102
+mruby:
+  version: 3.0.0
+  release_no: 30000
 builds:
   host:
     https://github.com/katzer/mruby-os.git:
@@ -17,7 +17,7 @@ builds:
     https://github.com/katzer/mruby-process.git:
       url: https://github.com/katzer/mruby-process.git
       branch: master
-      commit: '084a97c58be407ddf3536fcb525ad1f73e71d86d'
+      commit: 03a4f8110b4d32b5ff56f78560c255e80dcf9219
       version: 0.0.0
     https://github.com/ksss/mruby-singleton.git:
       url: https://github.com/ksss/mruby-singleton.git
@@ -46,8 +46,8 @@ builds:
       version: 0.0.0
     https://github.com/bismite/mruby-simplemsgpack.git:
       url: https://github.com/bismite/mruby-simplemsgpack.git
-      branch: master
-      commit: 6a66a0217407a1bf4733ef843a70ce90ddbaa261
+      branch: mruby3
+      commit: 75c00b6b7cb0939b6659b24711d1c0ae34db65fe
       version: 0.0.0
     https://github.com/bismite/mruby-bi-core.git:
       url: https://github.com/bismite/mruby-bi-core.git

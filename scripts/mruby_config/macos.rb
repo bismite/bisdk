@@ -20,15 +20,15 @@ MRuby::Build.new do |conf|
   conf.cc do |cc|
     cc.command = 'clang'
     cc.defines += COMMON_DEFINES
-    cc.include_paths << "#{BUILD_DIR}/#{HOST}/include"
-    cc.include_paths << "#{BUILD_DIR}/#{HOST}/include/SDL2"
+    cc.include_paths << "#{BUILD_DIR}/macos/bismite-sdk.app/Contents/Resources/include"
+    cc.include_paths << "#{BUILD_DIR}/macos/bismite-sdk.app/Contents/Resources/include/SDL2"
     cc.flags = COMMON_CFLAGS + [ OPTIMIZE, C_STD ]
     cc.flags << "-fPIC"
   end
 
   conf.linker do |linker|
     linker.command = 'clang'
-    linker.library_paths << "#{BUILD_DIR}/#{HOST}/lib"
+    linker.library_paths << "#{BUILD_DIR}/macos/bismite-sdk.app/Contents/Resources/lib"
     linker.libraries += %W( bismite-core bismite-ext GLEW SDL2 SDL2_image SDL2_mixer )
     linker.flags << "-framework OpenGL"
   end

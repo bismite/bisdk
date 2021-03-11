@@ -2,7 +2,7 @@ require "fileutils"
 require "yaml"
 require 'digest'
 
-MRUBY = "mruby-2.1.2"
+MRUBY = "mruby-3.0.0"
 
 MACOS_DYLIBS = %w(
   libSDL2-2.0.0.dylib
@@ -53,4 +53,16 @@ def which(cmd)
     end
   end
   nil
+end
+
+def install_path(target)
+  root = File.absolute_path(File.join( File.dirname(File.expand_path(__FILE__)), "../.." ))
+  case target
+  when "macos"
+    "#{root}/build/macos/bismite-sdk.app/Contents/Resources"
+  when "linux","mingw","emscripten"
+    "#{root}/build/#{target}"
+  else
+    raise "target name invalid: #{target}"
+  end
 end

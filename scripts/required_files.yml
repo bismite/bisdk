@@ -8,16 +8,16 @@ common:
     - bismite-library-ext.tar.gz
   - 4f7b7e70010476ba0e0c56f92968aa4d
   -
-    - https://github.com/mruby/mruby/archive/2.1.2.tar.gz
-    - mruby-2.1.2.tar.gz
-  - 9d94e6de40a63992c143a3554bdaffd6
+    - https://github.com/mruby/mruby/archive/3.0.0.tar.gz
+    - mruby-3.0.0.tar.gz
+  - 381c36a37c722b3568a932306cc63e59
 linux:
 emscripten:
 macos:
   - https://github.com/nigels-com/glew/releases/download/glew-2.1.0/glew-2.1.0.tgz
   - b2ab12331033ddfaa50dc39345343980
-  - https://www.libsdl.org/release/SDL2-2.0.12.dmg
-  - d052b76525bbf401af23e3ead8b07822
+  - https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
+  - 76ed4e6da9c07bd168b2acd9bfefab1b
   - https://mpg123.de/download/mpg123-1.25.13.tar.bz2
   - 294a6c30546504ec3d0deac2b2ea22be
   - https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz
