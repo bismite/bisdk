@@ -9,7 +9,6 @@ MACOS_DYLIBS = %w(
   libSDL2_image-2.0.0.dylib
   libSDL2_mixer-2.0.0.dylib
   libmpg123.0.dylib
-  libhidapi.dylib
   libGLEW.2.1.0.dylib
 )
 
@@ -59,7 +58,7 @@ def install_path(target)
   root = File.absolute_path(File.join( File.dirname(File.expand_path(__FILE__)), "../.." ))
   case target
   when "macos"
-    "#{root}/build/macos/bismite-sdk.app/Contents/Resources"
+    "#{root}/build/#{target}"
   when "linux","x86_64-w64-mingw32","emscripten"
     "#{root}/build/#{target}"
   else

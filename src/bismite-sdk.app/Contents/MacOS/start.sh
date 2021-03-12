@@ -1,11 +1,11 @@
 #!/bin/sh
 
 DIR=$(dirname $0)/../Resources/bin
-export PATH="${DIR}:${PATH}"
-
+export PATH=${DIR}:${PATH}
 clear
 echo "* bismite-sdk *"
 echo "PATH: ${DIR}"
 echo "SHELL: ${SHELL}"
+echo "which mruby: $(which mruby)"
 echo "----"
 $SHELL

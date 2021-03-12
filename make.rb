@@ -16,7 +16,6 @@ if targets.empty?
 end
 
 targets.each do |target|
-  p install_path target
 
   if target == "clean"
     run "rm -rf build/macos build/linux build/x86_64-w64-mingw32"
@@ -25,6 +24,7 @@ targets.each do |target|
   end
 
   puts "TARGET: #{target}"
+  puts install_path target
   run "./scripts/download_required_files.rb #{target}"
   run "./scripts/copy_bilibs.rb #{target}"
 
@@ -32,7 +32,6 @@ targets.each do |target|
   case target
   when /macos/
     mkdir_p "build/macos/"
-    cp_r "src/bismite-sdk.app", "build/macos"
     run "./scripts/macos/install_sdl.rb"
     run "./scripts/macos/install_sdl_image_and_mixer.rb"
     run "./scripts/macos/install_glew_dylib.rb"
@@ -49,4 +48,8 @@ targets.each do |target|
   ).each{|script|
     run "#{script} #{target}"
   }
+
+  if target == "macos"
+    run "./scripts/macos/pack_to_app.rb"
+  end
 end
